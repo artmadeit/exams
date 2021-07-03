@@ -32,11 +32,12 @@ public class ExamTests {
     @Test
     public void test_postulante_inicia_un_examen() {
         var postulante = new Postulante();
-        var specification = new ExamSpecification();
-        specification.descripcion = "Examen de postgrado 2021 - II";
-        specification.rango = new DateTimeRange(
-            LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
-        );
+        var specification = ExamSpecification.builder()
+            .description("Examen de postgrado 2021 - II")
+            .range(new DateTimeRange(
+                LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
+            )).build();
+        
 
         var examenAleatorio = new ExamPart();
 

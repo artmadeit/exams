@@ -3,7 +3,6 @@ package org.ouracademy.exams.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
