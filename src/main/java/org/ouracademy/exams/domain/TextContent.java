@@ -10,6 +10,12 @@ public class TextContent {
     Long id;
     String contenido;
     
-    TextContent padre;
+    TextContent parent;
     List<TextContent> childs = new ArrayList<>();
+
+    
+    public void setParent(TextContent parent) {
+        parent.childs.add(this);       
+        this.parent = parent;
+    }
 }
