@@ -34,7 +34,7 @@ public class PostulantExam {
         this.exam = examPart;
         this.postulante = postulante;
         this.specification = specification;
-        this.actualRange = new DateTimeRange(LocalDateTime.now(), DateTimeRange.INFINITY);
+        this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
     }
 
     // add & edit answer

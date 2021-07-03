@@ -11,11 +11,4 @@ public class ExamPart extends TextContent {
 
     Type type;
     String titulo;
-
-    public PostulantExam start(Postulante postulante, ExamSpecification specification) {
-        return PostulantExam.builder()
-            .examPart(this)
-            .postulante(postulante)
-            .specification(specification).build();
-    }
 }

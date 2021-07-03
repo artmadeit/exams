@@ -7,6 +7,7 @@ import static org.ouracademy.exams.domain.ExamTestData.examen;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -29,12 +30,17 @@ public class ExamTests {
     }
 
     @Test
-    public void test_iniciar_un_examen() {
+    public void test_postulante_inicia_un_examen() {
         var postulante = new Postulante();
         var specification = new ExamSpecification();
+        specification.descripcion = "Examen de postgrado 2021 - II";
+        specification.rango = new DateTimeRange(
+            LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
+        );
+
         var examenAleatorio = new ExamPart();
 
-        var postulantExam = examenAleatorio.start(postulante, specification);
+        var postulantExam = postulante.start(examenAleatorio, specification);
         assertNotNull(postulantExam);
     }
 
