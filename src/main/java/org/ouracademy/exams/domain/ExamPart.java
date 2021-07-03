@@ -5,6 +5,11 @@ package org.ouracademy.exams.domain;
 // una texto => preguntas
 public class ExamPart extends TextContent {
 
+    public enum Type {
+        EXAM, SECTION, TEXT;
+    }
+
+    Type type;
     String titulo;
 
     public PostulantExam start(Postulante postulante, ExamSpecification specification) {
