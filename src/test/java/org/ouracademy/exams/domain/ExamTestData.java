@@ -101,18 +101,23 @@ public class ExamTestData {
         });
     }
 
-    public static void prettyPrint(TextContent exam, String b) {
-        prettyPrintR(exam, b);
-        exam.childs.forEach(x -> {
-            prettyPrint(x, b + "\t");
-        });
+    public static String prettyString(TextContent exam, String identation, String res) {
+        res += toString(exam, identation);
+        for (var x : exam.childs) {
+            res += prettyString(x, identation + "\t", "");   
+        }
+        return res;
     }
 
-    private static void prettyPrintR(TextContent x, String b) {
+    private static String toString(TextContent x, String identation) {
+        String result = "";
+
         if(x instanceof ExamPart ex) {
-            System.out.println(b + ex.titulo);
+            result += identation + ex.titulo + "\n";
         }
         if(x.contenido != null)
-            System.out.println(b + x.contenido);
+            result += identation + x.contenido + "\n";
+
+        return result;
     }
 }

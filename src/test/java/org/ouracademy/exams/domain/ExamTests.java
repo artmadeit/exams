@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.ouracademy.exams.domain.ExamTestData.examen;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -18,9 +20,13 @@ public class ExamTests {
         assertNotNull(examen2);
         assertEquals("Examen 2", examen2.titulo);
         assertEquals(25, examenTestDataGenerator.numeroPreguntas);
-        ExamTestData.prettyPrint(examen2, "");
     }
 
+    public static void main(String[] args) throws FileNotFoundException {
+        try (PrintWriter out = new PrintWriter("filename.txt")) {
+            out.println(ExamTestData.prettyString(examen(1), "", ""));
+        }
+    }
 
     @Test
     public void test_iniciar_un_examen() {
