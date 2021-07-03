@@ -1,17 +1,46 @@
 package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.utils.Sampling;
 
 public class ExamRandomBuilder {
 
 
     ExamPart from(List<ExamPart> exams, Specification specification) {
-        return null;
+        assert exams.stream().allMatch(specification::fulfill);
+
+        var randomExam = new ExamPart();
+        randomExam.type = Type.EXAM;
+        randomExam.titulo = "Examen";
+        
+        // for (var child: specification.childs) {
+            
+        //     var leafSpec = (LeafSpecification) child;
+            
+        //     var allQuestions = allQuestions(exams, leafSpec.examPartType, leafSpec.title);
+        //     var questions = Sampling.getNRandomElements(leafSpec.numberOfQuestions, allQuestions);
+            
+        //     System.out.println(questions);
+
+
+        // }
+        
+        return randomExam;
+    }
+
+
+
+    private List<TextContent> allQuestions(List<ExamPart> exams, Type examPartType, String title) {
+        return exams.stream()
+            .map(exam -> exam.getQuestions(examPartType, title))
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
     }
 
     public static class SpecificationComposite {
@@ -20,19 +49,13 @@ public class ExamRandomBuilder {
     
     public static class Specification extends SpecificationComposite {
 
-        public LeafSpecification of(Type section, String sectionName) {
-            var sectionSpec = new LeafSpecification(section);
-            sectionSpec.sectionName = Optional.of(sectionName);
-
+        public LeafSpecification of(Type examPartType, String title) {
+            var sectionSpec = new LeafSpecification(examPartType, title);
             childs.add(sectionSpec);
             return sectionSpec;
         }
 
-        public LeafSpecification of(Type text) {
-            return new LeafSpecification(text);
-        }
-
-        public boolean meet(ExamPart randomExam) {
+        public boolean fulfill(ExamPart exam) {
             return true;
         }
 
@@ -40,15 +63,16 @@ public class ExamRandomBuilder {
 
     public static class LeafSpecification extends SpecificationComposite {
 
-        private Type section;
-        private Optional<String> sectionName = Optional.empty();
+        private Type examPartType;
+        private String title;
         private int numberOfQuestions;
 
-        public LeafSpecification(Type section) {
-            this.section = section;
+        public LeafSpecification(Type examPartType, String title) {
+            this.examPartType = examPartType;
+            this.title = title;
         }
 
-        public void has(int numberOfQuestions, Class<Pregunta> ignoreThis) {
+        public void hasQuestions(int numberOfQuestions) {
             this.numberOfQuestions = numberOfQuestions;
         }
 
