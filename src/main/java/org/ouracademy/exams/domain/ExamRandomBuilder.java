@@ -10,7 +10,7 @@ import org.ouracademy.exams.utils.RandomSampling;
 public class ExamRandomBuilder {
 
 
-    List<PostulantExam.PostulantQuestion> from(List<ExamPartContainer> exams, ExamPartSpecification specification) {
+    List<PostulantExam.PostulantQuestion> from(List<ExamPartContainer> exams, BuildExamPartSpecification specification) {
         assert exams.stream().allMatch(specification::fulfill);
         
         assert specification.examPartType == Type.EXAM;
@@ -20,21 +20,29 @@ public class ExamRandomBuilder {
         for (var child: specification.childs) {
 
             /// LOGICO E1, LOGICO E2
-            var examParts = child.findExamParts(exams);
-            var randomExamPart = RandomSampling.getElement(examParts);
+            // var examParts = child.findExamParts(exams);
+            // var randomExamPart = RandomSampling.getElement(examParts);
             
-            for (var childchild : child.childs) {
-                var questions = RandomSampling.getNElements(childchild.number, randomExamPart.getChilds());
-                
-                var postulantQuestions = questions.stream().map(question -> 
-                    new PostulantExam.PostulantQuestion((Pregunta) question, RandomSampling.ofAll(question.getChilds()))
-                ).collect(Collectors.toList());
+            // hello(result, child, randomExamPart);
 
-                result.addAll(postulantQuestions);
-            }
+
+
         }
         
         return result;
     }
+
+    // private void hello(List<PostulantExam.PostulantQuestion> result, ExamPartSpecification specification,
+    //         ExamPart randomExamPart) {
+    //     for (var child : specification.childs) {
+    //         var questions = RandomSampling.getNElements(child.number, randomExamPart.getChilds());
+            
+    //         var postulantQuestions = questions.stream().map(question -> 
+    //             new PostulantExam.PostulantQuestion((Pregunta) question, RandomSampling.ofAll(question.getChilds()))
+    //         ).collect(Collectors.toList());
+
+    //         result.addAll(postulantQuestions);
+    //     }
+    // }
     
 }

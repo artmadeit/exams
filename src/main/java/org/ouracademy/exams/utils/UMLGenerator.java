@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import org.ouracademy.exams.domain.ExamPart;
 import org.ouracademy.exams.domain.ExamPartContainer;
-import org.ouracademy.exams.domain.ExamPartSpecification;
+import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.ExamSpecification;
 import org.ouracademy.exams.domain.PostulantExam;
@@ -19,9 +19,9 @@ public class UMLGenerator {
         .addClasse(
             ExamPart.class, ExamPartContainer.class, Pregunta.class,
             ExamRandomBuilder.class, 
-            ExamPartSpecification.class,
+            BuildExamPartSpecification.class,
             ExamSpecification.class,
-            PostulantExam.class)
+            PostulantExam.class, PostulantExam.PostulantQuestion.class)
         .build();
 
         try (PrintWriter out = new PrintWriter("diagram.txt")) {

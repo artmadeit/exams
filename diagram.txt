@@ -11,30 +11,26 @@ class "ExamPart" {
 class "ExamPartContainer" {
   titulo : String
   getQuestions(Type, String) : List<ExamPart>
+  findChild(Type, String) : ExamPart
 }
 
 class "Pregunta" {
   score : Double
-  respuesta : ExamPart
+  answer : ExamPart
 }
 
 class "ExamRandomBuilder"
 
 class "ExamPartSpecification" {
-  childs : List<ExamPartSpecification>
-}
-
-class "ExamPartContainerSpecification" {
-  of(Type, String) : QuestionSpecification
-  fulfill(ExamPartContainer) : boolean
-}
-
-class "QuestionSpecification" {
   examPartType : Type
   title : String
-  numberOfQuestions : int
-  has(Supplier<ExamPartContainerSpecification>)
+  number : int
+  childs : List<ExamPartSpecification>
+  of(Type, String) : ExamPartSpecification
+  has(Supplier<ExamPartSpecification>)
+  fulfill(ExamPartContainer) : boolean
   hasQuestions(int)
+  findExamParts(List<ExamPartContainer>) : List<ExamPart>
 }
 
 class "ExamSpecification" {
@@ -45,21 +41,27 @@ class "ExamSpecification" {
 
 class "PostulantExam" {
   id : Long
-  exam : ExamPartContainer
   postulante : Postulante
   specification : ExamSpecification
   actualRange : DateTimeRange
-  answers : List<PostulantAnswer>
+  questions : List<PostulantQuestion>
+}
+
+class "PostulantQuestion" {
+  question : Pregunta
+  alternativas : List<ExamPart>
+  postulantAnswer : ExamPart
 }
 
 "ExamPart" <|-- "ExamPartContainer"
 "ExamPart" <|-- "Pregunta"
-"ExamPartSpecification" <|-- "ExamPartContainerSpecification"
-"ExamPartSpecification" <|-- "QuestionSpecification"
 "ExamPart" <-> "ExamPart" : parent
-"Pregunta" --> "ExamPart" : respuesta
+"Pregunta" --> "ExamPart" : answer
 "ExamPartSpecification" --> "*" "ExamPartSpecification" : childs
-"PostulantExam" --> "ExamPartContainer" : exam
 "PostulantExam" --> "ExamSpecification" : specification
+"PostulantExam" --> "*" "PostulantQuestion" : questions
+"PostulantQuestion" --> "Pregunta" : question
+"PostulantQuestion" --> "*" "ExamPart" : alternativas
+"PostulantQuestion" --> "ExamPart" : postulantAnswer
 
 @enduml

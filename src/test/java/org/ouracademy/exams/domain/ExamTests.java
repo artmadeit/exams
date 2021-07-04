@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 
+import static org.ouracademy.exams.domain.BuildExamPartSpecification.*;
+
 public class ExamTests {
     @Test
     public void test_crea_un_examen_word() {
@@ -80,19 +82,25 @@ public class ExamTests {
         // assertEquals(5, randomExam.childs.get(3).childs.size()); 
     }
 
-    private ExamPartSpecification getUnmsmSpec() {
-        var spec = new ExamPartSpecification();
-        // spec.of(Type.SECTION, "CAPACIDADES COMUNICATIVAS");
-            // .has(() -> {
-            //     var sectionSpec = new ExamRandomBuilder.Specification();
-            //     sectionSpec.of(Type.TEXT, "TEXTO 1").hasQuestions(5);
-            //     sectionSpec.of(Type.TEXT, "TEXTO 2").hasQuestions(5);
-            //     return sectionSpec;
-            // });
-        spec.of(Type.SECTION, "CAPACIDADES LOGICO MATEMATICAS").hasQuestions(5);
-        spec.of(Type.SECTION, "CAPACIDADES INVESTIGATIVAS").hasQuestions(5);
-        spec.of(Type.SECTION, "PENSAMIENTO CRITICO").hasQuestions(5);
-        return spec;
+    private BuildExamPartSpecification getUnmsmSpec() {
+        return createExamSpecification()
+            .addChild(
+                with(1, Type.SECTION).title("CAPACIDADES COMUNICATIVAS")
+                    .addChild(with(2, Type.TEXT)
+                        .addChild(with(5, Type.QUESTION)))
+            )
+            .addChild(
+                with(1, Type.SECTION).title("CAPACIDADES LOGICO MATEMATICAS")
+                    .addChild(with(5, Type.QUESTION))
+            )
+            .addChild(
+                with(1, Type.SECTION).title("CAPACIDADES INVESTIGATIVAS")
+                    .addChild(with(5, Type.QUESTION))
+            )
+            .addChild(
+                with(1, Type.SECTION).title("PENSAMIENTO CRITICO")
+                    .addChild(with(5, Type.QUESTION))
+            );
     }
     
 }
