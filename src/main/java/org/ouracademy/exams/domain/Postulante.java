@@ -1,5 +1,7 @@
 package org.ouracademy.exams.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,9 +17,9 @@ public class Postulante {
     String codigoPrograma;
     String codigoUpg;
 
-    public PostulantExam start(ExamPartContainer exam, ExamSpecification specification) {
+    public PostulantExam start(ExamSpecification specification, List<PostulantExam.PostulantQuestion> questions) {
         return PostulantExam.builder()
-            .examPart(exam)
+            .questions(questions)
             .postulante(this)
             .specification(specification).build();
     }

@@ -19,7 +19,7 @@ public class UMLGenerator {
         .addClasse(
             ExamPart.class, ExamPartContainer.class, Pregunta.class,
             ExamRandomBuilder.class, 
-            ExamPartSpecification.class, ExamPartSpecification.ExamPartContainerSpecification.class, ExamPartSpecification.QuestionSpecification.class,
+            ExamPartSpecification.class,
             ExamSpecification.class,
             PostulantExam.class)
         .build();

@@ -15,9 +15,6 @@ import lombok.Builder;
 public class PostulantExam {
     @Id
     Long id;
-
-    @ManyToOne    
-    ExamPartContainer exam;
     @ManyToOne
     Postulante postulante;
     @ManyToOne
@@ -25,13 +22,10 @@ public class PostulantExam {
     @Embedded
     DateTimeRange actualRange;
     
-    List<PostulantAnswer> answers = new ArrayList<>();
+    List<PostulantQuestion> questions;
 
     @Builder
-    public PostulantExam(ExamPartContainer examPart, 
-            Postulante postulante,
-            ExamSpecification specification) {
-        this.exam = examPart;
+    public PostulantExam(Postulante postulante, ExamSpecification specification, List<PostulantQuestion> questions) {
         this.postulante = postulante;
         this.specification = specification;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
@@ -40,7 +34,7 @@ public class PostulantExam {
     // add & edit answer
     // la respuesta debe pertenecer al examen sino no tendria sentido
 
-    class PostulantAnswer {
+    class PostulantQuestion {
         Pregunta pregunta;
         ExamPart respuesta;
 

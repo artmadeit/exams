@@ -5,17 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
-import org.ouracademy.exams.domain.ExamPartSpecification.ExamPartContainerSpecification;
 
 public class ExamRandomBuilder {
 
 
-    ExamPartContainer from(List<ExamPartContainer> exams, ExamPartContainerSpecification specification) {
+    List<PostulantExam.PostulantQuestion> from(List<ExamPartContainer> exams, ExamPartSpecification specification) {
         assert exams.stream().allMatch(specification::fulfill);
 
-        var randomExam = new ExamPartContainer();
-        randomExam.type = Type.EXAM;
-        randomExam.titulo = "Examen";
         
         // for (var child: specification.childs) {
             
@@ -29,7 +25,7 @@ public class ExamRandomBuilder {
 
         // }
         
-        return randomExam;
+        return List.of();
     }
 
 
