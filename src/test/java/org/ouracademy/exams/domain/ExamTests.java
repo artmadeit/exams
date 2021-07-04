@@ -63,8 +63,8 @@ public class ExamTests {
         // assertEquals(5, randomExam.childs.get(3).childs.size()); 
     }
 
-    private ExamRandomBuilder.Specification getUnmsmSpec() {
-        var spec = new ExamRandomBuilder.Specification();
+    private ExamRandomBuilder.ExamPartContainerSpecification getUnmsmSpec() {
+        var spec = new ExamRandomBuilder.ExamPartContainerSpecification();
         spec.of(Type.SECTION, "CAPACIDADES COMUNICATIVAS");
             // .has(() -> {
             //     var sectionSpec = new ExamRandomBuilder.Specification();

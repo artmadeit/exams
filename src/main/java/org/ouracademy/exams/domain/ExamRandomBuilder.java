@@ -12,7 +12,7 @@ import org.ouracademy.exams.utils.Sampling;
 public class ExamRandomBuilder {
 
 
-    ExamPartContainer from(List<ExamPartContainer> exams, Specification specification) {
+    ExamPartContainer from(List<ExamPartContainer> exams, ExamPartContainerSpecification specification) {
         assert exams.stream().allMatch(specification::fulfill);
 
         var randomExam = new ExamPartContainer();
@@ -43,14 +43,14 @@ public class ExamRandomBuilder {
             .collect(Collectors.toList());
     }
 
-    public static class SpecificationComposite {
-        protected List<SpecificationComposite> childs = new ArrayList<>();
+    public static class ExamPartSpecification {
+        protected List<ExamPartSpecification> childs = new ArrayList<>();
     }
     
-    public static class Specification extends SpecificationComposite {
+    public static class ExamPartContainerSpecification extends ExamPartSpecification {
 
-        public LeafSpecification of(Type examPartType, String title) {
-            var sectionSpec = new LeafSpecification(examPartType, title);
+        public QuestionSpecification of(Type examPartType, String title) {
+            var sectionSpec = new QuestionSpecification(examPartType, title);
             childs.add(sectionSpec);
             return sectionSpec;
         }
@@ -61,13 +61,13 @@ public class ExamRandomBuilder {
 
     }
 
-    public static class LeafSpecification extends SpecificationComposite {
+    public static class QuestionSpecification extends ExamPartSpecification {
 
         private Type examPartType;
         private String title;
         private int numberOfQuestions;
 
-        public LeafSpecification(Type examPartType, String title) {
+        public QuestionSpecification(Type examPartType, String title) {
             this.examPartType = examPartType;
             this.title = title;
         }
@@ -76,7 +76,7 @@ public class ExamRandomBuilder {
             this.numberOfQuestions = numberOfQuestions;
         }
 
-        public void has(Supplier<Specification> getSpecification) {
+        public void has(Supplier<ExamPartContainerSpecification> getSpecification) {
             this.childs.add(getSpecification.get());
         }
     }
