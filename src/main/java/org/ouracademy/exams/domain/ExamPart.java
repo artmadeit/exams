@@ -9,7 +9,7 @@ public class ExamPart {
 
     
     public enum Type {
-        EXAM, SECTION, TEXT;
+        EXAM, SECTION, TEXT, QUESTION;
     }
 
     @Id

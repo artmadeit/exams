@@ -47,6 +47,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/ch.ifocusit/plantuml-builder -->
+		<dependency>
+			<groupId>ch.ifocusit</groupId>
+			<artifactId>plantuml-builder</artifactId>
+			<version>1.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -1,0 +1,58 @@
+@startuml
+
+class "ExamPart" {
+  id : Long
+  contenido : String
+  type : Type
+  parent : ExamPart
+  childs : List<ExamPart>
+}
+
+class "ExamPartContainer" {
+  titulo : String
+  getQuestions(Type, String) : List<ExamPart>
+}
+
+class "ExamRandomBuilder"
+
+class "ExamSpecification" {
+  id : Long
+  description : String
+  range : DateTimeRange
+}
+
+class "Postulante" {
+  id : Long
+  dni : String
+  nombre : String
+  apellidoPaterno : String
+  apellidoMaterno : String
+  codigoPostulante : String
+  codigoPrograma : String
+  codigoUpg : String
+  start(ExamPartContainer, ExamSpecification) : PostulantExam
+}
+
+class "PostulantExam" {
+  id : Long
+  exam : ExamPartContainer
+  postulante : Postulante
+  specification : ExamSpecification
+  actualRange : DateTimeRange
+  answers : List<PostulantAnswer>
+}
+
+class "Pregunta" {
+  score : Double
+  respuesta : ExamPart
+}
+
+"ExamPart" <|-- "ExamPartContainer"
+"ExamPart" <|-- "Pregunta"
+"ExamPart" <-> "ExamPart" : parent
+"PostulantExam" --> "ExamPartContainer" : exam
+"PostulantExam" --> "Postulante" : postulante
+"PostulantExam" --> "ExamSpecification" : specification
+"Pregunta" --> "ExamPart" : respuesta
+
+@enduml
