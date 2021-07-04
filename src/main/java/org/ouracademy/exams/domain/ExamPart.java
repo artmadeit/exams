@@ -5,16 +5,16 @@ import java.util.List;
 
 import javax.persistence.Id;
 
-public class TextContent {
+public class ExamPart {
     @Id
     Long id;
     String contenido;
     
-    TextContent parent;
-    List<TextContent> childs = new ArrayList<>();
+    ExamPart parent;
+    List<ExamPart> childs = new ArrayList<>();
 
     
-    public void setParent(TextContent parent) {
+    public void setParent(ExamPart parent) {
         parent.childs.add(this);       
         this.parent = parent;
     }

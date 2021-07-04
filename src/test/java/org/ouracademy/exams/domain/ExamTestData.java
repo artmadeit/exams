@@ -67,7 +67,7 @@ public class ExamTestData {
         return examenBase;
     }
 
-    private void agregarTextos(TextContent seccion) {
+    private void agregarTextos(ExamPart seccion) {
         var texto1 = new ExamPartContainer();
         texto1.type = Type.TEXT;
         texto1.titulo = "Texto 1";
@@ -83,7 +83,7 @@ public class ExamTestData {
         agregarPreguntas(5, texto2);
     }
 
-    private void agregarPreguntas(int numero, TextContent padre) {
+    private void agregarPreguntas(int numero, ExamPart padre) {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
             var p1 = new Pregunta();
@@ -95,13 +95,13 @@ public class ExamTestData {
 
     private void agregarAlternativas(Pregunta p1) {
         List.of("A", "B", "C", "D").forEach(i -> {
-            var a1 = new TextContent();
+            var a1 = new ExamPart();
             a1.contenido = "alternativa " + i;
             a1.setParent(p1);
         });
     }
 
-    public static String prettyString(TextContent exam, String identation, String res) {
+    public static String prettyString(ExamPart exam, String identation, String res) {
         res += toString(exam, identation);
         for (var x : exam.childs) {
             res += prettyString(x, identation + "\t", "");   
@@ -109,7 +109,7 @@ public class ExamTestData {
         return res;
     }
 
-    private static String toString(TextContent x, String identation) {
+    private static String toString(ExamPart x, String identation) {
         String result = "";
 
         if(x instanceof ExamPartContainer ex) {

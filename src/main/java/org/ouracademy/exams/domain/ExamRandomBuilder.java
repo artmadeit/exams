@@ -36,7 +36,7 @@ public class ExamRandomBuilder {
 
 
 
-    private List<TextContent> allQuestions(List<ExamPartContainer> exams, Type examPartType, String title) {
+    private List<ExamPart> allQuestions(List<ExamPartContainer> exams, Type examPartType, String title) {
         return exams.stream()
             .map(exam -> exam.getQuestions(examPartType, title))
             .flatMap(Collection::stream)

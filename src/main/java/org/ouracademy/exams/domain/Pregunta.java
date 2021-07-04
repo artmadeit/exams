@@ -2,11 +2,11 @@ package org.ouracademy.exams.domain;
 
 import java.util.List;
 
-public class Pregunta extends TextContent {
+public class Pregunta extends ExamPart {
     Double score;
-    TextContent respuesta;
+    ExamPart respuesta;
     
-    List<TextContent> alternativas() {
+    List<ExamPart> alternativas() {
         return this.childs;
     }
 }

@@ -42,7 +42,7 @@ public class PostulantExam {
 
     class PostulantAnswer {
         Pregunta pregunta;
-        TextContent respuesta;
+        ExamPart respuesta;
 
         public boolean isCorrect() {
             return pregunta.respuesta.equals(respuesta);
