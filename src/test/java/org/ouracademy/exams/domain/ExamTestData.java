@@ -1,19 +1,19 @@
 package org.ouracademy.exams.domain;
 
-import static org.ouracademy.exams.domain.ExamPart.Type;
+import static org.ouracademy.exams.domain.ExamPartContainer.Type;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ExamTestData {
     
-    public static ExamPart examen(int numero) {
+    public static ExamPartContainer examen(int numero) {
         return new ExamTestData().build(numero);
     }
     
     int numeroPreguntas = 0;
 
-    public ExamPart build(int numero) {
+    public ExamPartContainer build(int numero) {
         // Fwd: examen
         // Examen para sabado 12
         // vie, 11 de sep 2020
@@ -36,29 +36,29 @@ public class ExamTestData {
         //         P11
         //         P12
 
-        var examenBase = new ExamPart();
+        var examenBase = new ExamPartContainer();
         examenBase.type = Type.EXAM;
         examenBase.titulo = "Examen "+ numero;
         
-        var section1 = new ExamPart();
+        var section1 = new ExamPartContainer();
         section1.type = Type.SECTION;
         section1.titulo = "capacidades comunicativas";
         section1.setParent(examenBase);
         agregarTextos(section1);
         
-        var section2 = new ExamPart();
+        var section2 = new ExamPartContainer();
         section2.type = Type.SECTION;
         section2.titulo = "capacidades lógico matematicas";
         section2.setParent(examenBase);
         agregarPreguntas(5, section2);
 
-        var section3 = new ExamPart();
+        var section3 = new ExamPartContainer();
         section3.type = Type.SECTION;
         section3.titulo = "capacidades investigativas";
         section3.setParent(examenBase);
         agregarPreguntas(5, section3);
 
-        var section4 = new ExamPart();
+        var section4 = new ExamPartContainer();
         section4.type = Type.SECTION;
         section4.titulo = "pensamiento crítico";
         section4.setParent(examenBase);
@@ -68,14 +68,14 @@ public class ExamTestData {
     }
 
     private void agregarTextos(TextContent seccion) {
-        var texto1 = new ExamPart();
+        var texto1 = new ExamPartContainer();
         texto1.type = Type.TEXT;
         texto1.titulo = "Texto 1";
         texto1.contenido = "El desarrollo...";
         texto1.setParent(seccion);
         agregarPreguntas(5, texto1);
 
-        var texto2 = new ExamPart();
+        var texto2 = new ExamPartContainer();
         texto2.type = Type.TEXT;
         texto2.titulo = "Texto 2";
         texto2.contenido = "Los ingresos ...";
@@ -112,7 +112,7 @@ public class ExamTestData {
     private static String toString(TextContent x, String identation) {
         String result = "";
 
-        if(x instanceof ExamPart ex) {
+        if(x instanceof ExamPartContainer ex) {
             result += identation + ex.titulo + "\n";
         }
         if(x.contenido != null)

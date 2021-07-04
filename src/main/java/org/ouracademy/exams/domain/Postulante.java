@@ -15,7 +15,7 @@ public class Postulante {
     String codigoPrograma;
     String codigoUpg;
 
-    public PostulantExam start(ExamPart exam, ExamSpecification specification) {
+    public PostulantExam start(ExamPartContainer exam, ExamSpecification specification) {
         return PostulantExam.builder()
             .examPart(exam)
             .postulante(this)

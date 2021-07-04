@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.ExamPartContainer.Type;
 import org.ouracademy.exams.utils.Sampling;
 
 public class ExamRandomBuilder {
 
 
-    ExamPart from(List<ExamPart> exams, Specification specification) {
+    ExamPartContainer from(List<ExamPartContainer> exams, Specification specification) {
         assert exams.stream().allMatch(specification::fulfill);
 
-        var randomExam = new ExamPart();
+        var randomExam = new ExamPartContainer();
         randomExam.type = Type.EXAM;
         randomExam.titulo = "Examen";
         
@@ -36,7 +36,7 @@ public class ExamRandomBuilder {
 
 
 
-    private List<TextContent> allQuestions(List<ExamPart> exams, Type examPartType, String title) {
+    private List<TextContent> allQuestions(List<ExamPartContainer> exams, Type examPartType, String title) {
         return exams.stream()
             .map(exam -> exam.getQuestions(examPartType, title))
             .flatMap(Collection::stream)
@@ -55,7 +55,7 @@ public class ExamRandomBuilder {
             return sectionSpec;
         }
 
-        public boolean fulfill(ExamPart exam) {
+        public boolean fulfill(ExamPartContainer exam) {
             return true;
         }
 

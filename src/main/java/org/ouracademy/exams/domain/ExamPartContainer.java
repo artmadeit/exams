@@ -5,7 +5,7 @@ import java.util.List;
 // un examen => secciones
 // una seccion => textos | preguntas
 // una texto => preguntas
-public class ExamPart extends TextContent {
+public class ExamPartContainer extends TextContent {
 
     public enum Type {
         EXAM, SECTION, TEXT;

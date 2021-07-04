@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.ExamPartContainer.Type;
 
 public class ExamTests {
     @Test
@@ -38,7 +38,7 @@ public class ExamTests {
             )).build();
         
 
-        var examenAleatorio = new ExamPart();
+        var examenAleatorio = new ExamPartContainer();
 
         var postulantExam = postulante.start(examenAleatorio, specification);
         assertNotNull(postulantExam);

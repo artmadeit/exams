@@ -17,7 +17,7 @@ public class PostulantExam {
     Long id;
 
     @ManyToOne    
-    ExamPart exam;
+    ExamPartContainer exam;
     @ManyToOne
     Postulante postulante;
     @ManyToOne
@@ -28,7 +28,7 @@ public class PostulantExam {
     List<PostulantAnswer> answers = new ArrayList<>();
 
     @Builder
-    public PostulantExam(ExamPart examPart, 
+    public PostulantExam(ExamPartContainer examPart, 
             Postulante postulante,
             ExamSpecification specification) {
         this.exam = examPart;
