@@ -11,6 +11,6 @@ public class Pregunta extends ExamPart {
     }
     
     List<ExamPart> alternativas() {
-        return this.childs;
+        return this.getChilds();
     }
 }

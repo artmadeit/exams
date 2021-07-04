@@ -25,10 +25,10 @@ public class ExamRandomBuilder {
             var randomExamPart = RandomSampling.getElement(examParts);
             
             for (var childchild : child.childs) {
-                var questions = RandomSampling.getNElements(childchild.number, randomExamPart.childs);
+                var questions = RandomSampling.getNElements(childchild.number, randomExamPart.getChilds());
                 
                 var postulantQuestions = questions.stream().map(question -> 
-                    new PostulantExam.PostulantQuestion((Pregunta) question, question.childs)
+                    new PostulantExam.PostulantQuestion((Pregunta) question, question.getChilds())
                 ).collect(Collectors.toList());
 
                 result.addAll(postulantQuestions);

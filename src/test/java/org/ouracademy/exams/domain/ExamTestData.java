@@ -105,7 +105,7 @@ public class ExamTestData {
 
     public static String prettyString(ExamPart exam, String identation, String res) {
         res += toString(exam, identation);
-        for (var x : exam.childs) {
+        for (var x : exam.getChilds()) {
             res += prettyString(x, identation + "\t", "");   
         }
         return res;

@@ -18,9 +18,11 @@ public class ExamPart {
     Type type;
 
     ExamPart parent;
-    List<ExamPart> childs = new ArrayList<>();
+    private List<ExamPart> childs = new ArrayList<>();
 
-
+    public List<ExamPart> getChilds() {
+        return new ArrayList<>(childs);
+    }
     
     public void setParent(ExamPart parent) {
         parent.childs.add(this);       

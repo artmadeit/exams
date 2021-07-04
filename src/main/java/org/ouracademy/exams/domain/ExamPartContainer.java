@@ -14,7 +14,7 @@ public class ExamPartContainer extends ExamPart {
     }
 
     public ExamPart findChild(Type examPartType, String title) {
-        return this.childs.stream().filter(x -> {
+        return this.getChilds().stream().filter(x -> {
             if (x instanceof ExamPartContainer examPartContainer) {
                 return examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title);
             }
