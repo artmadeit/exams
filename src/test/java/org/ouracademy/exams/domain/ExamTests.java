@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.ExamPartSpecification.ExamPartContainerSpecification;
 
 public class ExamTests {
     @Test
@@ -63,8 +64,8 @@ public class ExamTests {
         // assertEquals(5, randomExam.childs.get(3).childs.size()); 
     }
 
-    private ExamRandomBuilder.ExamPartContainerSpecification getUnmsmSpec() {
-        var spec = new ExamRandomBuilder.ExamPartContainerSpecification();
+    private ExamPartContainerSpecification getUnmsmSpec() {
+        var spec = new ExamPartContainerSpecification();
         spec.of(Type.SECTION, "CAPACIDADES COMUNICATIVAS");
             // .has(() -> {
             //     var sectionSpec = new ExamRandomBuilder.Specification();
