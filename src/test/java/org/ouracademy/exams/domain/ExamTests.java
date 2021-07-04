@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.ouracademy.exams.domain.ExamPartContainer.Type;
+import org.ouracademy.exams.domain.ExamPart.Type;
 
 public class ExamTests {
     @Test
