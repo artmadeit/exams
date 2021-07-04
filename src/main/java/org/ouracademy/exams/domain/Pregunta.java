@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Pregunta extends ExamPart {
     Double score;
-    ExamPart respuesta;
+    ExamPart answer;
 
     public Pregunta() {
         this.type = Type.QUESTION;

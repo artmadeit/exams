@@ -12,6 +12,7 @@ public class ExamTestData {
     }
     
     int numeroPreguntas = 0;
+    int numeroExamen;
 
     public ExamPartContainer build(int numero) {
         // Fwd: examen
@@ -36,6 +37,7 @@ public class ExamTestData {
         //         P11
         //         P12
 
+        this.numeroExamen = numero;
         var examenBase = new ExamPartContainer();
         examenBase.type = Type.EXAM;
         examenBase.titulo = "Examen "+ numero;
@@ -48,19 +50,19 @@ public class ExamTestData {
         
         var section2 = new ExamPartContainer();
         section2.type = Type.SECTION;
-        section2.titulo = "capacidades lógico matematicas";
+        section2.titulo = "CAPACIDADES LOGICO MATEMATICAS";
         section2.setParent(examenBase);
         agregarPreguntas(5, section2);
 
         var section3 = new ExamPartContainer();
         section3.type = Type.SECTION;
-        section3.titulo = "capacidades investigativas";
+        section3.titulo = "CAPACIDADES INVESTIGATIVAS";
         section3.setParent(examenBase);
         agregarPreguntas(5, section3);
 
         var section4 = new ExamPartContainer();
         section4.type = Type.SECTION;
-        section4.titulo = "pensamiento crítico";
+        section4.titulo = "PENSAMIENTO CRITICO";
         section4.setParent(examenBase);
         agregarPreguntas(5, section4);
 
@@ -87,7 +89,7 @@ public class ExamTestData {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
             var p1 = new Pregunta();
-            p1.contenido = "Pregunta " + numeroPreguntas;
+            p1.contenido = "Pregunta " + numeroPreguntas + ", examen:" + numeroExamen;
             p1.setParent(padre);
             agregarAlternativas(p1);
         });

@@ -34,12 +34,18 @@ public class PostulantExam {
     // add & edit answer
     // la respuesta debe pertenecer al examen sino no tendria sentido
 
-    class PostulantQuestion {
-        Pregunta pregunta;
-        ExamPart respuesta;
+    public static class PostulantQuestion {
+        Pregunta question;
+        List<ExamPart> alternativas;
+        ExamPart postulantAnswer;
+
+        PostulantQuestion(Pregunta question, List<ExamPart> alternativas) {
+            this.question = question;
+            this.alternativas = alternativas;
+        }
 
         public boolean isCorrect() {
-            return pregunta.respuesta.equals(respuesta);
+            return question.answer.equals(postulantAnswer);
         }
 
         public boolean isWrong() {

@@ -4,13 +4,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Sampling {
+public class RandomSampling {
 
-    private Sampling() {}
+    private RandomSampling() {}
 
-    public static <T> List<T> getNRandomElements(int n, List<T> list) {
+    public static <T> List<T> getNElements(int n, List<T> list) {
         Collections.shuffle(list);
         return list.stream().limit(n).collect(Collectors.toList());
     }
     
+    public static <T> T getElement(List<T> list) {
+        return getNElements(1, list).get(0);
+    }
 }

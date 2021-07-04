@@ -12,4 +12,14 @@ public class ExamPartContainer extends ExamPart {
     public List<ExamPart> getQuestions(Type section, String sectionName) {
         return null;
     }
+
+    public ExamPart findChild(Type examPartType, String title) {
+        return this.childs.stream().filter(x -> {
+            if (x instanceof ExamPartContainer examPartContainer) {
+                return examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title);
+            }
+
+            return false;
+        }).findFirst().orElseThrow();
+    }
 }

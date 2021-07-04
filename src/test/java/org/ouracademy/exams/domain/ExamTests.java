@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 
 public class ExamTests {
     @Test
@@ -43,13 +44,21 @@ public class ExamTests {
         assertNotNull(postulantExam);
     }
 
+    @Test
     public void test_generar_examen_aleatorio() {
         var spec = getUnmsmSpec();
-        var randomExam = new ExamRandomBuilder().from(
+        var randomQuestions = new ExamRandomBuilder().from(
             List.of(examen(1), examen(2)), spec
         );
         
-        assertNotNull(randomExam);
+        assertNotNull(randomQuestions);
+
+        assertEquals(15, randomQuestions.size());
+
+        for (PostulantQuestion postulantQuestion : randomQuestions) {
+            System.out.println(postulantQuestion.question.contenido);
+        }
+
         // assertTrue(spec.fulfill(randomExam));
 
         // assertEquals(2, randomExam.childs.get(0).childs.size());
@@ -64,7 +73,7 @@ public class ExamTests {
 
     private ExamPartSpecification getUnmsmSpec() {
         var spec = new ExamPartSpecification();
-        spec.of(Type.SECTION, "CAPACIDADES COMUNICATIVAS");
+        // spec.of(Type.SECTION, "CAPACIDADES COMUNICATIVAS");
             // .has(() -> {
             //     var sectionSpec = new ExamRandomBuilder.Specification();
             //     sectionSpec.of(Type.TEXT, "TEXTO 1").hasQuestions(5);
