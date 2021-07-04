@@ -1,7 +1,6 @@
 package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class ExamRandomBuilder {
                 var questions = RandomSampling.getNElements(childchild.number, randomExamPart.getChilds());
                 
                 var postulantQuestions = questions.stream().map(question -> 
-                    new PostulantExam.PostulantQuestion((Pregunta) question, question.getChilds())
+                    new PostulantExam.PostulantQuestion((Pregunta) question, RandomSampling.ofAll(question.getChilds()))
                 ).collect(Collectors.toList());
 
                 result.addAll(postulantQuestions);

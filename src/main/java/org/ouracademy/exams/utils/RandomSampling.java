@@ -16,4 +16,9 @@ public class RandomSampling {
     public static <T> T getElement(List<T> list) {
         return getNElements(1, list).get(0);
     }
+
+    public static <T> List<T> ofAll(List<T> list) {
+        Collections.shuffle(list);
+        return list;
+    }
 }

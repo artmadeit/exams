@@ -45,7 +45,7 @@ public class ExamTests {
     }
 
     @Test
-    public void test_generar_examen_aleatorio() {
+    public void test_generar_examen_aleatorio() throws FileNotFoundException {
         var spec = getUnmsmSpec();
         var randomQuestions = new ExamRandomBuilder().from(
             List.of(examen(1), examen(2)), spec
@@ -55,8 +55,17 @@ public class ExamTests {
 
         assertEquals(15, randomQuestions.size());
 
+        String r = "";
         for (PostulantQuestion postulantQuestion : randomQuestions) {
-            System.out.println(postulantQuestion.question.contenido);
+            r += postulantQuestion.question.contenido + "\n";
+
+            for (var alternativa: postulantQuestion.alternativas) {
+                r += "\t" +alternativa.contenido + "\n";
+            }
+        }
+
+        try (PrintWriter out = new PrintWriter("random.txt")) {
+            out.println(r);
         }
 
         // assertTrue(spec.fulfill(randomExam));
