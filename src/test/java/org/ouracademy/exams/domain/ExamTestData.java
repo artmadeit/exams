@@ -72,14 +72,14 @@ public class ExamTestData {
     private void agregarTextos(ExamPart seccion) {
         var texto1 = new ExamPartContainer();
         texto1.type = Type.TEXT;
-        texto1.title = "Texto 1";
+        texto1.title = "Texto 1, examen:" + numeroExamen;
         texto1.content = "El desarrollo...";
         texto1.setParent(seccion);
         agregarPreguntas(5, texto1);
 
         var texto2 = new ExamPartContainer();
         texto2.type = Type.TEXT;
-        texto2.title = "Texto 2";
+        texto2.title = "Texto 2, examen: "+ numeroExamen;
         texto2.content = "Los ingresos ...";
         texto2.setParent(seccion);
         agregarPreguntas(5, texto2);

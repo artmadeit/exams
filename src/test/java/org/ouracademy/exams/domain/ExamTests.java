@@ -53,7 +53,8 @@ public class ExamTests {
 
     @Test
     void test_generar_examen_aleatorio() {
-        IntStream.rangeClosed(1, 1).forEach(i -> {
+        IntStream.rangeClosed(1, 200_000).forEach(i -> {
+            System.out.println("i:" + i);
             List<PostulantQuestion> randomQuestions = new ExamRandomBuilder().from(
                 List.of(examen(1), examen(2)), getUnmsmSpec()
             );
@@ -68,16 +69,20 @@ public class ExamTests {
             assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> q.question.parent.type.equals(Type.TEXT));
             assertThat(randomQuestions.subList(5, 10)).doesNotHaveDuplicates();
 
-            assertNotEquals(randomQuestions.get(0).question.parent.type, randomQuestions.get(5).question.parent.type);
+            // texto 1 != texto 2
+            assertNotEquals(
+                ((ExamPartContainer) randomQuestions.get(0).question.parent).title, 
+                ((ExamPartContainer) randomQuestions.get(5).question.parent).title
+            );
 
-            // // section 2
-            // assertSectionOk(randomQuestions.subList(10, 15), "CAPACIDADES LOGICO MATEMATICAS");
+            // section 2
+            assertSectionOk(randomQuestions.subList(10, 15), "CAPACIDADES LOGICO MATEMATICAS");
             
-            // // section 3
-            // assertSectionOk(randomQuestions.subList(15, 20), "CAPACIDADES INVESTIGATIVAS");
+            // section 3
+            assertSectionOk(randomQuestions.subList(15, 20), "CAPACIDADES INVESTIGATIVAS");
             
-            // // section 4
-            // assertSectionOk(randomQuestions.subList(20, 25), "PENSAMIENTO CRITICO");
+            // section 4
+            assertSectionOk(randomQuestions.subList(20, 25), "PENSAMIENTO CRITICO");
         });
     }
 
