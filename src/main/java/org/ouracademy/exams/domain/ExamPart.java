@@ -14,7 +14,7 @@ public class ExamPart {
 
     @Id
     Long id;
-    String contenido;
+    String content;
     Type type;
 
     ExamPart parent;

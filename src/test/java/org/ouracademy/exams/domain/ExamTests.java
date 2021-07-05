@@ -58,10 +58,10 @@ public class ExamTests {
 
         String r = "";
         for (PostulantQuestion postulantQuestion : randomQuestions) {
-            r += postulantQuestion.question.contenido + "\n";
+            r += postulantQuestion.question.content + "\n";
 
             for (var alternativa: postulantQuestion.alternativas) {
-                r += "\t" +alternativa.contenido + "\n";
+                r += "\t" +alternativa.content + "\n";
             }
         }
 

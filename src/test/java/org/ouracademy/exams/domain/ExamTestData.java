@@ -73,14 +73,14 @@ public class ExamTestData {
         var texto1 = new ExamPartContainer();
         texto1.type = Type.TEXT;
         texto1.titulo = "Texto 1";
-        texto1.contenido = "El desarrollo...";
+        texto1.content = "El desarrollo...";
         texto1.setParent(seccion);
         agregarPreguntas(5, texto1);
 
         var texto2 = new ExamPartContainer();
         texto2.type = Type.TEXT;
         texto2.titulo = "Texto 2";
-        texto2.contenido = "Los ingresos ...";
+        texto2.content = "Los ingresos ...";
         texto2.setParent(seccion);
         agregarPreguntas(5, texto2);
     }
@@ -89,7 +89,7 @@ public class ExamTestData {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
             var p1 = new Pregunta();
-            p1.contenido = "Pregunta " + numeroPreguntas + ", examen:" + numeroExamen;
+            p1.content = "Pregunta " + numeroPreguntas + ", examen:" + numeroExamen;
             p1.setParent(padre);
             agregarAlternativas(p1);
         });
@@ -98,7 +98,7 @@ public class ExamTestData {
     private void agregarAlternativas(Pregunta p1) {
         List.of("A", "B", "C", "D").forEach(i -> {
             var a1 = new ExamPart();
-            a1.contenido = "alternativa " + i;
+            a1.content = "alternativa " + i;
             a1.setParent(p1);
         });
     }
@@ -117,8 +117,8 @@ public class ExamTestData {
         if(x instanceof ExamPartContainer ex) {
             result += identation + ex.titulo + "\n";
         }
-        if(x.contenido != null)
-            result += identation + x.contenido + "\n";
+        if(x.content != null)
+            result += identation + x.content + "\n";
 
         return result;
     }
