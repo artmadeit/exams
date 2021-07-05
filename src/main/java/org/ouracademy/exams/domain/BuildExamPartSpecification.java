@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,10 @@ public class BuildExamPartSpecification {
     int number;
     List<BuildExamPartSpecification> childs = new ArrayList<>();
 
-    public static BuildExamPartSpecification createExamSpecification() {
-        return new BuildExamPartSpecification(1, Type.EXAM);
+    public static BuildExamPartSpecification createExamSpecification(List<BuildExamPartSpecification> childs) {
+        var spec = new BuildExamPartSpecification(1, Type.EXAM);
+        spec.childs = childs;
+        return spec;
     }
 
     public static BuildExamPartSpecification with(int number, Type examPartType) {
@@ -36,13 +39,21 @@ public class BuildExamPartSpecification {
         return this;
     }
 
-    public boolean fulfill(ExamPartContainer exam) {
+    public boolean fulfill(ExamPart exam) {
         return true;
     }
 
-    public List<ExamPart> findExamParts(List<ExamPartContainer> exams) {
+    public List<ExamPart> findExamParts(List<ExamPart> exams) {
         return exams.stream()
-            .map(exam -> exam.findChild(this.examPartType, this.title))
+            .filter(x -> {
+                if (x instanceof ExamPartContainer examPartContainer) {
+                    return title != null? 
+                        examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title):
+                        examPartContainer.type.equals(examPartType);
+                }
+    
+                return false;
+            })
             .collect(Collectors.toList());
     }
 }

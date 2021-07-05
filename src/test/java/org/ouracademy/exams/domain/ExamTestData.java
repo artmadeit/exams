@@ -44,7 +44,7 @@ public class ExamTestData {
         
         var section1 = new ExamPartContainer();
         section1.type = Type.SECTION;
-        section1.titulo = "capacidades comunicativas";
+        section1.titulo = "CAPACIDADES COMUNICATIVAS";
         section1.setParent(examenBase);
         agregarTextos(section1);
         

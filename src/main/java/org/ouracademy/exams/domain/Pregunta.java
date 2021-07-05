@@ -10,7 +10,7 @@ public class Pregunta extends ExamPart {
         this.type = Type.QUESTION;
     }
     
-    List<ExamPart> alternativas() {
+    List<ExamPart> alternatives() {
         return this.getChilds();
     }
 }

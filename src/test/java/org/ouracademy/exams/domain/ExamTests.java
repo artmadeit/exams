@@ -17,7 +17,7 @@ import static org.ouracademy.exams.domain.BuildExamPartSpecification.*;
 
 public class ExamTests {
     @Test
-    public void test_crea_un_examen_word() {
+    void test_crea_un_examen_word() {
         var examenTestDataGenerator = new ExamTestData();
         var examen2 = examenTestDataGenerator.build(2);
         assertNotNull(examen2);
@@ -32,7 +32,7 @@ public class ExamTests {
     }
 
     @Test
-    public void test_postulante_inicia_un_examen() {
+    void test_postulante_inicia_un_examen() {
         var postulante = new Postulante();
         var specification = ExamSpecification.builder()
             .description("Examen de postgrado 2021 - II")
@@ -47,7 +47,7 @@ public class ExamTests {
     }
 
     @Test
-    public void test_generar_examen_aleatorio() throws FileNotFoundException {
+    void test_generar_examen_aleatorio() throws FileNotFoundException {
         var spec = getUnmsmSpec();
         var randomQuestions = new ExamRandomBuilder().from(
             List.of(examen(1), examen(2)), spec
@@ -55,7 +55,7 @@ public class ExamTests {
         
         assertNotNull(randomQuestions);
 
-        assertEquals(15, randomQuestions.size());
+        assertEquals(25, randomQuestions.size());
 
         String r = "";
         for (PostulantQuestion postulantQuestion : randomQuestions) {
@@ -83,24 +83,40 @@ public class ExamTests {
     }
 
     private BuildExamPartSpecification getUnmsmSpec() {
-        return createExamSpecification()
-            .addChild(
+        return createExamSpecification(
+            List.of(
                 with(1, Type.SECTION).title("CAPACIDADES COMUNICATIVAS")
-                    .addChild(with(2, Type.TEXT)
-                        .addChild(with(5, Type.QUESTION)))
-            )
-            .addChild(
+                    .addChild(with(1, Type.TEXT).addChild(with(5, Type.QUESTION)))
+                    .addChild(with(1, Type.TEXT).addChild(with(5, Type.QUESTION))),
                 with(1, Type.SECTION).title("CAPACIDADES LOGICO MATEMATICAS")
-                    .addChild(with(5, Type.QUESTION))
-            )
-            .addChild(
+                    .addChild(with(5, Type.QUESTION)),
                 with(1, Type.SECTION).title("CAPACIDADES INVESTIGATIVAS")
-                    .addChild(with(5, Type.QUESTION))
-            )
-            .addChild(
+                    .addChild(with(5, Type.QUESTION)),
                 with(1, Type.SECTION).title("PENSAMIENTO CRITICO")
                     .addChild(with(5, Type.QUESTION))
-            );
+            ));
+    }
+
+    @Test
+    void test_get_childs_inmutable() throws FileNotFoundException {
+        var examen1 = examen(1);
+        var subsectionsExam = examen1.getChilds();
+        assertEquals(4, subsectionsExam.size());
+        subsectionsExam.add(new ExamPart());
+
+        assertEquals(5, subsectionsExam.size());
+        assertEquals(4, examen1.getChilds().size());
     }
     
+    
+    @Test
+    void test_filter_childs_by_type_and_or_title() throws FileNotFoundException {
+        assertEquals(1, examen(1).filterChilds(Type.SECTION, "CAPACIDADES COMUNICATIVAS").size());
+
+        var capacidadesComunicativas = examen(1).filterChilds(Type.SECTION, "CAPACIDADES COMUNICATIVAS").get(0);
+        assertNotNull(capacidadesComunicativas);
+        
+        var lectures = ((ExamPartContainer) capacidadesComunicativas).filterChilds(Type.TEXT, null);
+        assertEquals(2, lectures.size());
+    }
 }

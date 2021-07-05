@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 // un examen => secciones
 // una seccion => textos | preguntas
@@ -13,13 +14,15 @@ public class ExamPartContainer extends ExamPart {
         return null;
     }
 
-    public ExamPart findChild(Type examPartType, String title) {
+    public List<ExamPart> filterChilds(Type examPartType, String title) {
         return this.getChilds().stream().filter(x -> {
             if (x instanceof ExamPartContainer examPartContainer) {
-                return examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title);
+                return title != null? 
+                    examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title):
+                    examPartContainer.type.equals(examPartType);
             }
 
             return false;
-        }).findFirst().orElseThrow();
+        }).collect(Collectors.toList());
     }
 }

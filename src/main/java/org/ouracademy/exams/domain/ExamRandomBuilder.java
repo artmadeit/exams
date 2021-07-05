@@ -1,48 +1,61 @@
 package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {
 
 
-    List<PostulantExam.PostulantQuestion> from(List<ExamPartContainer> exams, BuildExamPartSpecification specification) {
+    List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
         assert exams.stream().allMatch(specification::fulfill);
         
         assert specification.examPartType == Type.EXAM;
 
-        List<PostulantExam.PostulantQuestion> result = new ArrayList<>();
+        return getPostulantQuestions(exams, List.of(specification));
+    }
 
-        for (var child: specification.childs) {
+    private List<PostulantQuestion> getPostulantQuestions(List<ExamPart> examParts, List<BuildExamPartSpecification> specifications) {
+        List<PostulantQuestion> result = new ArrayList<>();
 
-            /// LOGICO E1, LOGICO E2
-            // var examParts = child.findExamParts(exams);
-            // var randomExamPart = RandomSampling.getElement(examParts);
-            
-            // hello(result, child, randomExamPart);
-
-
-
+        for (BuildExamPartSpecification spec : specifications) {
+            if(spec.examPartType.equals(Type.EXAM)) {
+                result.addAll(getPostulantQuestions(childs(examParts), spec.childs));
+            }
+            if(spec.examPartType.equals(Type.QUESTION)) {
+                var randomExamParts = RandomSampling.getNElements(spec.number, examParts);
+                result.addAll(question((List<Pregunta>) (List<?>) randomExamParts));
+            }
+            if(spec.examPartType.equals(Type.SECTION)) {
+                var examPartsMeetingSpec = spec.findExamParts(examParts);
+                result.addAll(getPostulantQuestions(childs(examPartsMeetingSpec), spec.childs));
+            }
+            if(spec.examPartType.equals(Type.TEXT)) {
+                var examPartsMeetingSpec = spec.findExamParts(examParts);
+                var randomExamPartsMeetingSpec = RandomSampling.getNElements(spec.number, examPartsMeetingSpec);
+                result.addAll(getPostulantQuestions(childs(randomExamPartsMeetingSpec), spec.childs));    
+            }
         }
         
         return result;
     }
 
-    // private void hello(List<PostulantExam.PostulantQuestion> result, ExamPartSpecification specification,
-    //         ExamPart randomExamPart) {
-    //     for (var child : specification.childs) {
-    //         var questions = RandomSampling.getNElements(child.number, randomExamPart.getChilds());
-            
-    //         var postulantQuestions = questions.stream().map(question -> 
-    //             new PostulantExam.PostulantQuestion((Pregunta) question, RandomSampling.ofAll(question.getChilds()))
-    //         ).collect(Collectors.toList());
+    public List<ExamPart> childs(List<ExamPart> examParts) {
+        return examParts.stream()
+            .map(x -> x.getChilds())
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    }
 
-    //         result.addAll(postulantQuestions);
-    //     }
-    // }
-    
+    private List<PostulantQuestion> question(List<Pregunta> randomQuestions) {
+        return randomQuestions.stream().map(question -> 
+            new PostulantQuestion(question, RandomSampling.ofAll(question.alternatives()))
+        ).collect(Collectors.toList());
+    }
+
 }
