@@ -20,7 +20,7 @@ public class Postulante {
     public PostulantExam start(ExamSpecification specification, List<PostulantExam.PostulantQuestion> questions) {
         return PostulantExam.builder()
             .questions(questions)
-            .postulante(this)
+            .postulant(this)
             .specification(specification).build();
     }
 }

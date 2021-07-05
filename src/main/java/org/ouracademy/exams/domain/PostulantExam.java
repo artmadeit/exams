@@ -16,7 +16,7 @@ public class PostulantExam {
     @Id
     Long id;
     @ManyToOne
-    Postulante postulante;
+    Postulante postulant;
     @ManyToOne
     ExamSpecification specification;
     @Embedded
@@ -25,8 +25,8 @@ public class PostulantExam {
     List<PostulantQuestion> questions;
 
     @Builder
-    public PostulantExam(Postulante postulante, ExamSpecification specification, List<PostulantQuestion> questions) {
-        this.postulante = postulante;
+    public PostulantExam(Postulante postulant, ExamSpecification specification, List<PostulantQuestion> questions) {
+        this.postulant = postulant;
         this.specification = specification;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         this.questions = questions;
