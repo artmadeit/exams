@@ -5,5 +5,5 @@ package org.ouracademy.exams.domain;
 // una texto => preguntas
 public class ExamPartContainer extends ExamPart {
 
-    String titulo;
+    String title;
 }

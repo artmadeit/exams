@@ -40,29 +40,29 @@ public class ExamTestData {
         this.numeroExamen = numero;
         var examenBase = new ExamPartContainer();
         examenBase.type = Type.EXAM;
-        examenBase.titulo = "Examen "+ numero;
+        examenBase.title = "Examen "+ numero;
         
         var section1 = new ExamPartContainer();
         section1.type = Type.SECTION;
-        section1.titulo = "CAPACIDADES COMUNICATIVAS";
+        section1.title = "CAPACIDADES COMUNICATIVAS";
         section1.setParent(examenBase);
         agregarTextos(section1);
         
         var section2 = new ExamPartContainer();
         section2.type = Type.SECTION;
-        section2.titulo = "CAPACIDADES LOGICO MATEMATICAS";
+        section2.title = "CAPACIDADES LOGICO MATEMATICAS";
         section2.setParent(examenBase);
         agregarPreguntas(5, section2);
 
         var section3 = new ExamPartContainer();
         section3.type = Type.SECTION;
-        section3.titulo = "CAPACIDADES INVESTIGATIVAS";
+        section3.title = "CAPACIDADES INVESTIGATIVAS";
         section3.setParent(examenBase);
         agregarPreguntas(5, section3);
 
         var section4 = new ExamPartContainer();
         section4.type = Type.SECTION;
-        section4.titulo = "PENSAMIENTO CRITICO";
+        section4.title = "PENSAMIENTO CRITICO";
         section4.setParent(examenBase);
         agregarPreguntas(5, section4);
 
@@ -72,14 +72,14 @@ public class ExamTestData {
     private void agregarTextos(ExamPart seccion) {
         var texto1 = new ExamPartContainer();
         texto1.type = Type.TEXT;
-        texto1.titulo = "Texto 1";
+        texto1.title = "Texto 1";
         texto1.content = "El desarrollo...";
         texto1.setParent(seccion);
         agregarPreguntas(5, texto1);
 
         var texto2 = new ExamPartContainer();
         texto2.type = Type.TEXT;
-        texto2.titulo = "Texto 2";
+        texto2.title = "Texto 2";
         texto2.content = "Los ingresos ...";
         texto2.setParent(seccion);
         agregarPreguntas(5, texto2);
@@ -115,7 +115,7 @@ public class ExamTestData {
         String result = "";
 
         if(x instanceof ExamPartContainer ex) {
-            result += identation + ex.titulo + "\n";
+            result += identation + ex.title + "\n";
         }
         if(x.content != null)
             result += identation + x.content + "\n";

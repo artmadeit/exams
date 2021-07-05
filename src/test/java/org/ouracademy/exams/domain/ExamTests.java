@@ -21,7 +21,7 @@ public class ExamTests {
         var examenTestDataGenerator = new ExamTestData();
         var examen2 = examenTestDataGenerator.build(2);
         assertNotNull(examen2);
-        assertEquals("Examen 2", examen2.titulo);
+        assertEquals("Examen 2", examen2.title);
         assertEquals(25, examenTestDataGenerator.numeroPreguntas);
     }
 

@@ -43,7 +43,7 @@ public class BuildExamPartSpecification {
             .filter(x -> {
                 if (x instanceof ExamPartContainer examPartContainer) {
                     return title != null? 
-                        examPartContainer.type.equals(examPartType) && examPartContainer.titulo.equals(title):
+                        examPartContainer.type.equals(examPartType) && examPartContainer.title.equals(title):
                         examPartContainer.type.equals(examPartType);
                 }
     
