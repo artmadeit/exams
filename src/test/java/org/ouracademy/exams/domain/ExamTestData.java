@@ -88,14 +88,14 @@ public class ExamTestData {
     private void agregarPreguntas(int numero, ExamPart padre) {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
-            var p1 = new Pregunta();
+            var p1 = new Question();
             p1.content = "Pregunta " + numeroPreguntas + ", examen:" + numeroExamen;
             p1.setParent(padre);
             agregarAlternativas(p1);
         });
     }
 
-    private void agregarAlternativas(Pregunta p1) {
+    private void agregarAlternativas(Question p1) {
         List.of("A", "B", "C", "D").forEach(i -> {
             var a1 = new ExamPart();
             a1.content = "alternativa " + i;

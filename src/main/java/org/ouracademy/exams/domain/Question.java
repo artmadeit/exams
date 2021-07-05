@@ -2,11 +2,11 @@ package org.ouracademy.exams.domain;
 
 import java.util.List;
 
-public class Pregunta extends ExamPart {
+public class Question extends ExamPart {
     Double score;
     ExamPart answer;
 
-    public Pregunta() {
+    public Question() {
         this.type = Type.QUESTION;
     }
     
