@@ -18,7 +18,6 @@ public class ExamRandomBuilder {
         return getPostulantQuestions(exams, List.of(specification));
     }
 
-    // 4 textos, spec (2, textos)
     private List<PostulantQuestion> getPostulantQuestions(List<ExamPart> examParts, List<BuildExamPartSpecification> specifications) {
         List<PostulantQuestion> result = new ArrayList<>();
 
@@ -28,7 +27,7 @@ public class ExamRandomBuilder {
             }
             if(spec.examPartType.equals(Type.QUESTION)) {
                 var randomExamParts = RandomSampling.getNUniqueElements(spec.number, examParts);
-                result.addAll(question((List<Question>) (List<?>) randomExamParts));
+                result.addAll(toPostulantQuestions((List<Question>) (List<?>) randomExamParts));
             }
             if(spec.examPartType.equals(Type.SECTION)) {
                 var examPartsMeetingSpec = spec.findExamParts(examParts);
@@ -54,7 +53,7 @@ public class ExamRandomBuilder {
             .collect(Collectors.toList());
     }
 
-    private List<PostulantQuestion> question(List<Question> randomQuestions) {
+    private List<PostulantQuestion> toPostulantQuestions(List<Question> randomQuestions) {
         return randomQuestions.stream().map(question -> 
             new PostulantQuestion(question, RandomSampling.ofAll(question.alternatives()))
         ).collect(Collectors.toList());
