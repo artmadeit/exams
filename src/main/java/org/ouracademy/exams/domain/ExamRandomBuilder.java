@@ -11,9 +11,10 @@ import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {
 
-
-    List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
-        assert specification.examPartType == Type.EXAM;
+    public List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
+        if(specification.examPartType == Type.EXAM)
+            throw new IllegalArgumentException("Spec isn't of exam, spec.type" + specification.examPartType);
+        
         return getPostulantQuestions(exams, List.of(specification));
     }
 
@@ -42,7 +43,7 @@ public class ExamRandomBuilder {
         return result;
     }
 
-    public List<ExamPart> childs(List<ExamPart> examParts) {
+    private List<ExamPart> childs(List<ExamPart> examParts) {
         return examParts.stream()
             .map(ExamPart::getChilds)
             .flatMap(Collection::stream)
