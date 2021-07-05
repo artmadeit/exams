@@ -12,7 +12,7 @@ import org.ouracademy.exams.utils.RandomSampling;
 public class ExamRandomBuilder {
 
     public List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
-        if(specification.examPartType == Type.EXAM)
+        if(specification.examPartType != Type.EXAM)
             throw new IllegalArgumentException("Spec isn't of exam, spec.type" + specification.examPartType);
         
         return getPostulantQuestions(exams, List.of(specification));

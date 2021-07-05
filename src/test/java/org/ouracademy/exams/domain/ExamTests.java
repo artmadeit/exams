@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.ouracademy.exams.domain.ExamTestData.examen;
 
@@ -8,12 +9,16 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 
+import org.assertj.core.util.diff.Delta.TYPE;
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 
 import static org.ouracademy.exams.domain.BuildExamPartSpecification.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ExamTests {
     @Test
@@ -47,15 +52,44 @@ public class ExamTests {
     }
 
     @Test
-    void test_generar_examen_aleatorio() throws FileNotFoundException {
-        var spec = getUnmsmSpec();
-        var randomQuestions = new ExamRandomBuilder().from(
-            List.of(examen(1), examen(2)), spec
-        );
-        
-        assertNotNull(randomQuestions);
-        assertEquals(25, randomQuestions.size());
+    void test_generar_examen_aleatorio() {
+        IntStream.rangeClosed(1, 1).forEach(i -> {
+            List<PostulantQuestion> randomQuestions = new ExamRandomBuilder().from(
+                List.of(examen(1), examen(2)), getUnmsmSpec()
+            );
+            
+            assertNotNull(randomQuestions);
+            assertEquals(25, randomQuestions.size());
 
+            // section 1
+            assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> q.question.parent.type.equals(Type.TEXT));
+            assertThat(randomQuestions.subList(0, 5)).doesNotHaveDuplicates();
+            
+            assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> q.question.parent.type.equals(Type.TEXT));
+            assertThat(randomQuestions.subList(5, 10)).doesNotHaveDuplicates();
+
+            assertNotEquals(randomQuestions.get(0).question.parent.type, randomQuestions.get(5).question.parent.type);
+
+            // // section 2
+            // assertSectionOk(randomQuestions.subList(10, 15), "CAPACIDADES LOGICO MATEMATICAS");
+            
+            // // section 3
+            // assertSectionOk(randomQuestions.subList(15, 20), "CAPACIDADES INVESTIGATIVAS");
+            
+            // // section 4
+            // assertSectionOk(randomQuestions.subList(20, 25), "PENSAMIENTO CRITICO");
+        });
+    }
+
+    private void assertSectionOk(List<PostulantQuestion> randomQuestions, String title) {
+        assertThat(randomQuestions).allMatch((q) -> q.question.parent.type.equals(Type.SECTION));
+        assertThat(randomQuestions).allMatch((q) -> {
+            return ((ExamPartContainer) q.question.parent).title.equals(title);
+        });
+        assertThat(randomQuestions).doesNotHaveDuplicates();
+    }
+
+    private void printPostulantQuestions(List<PostulantQuestion> randomQuestions) {
         String r = "";
         for (PostulantQuestion postulantQuestion : randomQuestions) {
             r += postulantQuestion.question.content + "\n";
@@ -64,27 +98,18 @@ public class ExamTests {
                 r += "\t" +alternativa.content + "\n";
             }
         }
+        System.out.println(r);
 
-        try (PrintWriter out = new PrintWriter("random.txt")) {
-            out.println(r);
-        }
-
-        // assertEquals(2, randomExam.childs.get(0).childs.size());
-        
-        // // assertEquals(5, randomExam.childs.get(0).childs.get(0).childs.size());
-        // // assertEquals(5, randomExam.childs.get(0).childs.get(1).childs.size());
-
-        // assertEquals(5, randomExam.childs.get(1).childs.size());
-        // assertEquals(5, randomExam.childs.get(2).childs.size());
-        // assertEquals(5, randomExam.childs.get(3).childs.size()); 
+        // try (PrintWriter out = new PrintWriter("random.txt")) {
+        //     out.println(r);
+        // }
     }
 
     private BuildExamPartSpecification getUnmsmSpec() {
         return createExamSpecification(
             List.of(
                 with(1, Type.SECTION).title("CAPACIDADES COMUNICATIVAS")
-                    .addChild(with(1, Type.TEXT).addChild(with(5, Type.QUESTION)))
-                    .addChild(with(1, Type.TEXT).addChild(with(5, Type.QUESTION))),
+                    .addChild(with(2, Type.TEXT).addChild(with(5, Type.QUESTION))),
                 with(1, Type.SECTION).title("CAPACIDADES LOGICO MATEMATICAS")
                     .addChild(with(5, Type.QUESTION)),
                 with(1, Type.SECTION).title("CAPACIDADES INVESTIGATIVAS")

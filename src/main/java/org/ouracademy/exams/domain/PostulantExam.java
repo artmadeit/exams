@@ -32,13 +32,10 @@ public class PostulantExam {
         this.questions = questions;
     }
 
-    // add & edit answer
-    // la respuesta debe pertenecer al examen sino no tendria sentido
-
     public static class PostulantQuestion {
         Question question;
-        List<ExamPart> alternativas;
-        ExamPart postulantAnswer;
+        List<ExamPart> alternativas; // C, D, A, B
+        ExamPart postulantAnswer; // A <= postulant edit this
 
         PostulantQuestion(Question question, List<ExamPart> alternativas) {
             this.question = question;

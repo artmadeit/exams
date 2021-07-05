@@ -31,7 +31,7 @@ class "BuildExamPartSpecification" {
   findExamParts(List<ExamPart>) : List<ExamPart>
 }
 
-class "ExamSpecification" {
+class "ExamEvent" {
   id : Long
   description : String
   range : DateTimeRange
@@ -40,7 +40,7 @@ class "ExamSpecification" {
 class "PostulantExam" {
   id : Long
   postulant : Postulante
-  specification : ExamSpecification
+  event : ExamEvent
   actualRange : DateTimeRange
   questions : List<PostulantQuestion>
 }
@@ -60,7 +60,7 @@ class "Postulante" {
   codigoPostulante : String
   codigoPrograma : String
   codigoUpg : String
-  start(ExamSpecification, List<PostulantQuestion>) : PostulantExam
+  start(ExamEvent, List<PostulantQuestion>) : PostulantExam
 }
 
 "ExamPart" <|-- "ExamPartContainer"
@@ -69,7 +69,7 @@ class "Postulante" {
 "Question" --> "ExamPart" : answer
 "BuildExamPartSpecification" --> "*" "BuildExamPartSpecification" : childs
 "PostulantExam" --> "Postulante" : postulant
-"PostulantExam" --> "ExamSpecification" : specification
+"PostulantExam" --> "ExamEvent" : event
 "PostulantExam" --> "*" "PostulantQuestion" : questions
 "PostulantQuestion" --> "Question" : question
 "PostulantQuestion" --> "*" "ExamPart" : alternativas
