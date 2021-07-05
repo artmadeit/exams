@@ -66,17 +66,21 @@ public class ExamTests {
             assertEquals(25, randomQuestions.size());
 
             // section 1
+            var text1 =  ((ExamPartContainer) randomQuestions.get(0).question.parent);
             assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> q.question.parent.type.equals(Type.TEXT));
+            assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> 
+                ((ExamPartContainer)q.question.parent).title.equals(text1.title)
+            );
             assertThat(randomQuestions.subList(0, 5)).doesNotHaveDuplicates();
             
+            var text2 =  ((ExamPartContainer) randomQuestions.get(5).question.parent);
             assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> q.question.parent.type.equals(Type.TEXT));
+            assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> 
+                ((ExamPartContainer)q.question.parent).title.equals(text2.title)
+            );
             assertThat(randomQuestions.subList(5, 10)).doesNotHaveDuplicates();
 
-            // texto 1 != texto 2
-            assertNotEquals(
-                ((ExamPartContainer) randomQuestions.get(0).question.parent).title, 
-                ((ExamPartContainer) randomQuestions.get(5).question.parent).title
-            );
+            assertNotEquals(text1.title, text2.title);
 
             // section 2
             assertSectionOk(randomQuestions.subList(10, 15), "CAPACIDADES LOGICO MATEMATICAS");
