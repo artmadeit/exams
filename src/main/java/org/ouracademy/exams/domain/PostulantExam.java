@@ -29,6 +29,7 @@ public class PostulantExam {
         this.postulante = postulante;
         this.specification = specification;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
+        this.questions = questions;
     }
 
     // add & edit answer
