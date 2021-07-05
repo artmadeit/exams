@@ -14,6 +14,9 @@ public class RandomSampling {
     private RandomSampling() {}
 
     public static <T> List<T> getNUniqueElements(int n, List<T> list) {
+        if(n > list.size())
+            throw new IllegalArgumentException("error! n > list.size, n:" + n + ", list.size:" + list.size());
+
         return shuffle(list).stream().limit(n).collect(Collectors.toList());
     }
     
