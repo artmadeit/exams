@@ -17,10 +17,10 @@ public class Postulante {
     String codigoPrograma;
     String codigoUpg;
 
-    public PostulantExam start(ExamSpecification specification, List<PostulantExam.PostulantQuestion> questions) {
+    public PostulantExam start(ExamEvent event, List<PostulantExam.PostulantQuestion> questions) {
         return PostulantExam.builder()
             .questions(questions)
             .postulant(this)
-            .specification(specification).build();
+            .event(event).build();
     }
 }

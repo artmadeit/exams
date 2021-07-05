@@ -51,11 +51,24 @@ class "PostulantQuestion" {
   postulantAnswer : ExamPart
 }
 
+class "Postulante" {
+  id : Long
+  dni : String
+  nombre : String
+  apellidoPaterno : String
+  apellidoMaterno : String
+  codigoPostulante : String
+  codigoPrograma : String
+  codigoUpg : String
+  start(ExamSpecification, List<PostulantQuestion>) : PostulantExam
+}
+
 "ExamPart" <|-- "ExamPartContainer"
 "ExamPart" <|-- "Question"
 "ExamPart" <-> "ExamPart" : parent
 "Question" --> "ExamPart" : answer
 "BuildExamPartSpecification" --> "*" "BuildExamPartSpecification" : childs
+"PostulantExam" --> "Postulante" : postulant
 "PostulantExam" --> "ExamSpecification" : specification
 "PostulantExam" --> "*" "PostulantQuestion" : questions
 "PostulantQuestion" --> "Question" : question

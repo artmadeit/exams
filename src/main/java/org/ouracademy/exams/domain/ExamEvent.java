@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import lombok.Builder;
 
 @Entity
-public class ExamSpecification {
+public class ExamEvent {
 
     @Id
     Long id;
@@ -18,7 +18,7 @@ public class ExamSpecification {
     DateTimeRange range;
 
     @Builder
-    ExamSpecification(String description, DateTimeRange range) {
+    ExamEvent(String description, DateTimeRange range) {
         this.description = description;
         this.range = range;
     }

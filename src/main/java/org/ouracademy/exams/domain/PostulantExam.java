@@ -18,16 +18,16 @@ public class PostulantExam {
     @ManyToOne
     Postulante postulant;
     @ManyToOne
-    ExamSpecification specification;
+    ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
     
     List<PostulantQuestion> questions;
 
     @Builder
-    public PostulantExam(Postulante postulant, ExamSpecification specification, List<PostulantQuestion> questions) {
+    public PostulantExam(Postulante postulant, ExamEvent event, List<PostulantQuestion> questions) {
         this.postulant = postulant;
-        this.specification = specification;
+        this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         this.questions = questions;
     }

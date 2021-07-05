@@ -34,7 +34,7 @@ public class ExamTests {
     @Test
     void test_postulante_inicia_un_examen() {
         var postulante = new Postulante();
-        var specification = ExamSpecification.builder()
+        var specification = ExamEvent.builder()
             .description("Examen de postgrado 2021 - II")
             .range(new DateTimeRange(
                 LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
