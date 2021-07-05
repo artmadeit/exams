@@ -1,7 +1,6 @@
 package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,11 +37,7 @@ public class BuildExamPartSpecification {
         this.childs.add(child);
         return this;
     }
-
-    public boolean fulfill(ExamPart exam) {
-        return true;
-    }
-
+    
     public List<ExamPart> findExamParts(List<ExamPart> exams) {
         return exams.stream()
             .filter(x -> {

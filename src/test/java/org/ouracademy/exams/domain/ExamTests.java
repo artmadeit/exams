@@ -104,16 +104,4 @@ public class ExamTests {
         assertEquals(5, subsectionsExam.size());
         assertEquals(4, examen1.getChilds().size());
     }
-    
-    
-    @Test
-    void test_filter_childs_by_type_and_or_title() throws FileNotFoundException {
-        assertEquals(1, examen(1).filterChilds(Type.SECTION, "CAPACIDADES COMUNICATIVAS").size());
-
-        var capacidadesComunicativas = examen(1).filterChilds(Type.SECTION, "CAPACIDADES COMUNICATIVAS").get(0);
-        assertNotNull(capacidadesComunicativas);
-        
-        var lectures = ((ExamPartContainer) capacidadesComunicativas).filterChilds(Type.TEXT, null);
-        assertEquals(2, lectures.size());
-    }
 }
