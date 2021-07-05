@@ -89,7 +89,7 @@ public class ExamTestData {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
             var p1 = new Question();
-            p1.content = "Pregunta " + numeroPreguntas + ", examen:" + numeroExamen;
+            p1.content = "P" + numeroPreguntas + "-E" + numeroExamen;
             p1.setParent(padre);
             agregarAlternativas(p1);
         });

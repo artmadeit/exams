@@ -1,23 +1,24 @@
 package org.ouracademy.exams.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamSpecification;
+import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
 import static org.ouracademy.exams.domain.ExamTestData.examen;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.assertj.core.util.diff.Delta.TYPE;
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
-
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class ExamTests {
@@ -53,7 +54,9 @@ public class ExamTests {
 
     @Test
     void test_generar_examen_aleatorio() {
-        IntStream.rangeClosed(1, 200_000).forEach(i -> {
+        List<PostulantQuestion> allQuestions = new ArrayList<>();
+
+        IntStream.rangeClosed(1, 5000).forEach(i -> {
             System.out.println("i:" + i);
             List<PostulantQuestion> randomQuestions = new ExamRandomBuilder().from(
                 List.of(examen(1), examen(2)), getUnmsmSpec()
@@ -83,7 +86,18 @@ public class ExamTests {
             
             // section 4
             assertSectionOk(randomQuestions.subList(20, 25), "PENSAMIENTO CRITICO");
+
+            allQuestions.addAll(randomQuestions);
         });
+
+        var grouped =
+            allQuestions.stream().collect(
+                Collectors.groupingBy(w -> w.question.content, Collectors.counting())
+            );
+        grouped.forEach((k, v) -> {
+            System.out.println(k + ": " + v);
+        });
+        assertEquals(50, grouped.size());
     }
 
     private void assertSectionOk(List<PostulantQuestion> randomQuestions, String title) {
@@ -92,22 +106,6 @@ public class ExamTests {
             return ((ExamPartContainer) q.question.parent).title.equals(title);
         });
         assertThat(randomQuestions).doesNotHaveDuplicates();
-    }
-
-    private void printPostulantQuestions(List<PostulantQuestion> randomQuestions) {
-        String r = "";
-        for (PostulantQuestion postulantQuestion : randomQuestions) {
-            r += postulantQuestion.question.content + "\n";
-
-            for (var alternativa: postulantQuestion.alternativas) {
-                r += "\t" +alternativa.content + "\n";
-            }
-        }
-        System.out.println(r);
-
-        // try (PrintWriter out = new PrintWriter("random.txt")) {
-        //     out.println(r);
-        // }
     }
 
     private BuildExamPartSpecification getUnmsmSpec() {
