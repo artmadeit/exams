@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class DateTimeRange {
-    LocalDateTime inicio;
-    LocalDateTime fin;
-
-    public static final LocalDateTime INFINITY = null;
+    LocalDateTime start;
+    LocalDateTime end;
 }
