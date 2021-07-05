@@ -13,10 +13,7 @@ public class ExamRandomBuilder {
 
 
     List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
-        assert exams.stream().allMatch(specification::fulfill);
-        
         assert specification.examPartType == Type.EXAM;
-
         return getPostulantQuestions(exams, List.of(specification));
     }
 
@@ -41,13 +38,13 @@ public class ExamRandomBuilder {
                 result.addAll(getPostulantQuestions(childs(randomExamPartsMeetingSpec), spec.childs));    
             }
         }
-        
+
         return result;
     }
 
     public List<ExamPart> childs(List<ExamPart> examParts) {
         return examParts.stream()
-            .map(x -> x.getChilds())
+            .map(ExamPart::getChilds)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     }

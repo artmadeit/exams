@@ -54,7 +54,6 @@ public class ExamTests {
         );
         
         assertNotNull(randomQuestions);
-
         assertEquals(25, randomQuestions.size());
 
         String r = "";
@@ -69,8 +68,6 @@ public class ExamTests {
         try (PrintWriter out = new PrintWriter("random.txt")) {
             out.println(r);
         }
-
-        // assertTrue(spec.fulfill(randomExam));
 
         // assertEquals(2, randomExam.childs.get(0).childs.size());
         
