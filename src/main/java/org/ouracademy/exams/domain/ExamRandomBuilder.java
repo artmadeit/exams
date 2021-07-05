@@ -25,7 +25,7 @@ public class ExamRandomBuilder {
                 result.addAll(getPostulantQuestions(childs(examParts), spec.childs));
             }
             if(spec.examPartType.equals(Type.QUESTION)) {
-                var randomExamParts = RandomSampling.getNElements(spec.number, examParts);
+                var randomExamParts = RandomSampling.getNUniqueElements(spec.number, examParts);
                 result.addAll(question((List<Question>) (List<?>) randomExamParts));
             }
             if(spec.examPartType.equals(Type.SECTION)) {
@@ -34,7 +34,7 @@ public class ExamRandomBuilder {
             }
             if(spec.examPartType.equals(Type.TEXT)) {
                 var examPartsMeetingSpec = spec.findExamParts(examParts);
-                var randomExamPartsMeetingSpec = RandomSampling.getNElements(spec.number, examPartsMeetingSpec);
+                var randomExamPartsMeetingSpec = RandomSampling.getNUniqueElements(spec.number, examPartsMeetingSpec);
                 result.addAll(getPostulantQuestions(childs(randomExamPartsMeetingSpec), spec.childs));    
             }
         }

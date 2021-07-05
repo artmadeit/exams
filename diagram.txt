@@ -2,35 +2,33 @@
 
 class "ExamPart" {
   id : Long
-  contenido : String
+  content : String
   type : Type
   parent : ExamPart
   childs : List<ExamPart>
 }
 
 class "ExamPartContainer" {
-  titulo : String
-  getQuestions(Type, String) : List<ExamPart>
-  findChild(Type, String) : ExamPart
+  title : String
 }
 
-class "Pregunta" {
+class "Question" {
   score : Double
   answer : ExamPart
 }
 
-class "ExamRandomBuilder"
+class "ExamRandomBuilder" {
+  childs(List<ExamPart>) : List<ExamPart>
+}
 
-class "ExamPartSpecification" {
-  examPartType : Type
+class "BuildExamPartSpecification" {
   title : String
+  examPartType : Type
   number : int
-  childs : List<ExamPartSpecification>
-  of(Type, String) : ExamPartSpecification
-  has(Supplier<ExamPartSpecification>)
-  fulfill(ExamPartContainer) : boolean
-  hasQuestions(int)
-  findExamParts(List<ExamPartContainer>) : List<ExamPart>
+  childs : List<BuildExamPartSpecification>
+  title(String) : BuildExamPartSpecification
+  addChild(BuildExamPartSpecification) : BuildExamPartSpecification
+  findExamParts(List<ExamPart>) : List<ExamPart>
 }
 
 class "ExamSpecification" {
@@ -41,26 +39,26 @@ class "ExamSpecification" {
 
 class "PostulantExam" {
   id : Long
-  postulante : Postulante
+  postulant : Postulante
   specification : ExamSpecification
   actualRange : DateTimeRange
   questions : List<PostulantQuestion>
 }
 
 class "PostulantQuestion" {
-  question : Pregunta
+  question : Question
   alternativas : List<ExamPart>
   postulantAnswer : ExamPart
 }
 
 "ExamPart" <|-- "ExamPartContainer"
-"ExamPart" <|-- "Pregunta"
+"ExamPart" <|-- "Question"
 "ExamPart" <-> "ExamPart" : parent
-"Pregunta" --> "ExamPart" : answer
-"ExamPartSpecification" --> "*" "ExamPartSpecification" : childs
+"Question" --> "ExamPart" : answer
+"BuildExamPartSpecification" --> "*" "BuildExamPartSpecification" : childs
 "PostulantExam" --> "ExamSpecification" : specification
 "PostulantExam" --> "*" "PostulantQuestion" : questions
-"PostulantQuestion" --> "Pregunta" : question
+"PostulantQuestion" --> "Question" : question
 "PostulantQuestion" --> "*" "ExamPart" : alternativas
 "PostulantQuestion" --> "ExamPart" : postulantAnswer
 
