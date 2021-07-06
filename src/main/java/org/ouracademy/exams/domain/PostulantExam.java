@@ -7,6 +7,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Builder;
 
@@ -20,6 +21,7 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
+    @OneToMany
     List<PostulantQuestion> questions;
 
     @Builder

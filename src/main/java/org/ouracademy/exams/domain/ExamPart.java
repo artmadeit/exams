@@ -3,8 +3,17 @@ package org.ouracademy.exams.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class ExamPart {
 
     
@@ -15,9 +24,13 @@ public class ExamPart {
     @Id
     Long id;
     String content;
+    @Enumerated(EnumType.STRING)
     Type type;
 
+    @ManyToOne
     ExamPart parent;
+
+    @OneToMany(mappedBy="parent")
     private List<ExamPart> childs = new ArrayList<>();
 
     public List<ExamPart> getChilds() {
