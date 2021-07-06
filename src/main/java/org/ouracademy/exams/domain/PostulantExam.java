@@ -17,7 +17,7 @@ public class PostulantExam {
     @Id
     Long id;
     @ManyToOne
-    Postulante postulant;
+    Postulant postulant;
     @ManyToOne
     ExamEvent event;
     @Embedded
@@ -26,7 +26,7 @@ public class PostulantExam {
     List<PostulantQuestion> questions = new ArrayList<>();
 
     @Builder
-    public PostulantExam(Postulante postulant, ExamEvent event, List<PostulantQuestion> questions) {
+    public PostulantExam(Postulant postulant, ExamEvent event, List<PostulantQuestion> questions) {
         this.postulant = postulant;
         this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);

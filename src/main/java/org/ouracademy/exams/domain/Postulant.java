@@ -6,16 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Postulante {
+public class Postulant {
     @Id
     Long id;
     String dni;
-    String nombre;
-    String apellidoPaterno;
-    String apellidoMaterno;
-    String codigoPostulante;
-    String codigoPrograma;
-    String codigoUpg;
+    String name;
+    String lastName;
+    String motherLastName;
+    String code;
+    String programCode;
+    String upgCode;
 
     public PostulantExam start(ExamEvent event, List<PostulantQuestion> questions) {
         return PostulantExam.builder()

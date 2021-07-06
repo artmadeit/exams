@@ -10,7 +10,7 @@ import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.ExamEvent;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
-import org.ouracademy.exams.domain.Postulante;
+import org.ouracademy.exams.domain.Postulant;
 import org.ouracademy.exams.domain.Question;
 
 import ch.ifocusit.plantuml.classdiagram.ClassDiagramBuilder;
@@ -24,7 +24,7 @@ public class UMLGenerator {
             BuildExamPartSpecification.class,
             ExamEvent.class,
             PostulantExam.class, PostulantQuestion.class,
-            Postulante.class)
+            Postulant.class)
         .build();
 
         try (PrintWriter out = new PrintWriter("diagram.txt")) {
