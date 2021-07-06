@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -22,7 +23,7 @@ public class PostulantExam {
     @Embedded
     DateTimeRange actualRange;
     @OneToMany(mappedBy="postulantExam")
-    List<PostulantQuestion> questions;
+    List<PostulantQuestion> questions = new ArrayList<>();
 
     @Builder
     public PostulantExam(Postulante postulant, ExamEvent event, List<PostulantQuestion> questions) {

@@ -1,5 +1,6 @@
 package org.ouracademy.exams.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,10 +11,8 @@ import javax.persistence.Transient;
 
 @Entity
 public class PostulantQuestion {
-    // POSSIBLE DELETE USE COMPOSITE primary key(question_id, postulant_id)
     @Id
     Long id;
-    // ---
     
     @ManyToOne
     Question question;
@@ -25,7 +24,7 @@ public class PostulantQuestion {
     ExamPart postulantAnswer; // B <= postulant edit this
     
     @OneToMany
-    List<ExamPart> alternatives; // C, D, A, B
+    List<ExamPart> alternatives = new ArrayList<>(); // C, D, A, B
     
 
     PostulantQuestion(Question question, List<ExamPart> alternatives) {
