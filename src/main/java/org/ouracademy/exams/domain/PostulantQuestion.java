@@ -17,11 +17,16 @@ public class PostulantQuestion {
     
     @ManyToOne
     Question question;
-    //@OneToMany
-    @Transient
-    List<ExamPart> alternatives; // C, D, A, B
+    
     @ManyToOne
-    ExamPart postulantAnswer; // A <= postulant edit this
+    PostulantExam postulantExam;
+
+    @ManyToOne
+    ExamPart postulantAnswer; // B <= postulant edit this
+    
+    @OneToMany
+    List<ExamPart> alternatives; // C, D, A, B
+    
 
     PostulantQuestion(Question question, List<ExamPart> alternatives) {
         this.question = question;

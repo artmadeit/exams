@@ -21,7 +21,7 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
-    @OneToMany
+    @OneToMany(mappedBy="postulantExam")
     List<PostulantQuestion> questions;
 
     @Builder
