@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
-import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {

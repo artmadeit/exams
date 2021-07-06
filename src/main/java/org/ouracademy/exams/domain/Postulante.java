@@ -17,7 +17,7 @@ public class Postulante {
     String codigoPrograma;
     String codigoUpg;
 
-    public PostulantExam start(ExamEvent event, List<PostulantExam.PostulantQuestion> questions) {
+    public PostulantExam start(ExamEvent event, List<PostulantQuestion> questions) {
         return PostulantExam.builder()
             .questions(questions)
             .postulant(this)

@@ -1,7 +1,6 @@
 package org.ouracademy.exams.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -21,7 +20,6 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
-    
     List<PostulantQuestion> questions;
 
     @Builder
@@ -30,24 +28,5 @@ public class PostulantExam {
         this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         this.questions = questions;
-    }
-
-    public static class PostulantQuestion {
-        Question question;
-        List<ExamPart> alternativas; // C, D, A, B
-        ExamPart postulantAnswer; // A <= postulant edit this
-
-        PostulantQuestion(Question question, List<ExamPart> alternativas) {
-            this.question = question;
-            this.alternativas = alternativas;
-        }
-
-        public boolean isCorrect() {
-            return question.answer.equals(postulantAnswer);
-        }
-
-        public boolean isWrong() {
-            return !isCorrect();
-        }
     }
 }

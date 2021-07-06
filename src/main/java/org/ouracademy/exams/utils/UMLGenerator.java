@@ -9,6 +9,7 @@ import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.ExamEvent;
 import org.ouracademy.exams.domain.PostulantExam;
+import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.Postulante;
 import org.ouracademy.exams.domain.Question;
 
@@ -22,7 +23,7 @@ public class UMLGenerator {
             ExamRandomBuilder.class, 
             BuildExamPartSpecification.class,
             ExamEvent.class,
-            PostulantExam.class, PostulantExam.PostulantQuestion.class,
+            PostulantExam.class, PostulantQuestion.class,
             Postulante.class)
         .build();
 

@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
-import org.ouracademy.exams.domain.PostulantExam.PostulantQuestion;
 
 
 public class ExamTests {
@@ -47,7 +46,7 @@ public class ExamTests {
             )).build();
         
 
-        List<PostulantExam.PostulantQuestion> randomQuestions = List.of();
+        List<PostulantQuestion> randomQuestions = List.of();
         var postulantExam = postulante.start(specification, randomQuestions);
         assertNotNull(postulantExam);
     }
