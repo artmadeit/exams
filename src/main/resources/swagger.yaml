@@ -1,0 +1,361 @@
+swagger: "2.0"
+info:
+  description: "Admision de postgrado"
+  version: "1.0.0"
+  title: "Examen de Admision"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "qpdiam@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "admision.swagger.io"
+basePath: "/v2"
+tags:
+- name: "postulant"
+  description: "Everything about your Postulant"
+- name: "exam-event"
+  description: "Everything about your exam event"
+- name: "postulant-exam"
+  description: "Everything about your postulant exam"
+
+
+
+schemes:
+- "https"
+- "http"
+paths:
+  /postulant:
+    post:
+      tags:
+      - "postulant"
+      summary: "Add a new postulant"
+      description: ""
+      operationId: "addPostulant"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Postulant object"
+        required: true
+        schema:
+          $ref: "#/definitions/Postulant"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Postulant"
+        "405":
+          description: "Invalid input"
+
+
+  /postulant/{postulantId}:
+    get:
+      tags:
+      - "postulant"
+      summary: "Find postulant by ID"
+      description: "Returns a single postulant"
+      operationId: "getPostulantById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "postulantId"
+        in: "path"
+        description: "ID of postulant to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Postulant"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Postulant not found"
+      security:
+      - api_key: []
+
+  /exam-event/{examEventId}:
+    get:
+      tags:
+      - "exam-event"
+      summary: "Find exam event by ID"
+      description: "Returns a single postulant"
+      operationId: "getExamEventById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "examEventId"
+        in: "path"
+        description: "ID of exam event to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ExamEvent"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Exam event not found"
+      security:
+      - api_key: []
+
+  /postulant-exam/start:
+    post:
+      tags:
+      - "postulant-exam"
+      summary: "Start the exam as postulant"
+      description: ""
+      operationId: "examStart"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "start a exam"
+        required: true
+        schema:
+          $ref: "#/definitions/StartExam"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              examPostulantId:
+                type: "string"
+                example: "123"
+              questions:
+                type: "array"
+                items:
+                  $ref: "#/definitions/QuestionPostulant"
+        "400":
+          description: "Invalid request"
+        "404":
+          description: "Evam exam or postulant id not found"
+  /postulant-exam/answer:
+    put:
+      tags:
+      - "postulant-exam"
+      summary: "Update answer"
+      description: ""
+      operationId: "updateAnswer"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "answer an exam"
+        required: true
+        schema:
+          $ref: "#/definitions/AnswerPostulant"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/QuestionPostulant"
+        "400":
+          description: "Invalid request"
+        "404":
+          description: "Evam exam or postulant id not found"
+
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+
+
+  StartExam:
+    type: "object"
+    properties:
+      eventExamId:
+        type: "integer"
+        format: "int64"
+      postulantId:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "StartExam"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      userStatus:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+    xml:
+      name: "User"
+
+  Parent:
+    type: "object"
+    properties:
+      sectionName:
+        type: "string"
+        example: "LOGICO MATEMATICAS"
+      textContent:
+        type: "string"
+        example: "Erase una vez ...."
+      textTitle:
+        type: "string"
+        example: "Lectura 1"
+    xml:
+      name: "StartExam"
+      
+  AnswerPostulant:
+    type: "object"
+    properties:
+      answerId:
+        type: "string"
+        example: "A1"
+      questionId:
+        type: "string"
+        example: "P1-E1"
+      examPostulantId:
+        type: "string"
+        example: "123"
+  QuestionPostulant:
+    type: "object"
+    properties:
+      question:
+        $ref: "#/definitions/Question"
+      answer:
+        type: "string"
+        example: "A1"
+  Question:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "P1-E1"
+      parent:
+        $ref: "#/definitions/Parent"
+      content:
+        type: "string"
+        example: "Pregunta 1: Cual es ...?"
+      alternatives:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              example: "A1"
+            content:
+              type: "string"
+              example: "La materia"
+    xml:
+      name: "Question" 
+  Postulant:
+    type: "object"
+    required:
+    - "name"
+    - "lastName"
+    - "motherLastName"
+    - "code"
+    - "dni"
+    - "programCode"
+    - "upgCode"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Arthur"
+      lastName:
+        type: "string"
+        example: "Mauricio"
+      motherlastName:
+        type: "string"
+        example: "Delgadillo"
+      code:
+        type: "string"
+        example: "CODE-1234"
+      dni:
+        type: "string"
+        example: "49494948"
+      programCode:
+        type: "string"
+        example: "49494948"
+      upgCode:
+        type: "string"
+        example: "49494948"
+      status:
+        type: "string"
+        description: "postulant status"
+        enum:
+        - "active"
+        - "inactive"
+    xml:
+      name: "Postulant"
+      
+  ExamEvent:
+    type: "object"
+    required:
+    - "start-time"
+    - "end-time"
+    - "description"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      description:
+        type: "string"
+        example: "Admision I"
+      questionsSize:
+        type: "integer"
+        example: 25
+      startTime:
+        type: "string"
+        example: "12/10/21"
+      endTime:
+        type: "string"
+        example: "13/12/16"
+    xml:
+      name: "ExamEvent"
+  
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
