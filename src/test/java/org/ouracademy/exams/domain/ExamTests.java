@@ -39,7 +39,7 @@ public class ExamTests {
     @Test
     void test_postulante_inicia_un_examen() {
         var postulant = new Postulant();
-        var specification = ExamEvent.builder()
+        var examEvent = ExamEvent.builder()
             .description("Examen de postgrado 2021 - II")
             .range(new DateTimeRange(
                 LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
@@ -47,7 +47,7 @@ public class ExamTests {
         
 
         List<PostulantQuestion> randomQuestions = List.of();
-        var postulantExam = postulant.start(specification, randomQuestions);
+        var postulantExam = postulant.start(examEvent, randomQuestions);
         assertNotNull(postulantExam);
     }
 
