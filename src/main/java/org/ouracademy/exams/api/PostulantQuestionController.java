@@ -22,6 +22,10 @@ public class PostulantQuestionController {
     @PutMapping("/{id}/answer/{answerId}")
     @Transactional
     public PostulantQuestion updateAnswer(@PathVariable Long id, @PathVariable Long answerId) {
+        // TODO: que pasa si quita respuesta?
+        // otra api?
+        // validar con diana
+
         var postulantQuestion = postulantQuestionRepository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Not found postulant question with id:" + id));
 
