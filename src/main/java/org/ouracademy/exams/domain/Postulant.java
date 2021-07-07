@@ -3,13 +3,19 @@ package org.ouracademy.exams.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.ouracademy.exams.event.ExamEvent;
 
+import lombok.Getter;
+
+@Getter
 @Entity
 public class Postulant {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String dni;
     String name;
