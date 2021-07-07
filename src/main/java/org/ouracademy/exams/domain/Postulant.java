@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.ouracademy.exams.event.ExamEvent;
+
 @Entity
 public class Postulant {
     @Id

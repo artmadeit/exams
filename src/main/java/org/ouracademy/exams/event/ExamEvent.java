@@ -1,8 +1,10 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.event;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.ouracademy.exams.domain.DateTimeRange;
 
 import lombok.Builder;
 

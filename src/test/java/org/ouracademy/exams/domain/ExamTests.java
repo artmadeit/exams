@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.event.ExamEvent;
 
 
 public class ExamTests {

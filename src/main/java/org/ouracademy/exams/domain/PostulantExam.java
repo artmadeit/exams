@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.ouracademy.exams.event.ExamEvent;
+
 import lombok.Builder;
 
 @Entity
