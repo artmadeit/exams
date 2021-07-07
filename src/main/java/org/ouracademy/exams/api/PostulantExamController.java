@@ -1,5 +1,8 @@
 package org.ouracademy.exams.api;
 
+import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamSpecification;
+import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
+
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -7,16 +10,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.BuildExamPartSpecification;
+import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.ouracademy.exams.domain.ExamPart.Type;
-
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamSpecification;
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

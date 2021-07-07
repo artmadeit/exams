@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+
+import lombok.Setter;
 
 @Entity
 public class PostulantQuestion {
@@ -21,7 +22,7 @@ public class PostulantQuestion {
     PostulantExam postulantExam;
 
     @ManyToOne
-    ExamPart postulantAnswer; // B <= postulant edit this
+    @Setter ExamPart postulantAnswer; // B <= postulant edit this
     
     @OneToMany
     List<ExamPart> alternatives = new ArrayList<>(); // C, D, A, B
