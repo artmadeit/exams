@@ -24,4 +24,9 @@ public class ExamEvent {
         this.description = description;
         this.range = range;
     }
+
+    /**
+     * @apiNote jpa only
+     */
+    ExamEvent() {}
 }

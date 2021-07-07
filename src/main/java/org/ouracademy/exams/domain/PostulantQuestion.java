@@ -27,6 +27,10 @@ public class PostulantQuestion {
     @OneToMany
     List<ExamPart> alternatives = new ArrayList<>(); // C, D, A, B
     
+    /**
+     * @apiNote jpa only
+     */
+    PostulantQuestion() {}
 
     PostulantQuestion(Question question, List<ExamPart> alternatives) {
         this.question = question;

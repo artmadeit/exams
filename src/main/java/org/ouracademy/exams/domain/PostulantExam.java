@@ -27,6 +27,11 @@ public class PostulantExam {
     @OneToMany(mappedBy="postulantExam")
     List<PostulantQuestion> questions = new ArrayList<>();
 
+    /**
+     * @apiNote jpa only
+     */
+    PostulantExam() {}
+
     @Builder
     public PostulantExam(Postulant postulant, ExamEvent event, List<PostulantQuestion> questions) {
         this.postulant = postulant;
