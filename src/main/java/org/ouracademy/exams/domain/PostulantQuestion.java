@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 @Entity
 public class PostulantQuestion {
     @Id
