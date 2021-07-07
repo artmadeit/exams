@@ -4,17 +4,18 @@ import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamS
 import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamPart.Type;
-import org.ouracademy.exams.event.ExamEventRepository;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
+import org.ouracademy.exams.event.ExamEventRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,8 @@ public class PostulantExamController {
     ExamEventRepository examEventRepository;
     PostulantExamRepository postulantExamRepository;
 
+    PostulantExamService postulantExamService;
+
     @Data
     public static class StartExamRequest {
         @NotNull Long postulantId;
@@ -40,9 +43,9 @@ public class PostulantExamController {
     @PostMapping("/start")
     public PostulantExam start(@Valid StartExamRequest request) {
         var postulant = postulantRepository.findById(request.getPostulantId())
-            .orElseThrow(() -> new EntityNotFoundException("Not found postulant with id:" + request.getPostulantId()));
+            .orElseThrow(() -> new NoSuchElementException("Not found postulant with id:" + request.getPostulantId()));
         var examEvent = examEventRepository.findById(request.getEventExamId())
-            .orElseThrow(() -> new EntityNotFoundException("Not found examEvent with id:" + request.getEventExamId()));
+            .orElseThrow(() -> new NoSuchElementException("Not found examEvent with id:" + request.getEventExamId()));
         
         var postulantExam = postulant.start(examEvent, randomQuestions());
         postulantExamRepository.save(postulantExam);
@@ -71,5 +74,10 @@ public class PostulantExamController {
                 with(1, Type.SECTION).title("PENSAMIENTO CRITICO")
                     .addChild(with(5, Type.QUESTION))
             ));
+    }
+
+    @PostMapping("/finish/{id}")
+    public PostulantExam finish(@PathVariable Long id) {
+        return postulantExamService.finish(id);
     }
 }

@@ -39,4 +39,8 @@ public class PostulantExam {
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         this.questions = questions;
     }
+
+    public void finish() {
+        this.actualRange = new DateTimeRange(this.actualRange.start, LocalDateTime.now());
+    }
 }

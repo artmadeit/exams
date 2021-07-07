@@ -1,6 +1,7 @@
 package org.ouracademy.exams.api;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.NoSuchElementException;
+
 import javax.transaction.Transactional;
 
 import org.ouracademy.exams.domain.PostulantQuestion;
@@ -22,10 +23,10 @@ public class PostulantQuestionController {
     @Transactional
     public PostulantQuestion updateAnswer(@PathVariable Long id, @PathVariable Long answerId) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Not found postulant question with id:" + id));
+            .orElseThrow(() -> new NoSuchElementException("Not found postulant question with id:" + id));
 
         var postulantAnswer = examPartRepository.findById(answerId)
-            .orElseThrow(() -> new EntityNotFoundException("Not found postulant answer with id:" + id));
+            .orElseThrow(() -> new NoSuchElementException("Not found postulant answer with id:" + id));
         
         postulantQuestion.setPostulantAnswer(postulantAnswer);
         return postulantQuestion;
