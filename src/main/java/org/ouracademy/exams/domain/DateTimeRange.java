@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import lombok.Getter;
+
+@Getter
 @Embeddable
 public class DateTimeRange {
     @Column(name = "date_time_start")
@@ -26,6 +29,7 @@ public class DateTimeRange {
 
     private void validate(LocalDateTime start, LocalDateTime end) {
         var endX = end != null? end: LocalDateTime.MAX;
-        assert start.isBefore(endX);
+        if(!start.isBefore(endX))
+            throw new IllegalStateException("start < end, start:" + start + ", end:" + end);
     }
 }

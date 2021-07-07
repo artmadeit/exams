@@ -3,12 +3,14 @@ package org.ouracademy.exams.event;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,12 +38,11 @@ public class ExamEventController {
     }
 
     @PostMapping
-    public ExamEvent create(@NotNull ExamEventRequest request) {
+    public ExamEvent create(@RequestBody @Valid ExamEventRequest request) {
         var examEvent = ExamEvent.builder()
             .description(request.description)
             .range(new DateTimeRange(request.start, request.end))
             .build();
-        
         return this.repository.save(examEvent);
     }
 }
