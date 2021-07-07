@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/postulant-question")
+@AllArgsConstructor
 public class PostulantQuestionController {
     PostulantQuestionRepository postulantQuestionRepository;
     ExamPartRepository examPartRepository;

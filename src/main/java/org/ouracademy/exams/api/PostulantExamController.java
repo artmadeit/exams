@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.event.ExamEventRepository;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;

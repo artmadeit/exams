@@ -1,4 +1,4 @@
-package org.ouracademy.exams.api;
+package org.ouracademy.exams.event;
 
 import java.util.Optional;
 
