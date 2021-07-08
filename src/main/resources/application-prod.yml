@@ -1,0 +1,40 @@
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  # use only if you need debug
+  jpa:
+  #   spring: jpa: show-sql: true
+  #   properties:
+  #     hibernate:
+  #       format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+  # flyway:
+  #   locations: classpath:/db/migration,classpath:/db/testdata
+
+# monitoring, more on: https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-actuator
+# management:
+#   endpoints:
+#     web: 
+#       exposure:
+#         include: "*"
+
+# swagger
+# springdoc:
+#   api-docs:
+#     path: /api-docs
+# security:
+#   jwt:
+#     token:
+#       secret-key: 33d9b2ae-0275-11eb-adc1-0242ac120002
+
+# logging
+# logbook: 
+#   include: /**
+#   exclude: /actuator/health
+# more on https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-logging-file-output
+# logging.file.name = /var/tmp/casilla.log
+# logging.level.org.zalando.logbook: TRACE
