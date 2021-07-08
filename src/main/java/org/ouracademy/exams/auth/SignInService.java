@@ -1,15 +1,16 @@
 package org.ouracademy.exams.auth;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.Optional;
 
+import javax.validation.constraints.NotBlank;
+
+import org.ouracademy.exams.auth.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.ouracademy.exams.auth.jwt.JwtTokenProvider;
 
 @AllArgsConstructor
 @Service
@@ -31,6 +32,10 @@ public class SignInService {
     public String run(LoginInput input) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
         var user = repository.findByName(input.name).get();
-        return jwtTokenProvider.createToken(input.name, user.getStatus(), user.getAuthorities());
+        return jwtTokenProvider.createToken(input.name, user.getAuthorities());
     }
+
+    public Optional<UserAccount> verify(String name) {
+		return repository.findByName(name);
+	}
 }

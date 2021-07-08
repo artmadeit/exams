@@ -37,30 +37,6 @@ public class UserAccount implements UserDetails {
 	@JsonIgnore
 	private String password;
 	
-	private Long personId;
-    private String email;
-    private String phoneNumber;
-	private String commitmentDocument;
-	
-	private AccountStatus status;
-
-
-	@Deprecated
-	public UserAccount() {
-		// JPA Only
-	}
-
-	public UserAccount(String name, String password, Long personId, String email, String phoneNumber, 
-	String commitmentDocument, AccountStatus status) {
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.personId = personId;
-		this.commitmentDocument = commitmentDocument;
-		this.status = status;
-	}
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

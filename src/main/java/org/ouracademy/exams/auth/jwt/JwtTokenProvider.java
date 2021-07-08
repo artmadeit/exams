@@ -22,7 +22,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.ouracademy.exams.auth.AccountStatus;
 
 @Component
 public class JwtTokenProvider {
@@ -49,20 +48,19 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, AccountStatus status, Collection<? extends GrantedAuthority> authorities) {
+    public String createToken(String username, Collection<? extends GrantedAuthority> authorities) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return this.prefix +  Jwts.builder()//
-                .setClaims(claims(username, authorities, status))//
+                .setClaims(claims(username, authorities))//
                 .setIssuedAt(now).setExpiration(validity)//
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
-    private Claims claims(String username, Collection<? extends GrantedAuthority> authorities, AccountStatus status ) {
+    private Claims claims(String username, Collection<? extends GrantedAuthority> authorities) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("auth", authorities.stream().collect(Collectors.toList()));
-        claims.put("status", status);
         return claims;
     }
 
