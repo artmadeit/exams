@@ -1,7 +1,6 @@
 package org.ouracademy.exams.event;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
