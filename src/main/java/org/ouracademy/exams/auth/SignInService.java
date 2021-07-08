@@ -1,7 +1,5 @@
 package org.ouracademy.exams.auth;
 
-import java.util.Optional;
-
 import javax.validation.constraints.NotBlank;
 
 import org.ouracademy.exams.auth.jwt.JwtTokenProvider;

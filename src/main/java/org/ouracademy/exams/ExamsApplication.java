@@ -1,7 +1,9 @@
 package org.ouracademy.exams;
 
 import org.ouracademy.exams.api.ExamPartRepository;
+import org.ouracademy.exams.api.PostulantRepository;
 import org.ouracademy.exams.domain.ExamTestData;
+import org.ouracademy.exams.domain.Postulant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,13 +23,39 @@ public class ExamsApplication {
 	private String corsOrigin;
 
 	@Bean
-	public CommandLineRunner commandLineRunner(ExamPartRepository repository) {
+	public CommandLineRunner commandLineRunner(ExamPartRepository examPartRepository, PostulantRepository postulantRepository) {
 		return args -> {
-			repository.save(
+			examPartRepository.save(
 				ExamTestData.examen(1)
 			);
-			repository.save(
+			examPartRepository.save(
 				ExamTestData.examen(2)
+			);
+
+
+			postulantRepository.save(
+				Postulant.builder()
+				.code("12123123")
+				.dni("73646447")
+				.lastName("mauricio")
+				.motherLastName("delgadillo")
+				.firstName("arthur")
+				.programCode("1")
+				.upgCode("12")
+				.build()
+			);
+
+			
+			postulantRepository.save(
+				Postulant.builder()
+				.code("12312390")
+				.dni("48484489")
+				.lastName("quintanilla")
+				.motherLastName("perez")
+				.firstName("diana")
+				.programCode("1")
+				.upgCode("12")
+				.build()
 			);
 		};
 	}
