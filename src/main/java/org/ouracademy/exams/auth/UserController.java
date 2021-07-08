@@ -23,11 +23,6 @@ public class UserController {
 
     private SignInService signInService;
 
-    @GetMapping("/verify")
-    public ResponseEntity<UserAccount> verify(@RequestParam @NotBlank String name) {
-        return ResponseEntity.of(this.signInService.verify(name));
-    }
-
     @PostMapping("/login")
     public String login(@RequestBody @Valid SignInService.LoginInput input) {
         return signInService.run(input);

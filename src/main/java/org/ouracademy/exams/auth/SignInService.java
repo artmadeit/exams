@@ -35,8 +35,4 @@ public class SignInService {
         var user = repository.findByName(input.name).orElseThrow(() -> new NotFoundException("Not found user account, name:" + input.name));
         return jwtTokenProvider.createToken(input.name, user.getAuthorities());
     }
-
-    public Optional<UserAccount> verify(String name) {
-		return repository.findByName(name);
-	}
 }
