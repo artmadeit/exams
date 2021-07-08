@@ -25,6 +25,18 @@ public class ExamPart {
     
     public enum Type {
         EXAM, SECTION, TEXT, QUESTION;
+
+        // un examen => secciones
+        // una seccion => textos | preguntas
+        // una texto => preguntas
+
+
+        // examen tiene titulo, opcional contenido
+        // seccion tiene titulo, opcional contenido
+        // texto tiene titulo, opcional contenido
+
+        // question tiene contenido
+        // alternativa tiene contenido
     }
 
     @Id

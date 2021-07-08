@@ -41,13 +41,9 @@ public class BuildExamPartSpecification {
     public List<ExamPart> findExamParts(List<ExamPart> exams) {
         return exams.stream()
             .filter(x -> {
-                if (x instanceof ExamPartContainer examPartContainer) {
-                    return title != null? 
-                        examPartContainer.type.equals(examPartType) && examPartContainer.title.equals(title):
-                        examPartContainer.type.equals(examPartType);
-                }
-    
-                return false;
+                return title != null? 
+                        x.type.equals(examPartType) && x.title.equals(title):
+                        x.type.equals(examPartType);
             })
             .collect(Collectors.toList());
     }
