@@ -30,9 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.cors().and()
 				.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()//
-				.antMatchers("/", "/browser/**","/auth/**").permitAll()//
-				.antMatchers("/actuator/health", "/actuator/info", "/api-docs*", "/api-docs/*","/swagger-ui","/swagger-ui/*", "/swagger-ui.html").permitAll()//                                
-				.antMatchers().permitAll()//
+				.antMatchers("/auth/**").permitAll()//
 				.anyRequest().authenticated();//
 				
 
