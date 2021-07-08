@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotBlank;
 
 import org.ouracademy.exams.auth.jwt.JwtTokenProvider;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class SignInService {
 
     public String run(LoginInput input) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
-        var user = repository.findByName(input.name).get();
+        var user = repository.findByName(input.name).orElseThrow(() -> new NotFoundException("Not found user account, name:" + input.name));
         return jwtTokenProvider.createToken(input.name, user.getAuthorities());
     }
 
