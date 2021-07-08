@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class PostulantQuestion {
     @ManyToOne
     @Setter ExamPart postulantAnswer; // B <= postulant edit this
     
-    @OneToMany
+    @ManyToMany
     List<ExamPart> alternatives = new ArrayList<>(); // C, D, A, B
     
     /**

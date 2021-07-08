@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.ouracademy.exams.utils.BadArgumentsException;
+
 import lombok.Getter;
 
 @Getter
@@ -30,6 +32,6 @@ public class DateTimeRange {
     private void validate(LocalDateTime start, LocalDateTime end) {
         var endX = end != null? end: LocalDateTime.MAX;
         if(!start.isBefore(endX))
-            throw new IllegalStateException("start < end, start:" + start + ", end:" + end);
+            throw new BadArgumentsException("start < end, start:" + start + ", end:" + end);
     }
 }

@@ -1,17 +1,18 @@
 package org.ouracademy.exams.api;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
-import org.ouracademy.exams.domain.ExamTestData;
+import org.ouracademy.exams.domain.Postulant;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
+import org.ouracademy.exams.event.ExamEvent;
 import org.ouracademy.exams.event.ExamEventRepository;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +51,9 @@ public class PostulantExamService {
 
     public PostulantExamResponse start(StartExamRequest request) {
         var postulant = postulantRepository.findById(request.getPostulantId())
-            .orElseThrow(() -> new NoSuchElementException("Not found postulant with id:" + request.getPostulantId()));
+            .orElseThrow(() -> new NotFoundException(Postulant.class, request.getPostulantId()));
         var examEvent = examEventRepository.findById(request.getEventExamId())
-            .orElseThrow(() -> new NoSuchElementException("Not found examEvent with id:" + request.getEventExamId()));
+            .orElseThrow(() -> new NotFoundException(ExamEvent.class, request.getEventExamId()));
         
         var postulantExam = postulant.start(examEvent, randomQuestions());
         postulantExamRepository.save(postulantExam);
