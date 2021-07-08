@@ -59,6 +59,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+
+		<dependency>
+			 <!-- For handling any kind of exceptions, specially those with spring security issues  -->
+			<groupId>org.zalando</groupId>
+			<artifactId>problem-spring-web-starter</artifactId>
+			<version>0.25.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
