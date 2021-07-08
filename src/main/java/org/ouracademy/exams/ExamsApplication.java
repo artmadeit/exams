@@ -2,6 +2,7 @@ package org.ouracademy.exams;
 
 import org.ouracademy.exams.api.ExamPartRepository;
 import org.ouracademy.exams.domain.ExamTestData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,9 @@ public class ExamsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExamsApplication.class, args);
 	}
+
+	@Value("${cors_origin}")
+	private String corsOrigin;
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ExamPartRepository repository) {
@@ -32,9 +36,10 @@ public class ExamsApplication {
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
-			// TODO: configure this
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+				registry.addMapping("/**")
+					.allowedOrigins(corsOrigin)
+					.allowedMethods("*");
 			}
 		};
 	}

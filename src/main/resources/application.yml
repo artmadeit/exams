@@ -38,3 +38,5 @@ spring:
 # more on https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-logging-file-output
 # logging.file.name = /var/tmp/casilla.log
 # logging.level.org.zalando.logbook: TRACE
+
+cors_origin: "*"
