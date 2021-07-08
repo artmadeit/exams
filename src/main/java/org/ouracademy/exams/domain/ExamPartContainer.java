@@ -8,5 +8,5 @@ import javax.persistence.Entity;
 @Entity
 public class ExamPartContainer extends ExamPart {
 
-    String title;
+    
 }

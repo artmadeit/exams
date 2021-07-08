@@ -30,7 +30,11 @@ public class ExamPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    
+    String title;
+    
     String content;
+
     @Enumerated(EnumType.STRING)
     Type type;
 

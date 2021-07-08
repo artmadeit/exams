@@ -33,7 +33,7 @@ public class PostulantExamService {
     PostulantRepository postulantRepository;
     ExamEventRepository examEventRepository;
     PostulantExamRepository postulantExamRepository;
-    ExamPartContainerRepository examPartContainerRepository;
+    ExamPartRepository examPartRepository;
 
     public PostulantExam finish(Long id) {
         var postulantExam = postulantExamRepository.findById(id).orElseThrow();
@@ -77,7 +77,7 @@ public class PostulantExamService {
     private List<PostulantQuestion> randomQuestions() {
         return new ExamRandomBuilder().from(
             // TODO: get unmsm exam templates
-            examPartContainerRepository.findByTitleIn(List.of("Examen 1", "Examen 2")), getUnmsmSpec()
+            examPartRepository.findByTitleIn(List.of("Examen 1", "Examen 2")), getUnmsmSpec()
         );
     }
 
