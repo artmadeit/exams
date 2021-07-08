@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,8 @@ public class ExamEventController {
     ExamEventRepository repository;
 
     @GetMapping("/{id}")
-    public Optional<ExamEvent> find(@PathVariable Long id) {
-        return this.repository.findById(id);
+    public ExamEvent find(@PathVariable Long id) {
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
     }
 
     @Data

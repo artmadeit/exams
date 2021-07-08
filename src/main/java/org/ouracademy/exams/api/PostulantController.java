@@ -1,8 +1,7 @@
 package org.ouracademy.exams.api;
 
-import java.util.Optional;
-
 import org.ouracademy.exams.domain.Postulant;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ public class PostulantController {
     PostulantRepository repository;
 
     @GetMapping("/{id}")
-    public Optional<Postulant> find(@PathVariable Long id) {
-        return this.repository.findById(id);
+    public Postulant find(@PathVariable Long id) {
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(Postulant.class, id));
     }
 }
