@@ -15,6 +15,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+
+@Getter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ExamPart {

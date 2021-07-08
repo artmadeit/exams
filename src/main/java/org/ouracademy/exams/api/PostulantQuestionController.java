@@ -1,15 +1,22 @@
 package org.ouracademy.exams.api;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
+import org.ouracademy.exams.domain.ExamPart;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @RestController
 @RequestMapping("/postulant-question")
@@ -17,6 +24,56 @@ import lombok.AllArgsConstructor;
 public class PostulantQuestionController {
     PostulantQuestionRepository postulantQuestionRepository;
     ExamPartRepository examPartRepository;
+
+
+    @Getter
+    public static class ExamPartResponse {
+
+        Long id;
+        String content;
+        ExamPart.Type type;
+
+        ExamPartResponse(ExamPart examPart) {
+            this.id = examPart.getId();
+            this.content = examPart.getContent();
+            this.type = examPart.getType();
+        }
+    }
+
+    @Getter
+    public static class ExamParthWithParent extends ExamPartResponse {
+        ExamPartResponse parent;
+
+        ExamParthWithParent(ExamPart question) {
+            super(question);
+            this.parent = question.getParent() != null? new ExamParthWithParent(question.getParent()): null;
+        }
+    }
+
+    @Getter
+    public static class PostulantQuestionResponse{
+        
+        ExamParthWithParent question;
+        ExamPart postulantAnswer;
+        List<ExamPartResponse> alternatives = new ArrayList<>();
+
+        public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
+            this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
+            this.postulantAnswer = postulantQuestion.getPostulantAnswer();
+            this.alternatives = postulantQuestion.getAlternatives().stream()
+                .map(ExamPartResponse::new)
+                .collect(Collectors.toList());
+        }
+        
+    }
+
+    @GetMapping("/{id}")
+    public PostulantQuestionResponse get(@PathVariable Long id) {
+        var postulantQuestion = postulantQuestionRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
+
+        return new PostulantQuestionResponse(postulantQuestion);
+    }
 
     @PutMapping("/{id}/answer/{answerId}")
     @Transactional
