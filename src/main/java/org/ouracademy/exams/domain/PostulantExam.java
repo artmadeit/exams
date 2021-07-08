@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
-    @OneToMany(mappedBy="postulantExam")
+    @OneToMany(mappedBy="postulantExam", cascade = CascadeType.ALL, orphanRemoval = true)
     List<PostulantQuestion> questions = new ArrayList<>();
 
     /**
@@ -42,7 +43,18 @@ public class PostulantExam {
         this.postulant = postulant;
         this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
-        this.questions = questions;
+        setQuestions(questions);
+    }
+
+    private void setQuestions(List<PostulantQuestion> questions) {
+        for (PostulantQuestion postulantQuestion : questions) {
+            addPostulantQuestion(postulantQuestion);
+        }
+    }
+
+    private void addPostulantQuestion(PostulantQuestion postulantQuestion) {
+        this.questions.add(postulantQuestion);
+        postulantQuestion.setPostulantExam(this);
     }
 
     public void finish() {
