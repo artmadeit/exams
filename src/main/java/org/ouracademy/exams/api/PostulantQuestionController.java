@@ -32,11 +32,13 @@ public class PostulantQuestionController {
         Long id;
         String content;
         ExamPart.Type type;
+        String title;
 
         ExamPartResponse(ExamPart examPart) {
             this.id = examPart.getId();
             this.content = examPart.getContent();
             this.type = examPart.getType();
+            this.title = examPart.getTitle();
         }
     }
 
@@ -44,9 +46,10 @@ public class PostulantQuestionController {
     public static class ExamParthWithParent extends ExamPartResponse {
         ExamPartResponse parent;
 
-        ExamParthWithParent(ExamPart question) {
-            super(question);
-            this.parent = question.getParent() != null? new ExamParthWithParent(question.getParent()): null;
+        ExamParthWithParent(ExamPart examPart) {
+            super(examPart);
+            if(!examPart.getParent().getType().equals(ExamPart.Type.EXAM))
+                this.parent = new ExamParthWithParent(examPart.getParent());
         }
     }
 
