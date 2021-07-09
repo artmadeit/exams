@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.ExamPart;
 import org.ouracademy.exams.domain.PostulantQuestion;
@@ -12,10 +13,12 @@ import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @RestController
@@ -31,23 +34,26 @@ public class PostulantQuestionController {
 
         Long id;
         String content;
-        ExamPart.Type type;
-        String title;
 
         ExamPartResponse(ExamPart examPart) {
             this.id = examPart.getId();
             this.content = examPart.getContent();
-            this.type = examPart.getType();
-            this.title = examPart.getTitle();
         }
     }
 
     @Getter
     public static class ExamParthWithParent extends ExamPartResponse {
+        
+        ExamPart.Type type;
+        String title;
         ExamPartResponse parent;
 
         ExamParthWithParent(ExamPart examPart) {
             super(examPart);
+            
+            this.type = examPart.getType();
+            this.title = examPart.getTitle();
+
             if(!examPart.getParent().getType().equals(ExamPart.Type.EXAM))
                 this.parent = new ExamParthWithParent(examPart.getParent());
         }
@@ -57,12 +63,13 @@ public class PostulantQuestionController {
     public static class PostulantQuestionResponse{
         
         ExamParthWithParent question;
-        ExamPart postulantAnswer;
+        Long postulantAnswerId;
         List<ExamPartResponse> alternatives = new ArrayList<>();
 
         public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
             this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
-            this.postulantAnswer = postulantQuestion.getPostulantAnswer();
+            this.postulantAnswerId = postulantQuestion.getPostulantAnswer() != null? 
+                postulantQuestion.getPostulantAnswer().getId(): null;
             this.alternatives = postulantQuestion.getAlternatives().stream()
                 .map(ExamPartResponse::new)
                 .collect(Collectors.toList());
@@ -78,20 +85,23 @@ public class PostulantQuestionController {
         return new PostulantQuestionResponse(postulantQuestion);
     }
 
-    @PutMapping("/{id}/answer/{answerId}")
-    @Transactional
-    public PostulantQuestion updateAnswer(@PathVariable Long id, @PathVariable Long answerId) {
-        // TODO: que pasa si quita respuesta?
-        // otra api?
-        // validar con diana
 
+    @Data
+    public static class Answer {
+        Long id;
+    }
+
+    @PutMapping("/{id}/answer")
+    @Transactional
+    public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody Answer answer) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
-
-        var postulantAnswer = examPartRepository.findById(answerId)
-            .orElseThrow(() -> new NotFoundException("Not found postulant answer with id:" + id));
+            
+        var postulantAnswer = answer.id == null? 
+            null:
+            examPartRepository.findById(answer.id).orElseThrow(() -> new NotFoundException("Not found answer with answerId:" + answer.id));
         
         postulantQuestion.setPostulantAnswer(postulantAnswer);
-        return postulantQuestion;
+        return new PostulantQuestionResponse(postulantQuestion);
     }
 }
