@@ -27,8 +27,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostulantQuestionController {
     PostulantQuestionRepository postulantQuestionRepository;
-    ExamPartRepository examPartRepository;
-
+    
 
     @Getter
     public static class ExamPartResponse {
@@ -100,7 +99,8 @@ public class PostulantQuestionController {
             
         var postulantAnswer = answer.alternativeId == null? 
             null:
-            examPartRepository.findById(answer.alternativeId).orElseThrow(() -> new NotFoundException("Not found answer with answerId:" + answer.alternativeId));
+            postulantQuestion.getAlternative(answer.alternativeId)
+            .orElseThrow(() -> new NotFoundException("Not found altenative for question, alternativeId:" + answer.alternativeId + ", question.id:" + id));
         
         postulantQuestion.setPostulantAnswer(postulantAnswer);
         return new PostulantQuestionResponse(postulantQuestion);

@@ -2,6 +2,7 @@ package org.ouracademy.exams.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,5 +52,11 @@ public class PostulantQuestion {
 
     public boolean isWrong() {
         return !isCorrect();
+    }
+
+    public Optional<ExamPart> getAlternative(Long alternativeId) {
+        return this.alternatives.stream()
+            .filter(x -> x.getId().equals(alternativeId))
+            .findFirst();
     }
 }
