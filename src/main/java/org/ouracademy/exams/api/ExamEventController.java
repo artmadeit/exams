@@ -41,6 +41,8 @@ public class ExamEventController {
         LocalDateTime end;
     }
 
+    // TODO: only admin can create and edit
+
     @PostMapping
     public ExamEvent create(@RequestBody @Valid ExamEventRequest request) {
         var examEvent = ExamEvent.builder()

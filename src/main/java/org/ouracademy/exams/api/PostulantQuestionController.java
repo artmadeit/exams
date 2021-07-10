@@ -76,6 +76,9 @@ public class PostulantQuestionController {
         
     }
 
+
+    // TODO: only admin & postulant taker can see
+
     @GetMapping("/{id}")
     public PostulantQuestionResponse get(@PathVariable Long id) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
@@ -89,6 +92,8 @@ public class PostulantQuestionController {
     public static class AnswerRequest {
         Long alternativeId;
     }
+
+    // TODO: only postulant taker can edit answer
 
     @PutMapping("/{id}/answer")
     @Transactional

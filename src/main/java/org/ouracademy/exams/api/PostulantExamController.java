@@ -25,6 +25,7 @@ public class PostulantExamController {
         return postulantExamService.start(eventExamId, postulant);
     }
 
+    // TODO: only finish the postulant & if the !event.hasEnded
     @PostMapping("/finish/{id}")
     public PostulantExam finish(@PathVariable Long id) {
         return postulantExamService.finish(id);
