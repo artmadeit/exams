@@ -3,13 +3,13 @@ package org.ouracademy.exams.utils;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamPart;
-import org.ouracademy.exams.domain.ExamRandomBuilder;
 import org.ouracademy.exams.domain.Postulant;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.Question;
+import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
+import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.event.ExamEvent;
 
 import ch.ifocusit.plantuml.classdiagram.ClassDiagramBuilder;

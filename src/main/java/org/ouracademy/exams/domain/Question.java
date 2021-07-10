@@ -18,7 +18,7 @@ public class Question extends ExamPart {
         this.type = Type.QUESTION;
     }
     
-    List<ExamPart> alternatives() {// A, B, C, D
+    public List<ExamPart> alternatives() {// A, B, C, D
         return this.getChilds();
     }
 }

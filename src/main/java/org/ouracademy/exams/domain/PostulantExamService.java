@@ -1,13 +1,15 @@
 package org.ouracademy.exams.domain;
 
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamSpecification;
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
+import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.createExamSpecification;
+import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
+import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.event.ExamEvent;
 import org.ouracademy.exams.event.ExamEventRepository;
 import org.ouracademy.exams.utils.NotFoundException;

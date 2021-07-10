@@ -1,10 +1,13 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.build;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.ouracademy.exams.domain.ExamPart;
+import org.ouracademy.exams.domain.PostulantQuestion;
+import org.ouracademy.exams.domain.Question;
 import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.utils.RandomSampling;
 

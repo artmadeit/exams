@@ -37,7 +37,7 @@ public class PostulantQuestion {
      */
     PostulantQuestion() {}
 
-    PostulantQuestion(Question question, List<ExamPart> alternatives) {
+    public PostulantQuestion(Question question, List<ExamPart> alternatives) {
         this.question = question;
         this.alternatives = alternatives;
     }

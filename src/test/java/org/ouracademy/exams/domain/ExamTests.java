@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.createExamSpecification;
-import static org.ouracademy.exams.domain.BuildExamPartSpecification.with;
 import static org.ouracademy.exams.domain.ExamTestData.examen;
+import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.createExamSpecification;
+import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -18,6 +18,8 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
+import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.event.ExamEvent;
 
 

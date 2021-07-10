@@ -1,9 +1,10 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.build;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.ouracademy.exams.domain.ExamPart;
 import org.ouracademy.exams.domain.ExamPart.Type;
 
 public class BuildExamPartSpecification {
@@ -42,8 +43,8 @@ public class BuildExamPartSpecification {
         return exams.stream()
             .filter(x -> {
                 return title != null? 
-                        x.type.equals(examPartType) && x.title.equals(title):
-                        x.type.equals(examPartType);
+                        x.getType().equals(examPartType) && x.getTitle().equals(title):
+                        x.getType().equals(examPartType);
             })
             .collect(Collectors.toList());
     }
