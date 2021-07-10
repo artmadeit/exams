@@ -18,10 +18,10 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
+import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
-import org.ouracademy.exams.event.ExamEvent;
 
 
 public class ExamTests {
@@ -32,7 +32,7 @@ public class ExamTests {
         var examEvent = ExamEvent.builder()
             .description("Examen de postgrado 2021 - II")
             .range(new DateTimeRange(
-                LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2021, 03, 07, 17, 00) 
+                LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2022, 03, 07, 17, 00) 
             )).build();
         
 

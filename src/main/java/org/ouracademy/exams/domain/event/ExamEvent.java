@@ -1,4 +1,4 @@
-package org.ouracademy.exams.event;
+package org.ouracademy.exams.domain.event;
 
 import java.net.URI;
 

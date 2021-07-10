@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
-import org.ouracademy.exams.event.ExamEvent;
 
 import lombok.Builder;
 import lombok.Getter;

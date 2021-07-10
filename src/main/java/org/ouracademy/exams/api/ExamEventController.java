@@ -6,8 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
-import org.ouracademy.exams.event.ExamEvent;
-import org.ouracademy.exams.event.ExamEventRepository;
+import org.ouracademy.exams.domain.event.ExamEvent;
+import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;

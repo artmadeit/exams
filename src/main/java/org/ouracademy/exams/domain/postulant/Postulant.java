@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import org.ouracademy.exams.auth.UserAccount;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
-import org.ouracademy.exams.event.ExamEvent;
+import org.ouracademy.exams.domain.event.ExamEvent;
 
 import lombok.Builder;
 import lombok.Getter;
