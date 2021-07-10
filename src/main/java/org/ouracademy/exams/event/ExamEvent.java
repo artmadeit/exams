@@ -28,7 +28,8 @@ public class ExamEvent {
     @Setter String description;
     
     @Embedded
-    @Setter DateTimeRange range;
+    @Setter
+    public DateTimeRange range;
 
     @Builder
     ExamEvent(String description, DateTimeRange range) {
@@ -58,17 +59,11 @@ public class ExamEvent {
         }
     }
 
-    public boolean hasStarted() {            
-        // t: start---------now-------
-
-        // t: --start ------
-        //    --now --------
-        var now = LocalDateTime.now();
-        return this.range.getStart().isBefore(now) || this.range.getStart().isEqual(now);
+    public boolean hasStarted() {
+        return this.getRange().hasStarted();
     }
 
     public boolean hasEnded() {
-        // t: end---------now-------
-        return this.range.getEnd().isBefore(LocalDateTime.now());
+        return this.getRange().hasEnded();
     }
 }
