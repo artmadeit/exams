@@ -1,5 +1,6 @@
 package org.ouracademy.exams;
 
+import org.ouracademy.exams.auth.UserAccount;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.postulant.PostulantRepository;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
@@ -9,10 +10,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class ExamsApplication {
 
 	public static void main(String[] args) {
@@ -23,7 +26,11 @@ public class ExamsApplication {
 	private String corsOrigin;
 
 	@Bean
-	public CommandLineRunner commandLineRunner(ExamPartRepository examPartRepository, PostulantRepository postulantRepository) {
+	public CommandLineRunner commandLineRunner(
+		ExamPartRepository examPartRepository, 
+		PostulantRepository postulantRepository,
+		UserAccountRepository userAccountRepository) {
+		
 		return args -> {
 			examPartRepository.save(
 				ExamTestData.examen(1)
@@ -32,6 +39,9 @@ public class ExamsApplication {
 				ExamTestData.examen(2)
 			);
 
+			userAccountRepository.save(
+				UserAccount.admin("unmsm-admin", "unsuperpasword")
+			);
 
 			postulantRepository.save(
 				Postulant.builder()

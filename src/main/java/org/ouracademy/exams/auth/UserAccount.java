@@ -2,6 +2,7 @@ package org.ouracademy.exams.auth;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,19 +37,32 @@ public class UserAccount implements UserDetails {
 	@JsonIgnore
 	private String password;
 
+	private Role role;
+
+	public enum Role {
+		ADMIN, POSTULANT;
+
+		public Collection<GrantedAuthority> authorities() {
+			return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));
+		}
+	}
+
 	protected UserAccount() {}
 	
-	protected UserAccount(String name, String password) {
+	protected UserAccount(String name, String password, Role role) {
 		this.name = name;
 		this.password = password;
+		this.role = role;
 	}
 	
+	public static UserAccount admin(String name, String password) {
+		return new UserAccount(name, password, Role.ADMIN);
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// new SimpleGrantedAuthority("hello");
-
-		return Collections.emptyList();
+		return role.authorities();
 	}
 
 	@Override
