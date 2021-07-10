@@ -4,7 +4,6 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.creat
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +12,10 @@ import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
-import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
+import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zalando.problem.AbstractThrowableProblem;
@@ -34,11 +33,11 @@ public class PostulantExamService {
     PostulantExamRepository postulantExamRepository;
     ExamPartRepository examPartRepository;
 
-    public PostulantExam finish(Long id) {
+    public PostulantExamResponse finish(Long id) {
         var postulantExam = postulantExamRepository.findById(id).orElseThrow();
         postulantExam.finish();
         
-        return postulantExam;
+        return new PostulantExamResponse(postulantExam);
     }
 
     public static class ExamAlreadyStartedException extends AbstractThrowableProblem {
@@ -99,7 +98,9 @@ public class PostulantExamService {
             ));
     }
 
-    public boolean isTaker(Postulant postulant, Long postulantExamId) {
+    public boolean isTaker(Authentication authentication, Long postulantExamId) {
+        var postulant = (Postulant) authentication.getPrincipal();
+
         return this.postulantExamRepository.findById(postulantExamId).map(exam -> {
             // TODO: implement equals()
             return exam.postulant.getId().equals(postulant.getId());

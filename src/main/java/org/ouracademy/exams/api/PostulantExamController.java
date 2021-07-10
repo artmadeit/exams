@@ -28,9 +28,9 @@ public class PostulantExamController {
 
 
     // TODO: if the !event.hasEnded
-    @PreAuthorize("hasRole('postulant') and @postulantExamService.isTaker(authentication, #id)")
+    @PreAuthorize("hasRole('POSTULANT') and @postulantExamService.isTaker(authentication, #id)")
     @PostMapping("/finish/{id}")
-    public PostulantExam finish(@PathVariable Long id) {
+    public PostulantExamResponse finish(@PathVariable Long id) {
         return postulantExamService.finish(id);
     }
 }
