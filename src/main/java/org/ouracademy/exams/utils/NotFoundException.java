@@ -11,7 +11,7 @@ public class NotFoundException extends AbstractThrowableProblem {
     private static final URI TYPE
       = URI.create("https://our-academy.org/not-found");
 
-    public NotFoundException(Class entity, Long id) {
+    public NotFoundException(@SuppressWarnings("rawtypes") Class entity, Long id) {
         this("Not found " + humanize(entity.getSimpleName()) + " with id:" + id);
     }
 
