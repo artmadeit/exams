@@ -1,7 +1,6 @@
 package org.ouracademy.exams.event;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

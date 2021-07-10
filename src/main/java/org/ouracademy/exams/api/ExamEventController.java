@@ -1,4 +1,4 @@
-package org.ouracademy.exams.event;
+package org.ouracademy.exams.api;
 
 import java.time.LocalDateTime;
 
@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.event.ExamEvent;
+import org.ouracademy.exams.event.ExamEventRepository;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
