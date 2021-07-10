@@ -1,10 +1,12 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.postulant;
 
 import java.util.List;
 
 import javax.persistence.Entity;
 
 import org.ouracademy.exams.auth.UserAccount;
+import org.ouracademy.exams.domain.PostulantExam;
+import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.event.ExamEvent;
 
 import lombok.Builder;

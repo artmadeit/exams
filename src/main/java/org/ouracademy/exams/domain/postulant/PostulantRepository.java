@@ -1,4 +1,4 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.postulant;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
