@@ -52,6 +52,8 @@ class "PostulantQuestion" {
   postulantExam : PostulantExam
   postulantAnswer : ExamPart
   alternatives : List<ExamPart>
+  getAlternative(Long) : Optional<ExamPart>
+  updateAnswer(Long)
 }
 
 class "Postulant" {

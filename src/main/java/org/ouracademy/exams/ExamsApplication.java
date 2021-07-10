@@ -1,6 +1,7 @@
 package org.ouracademy.exams;
 
 import org.ouracademy.exams.auth.UserAccount;
+import org.ouracademy.exams.auth.UserRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.postulant.PostulantRepository;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
@@ -29,7 +30,7 @@ public class ExamsApplication {
 	public CommandLineRunner commandLineRunner(
 		ExamPartRepository examPartRepository, 
 		PostulantRepository postulantRepository,
-		UserAccountRepository userAccountRepository) {
+		UserRepository userRepository) {
 		
 		return args -> {
 			examPartRepository.save(
@@ -39,7 +40,7 @@ public class ExamsApplication {
 				ExamTestData.examen(2)
 			);
 
-			userAccountRepository.save(
+			userRepository.save(
 				UserAccount.admin("unmsm-admin", "unsuperpasword")
 			);
 
