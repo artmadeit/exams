@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
@@ -45,6 +46,8 @@ public class UserAccount implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// new SimpleGrantedAuthority("hello");
+
 		return Collections.emptyList();
 	}
 

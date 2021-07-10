@@ -2,6 +2,7 @@ package org.ouracademy.exams.api;
 
 import java.time.LocalDateTime;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -41,8 +42,7 @@ public class ExamEventController {
         LocalDateTime end;
     }
 
-    // TODO: only admin can create and edit
-
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ExamEvent create(@RequestBody @Valid ExamEventRequest request) {
         var examEvent = ExamEvent.builder()
@@ -52,6 +52,7 @@ public class ExamEventController {
         return this.repository.save(examEvent);
     }
 
+    @RolesAllowed("ADMIN")
     @PutMapping("/{id}")
     @Transactional
     public ExamEvent edit(@PathVariable Long id, @RequestBody @Valid ExamEventRequest request) {

@@ -4,6 +4,7 @@ import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantExamService;
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
 import org.ouracademy.exams.domain.postulant.Postulant;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,9 @@ public class PostulantExamController {
         return postulantExamService.start(eventExamId, postulant);
     }
 
-    // TODO: only finish the postulant & if the !event.hasEnded
+
+    // TODO: if the !event.hasEnded
+    @PreAuthorize("hasRole('postulant') and @postulantExamService.isTaker(authentication, #id)")
     @PostMapping("/finish/{id}")
     public PostulantExam finish(@PathVariable Long id) {
         return postulantExamService.finish(id);

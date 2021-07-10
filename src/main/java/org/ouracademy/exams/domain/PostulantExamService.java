@@ -4,6 +4,7 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.creat
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zalando.problem.AbstractThrowableProblem;
@@ -95,5 +97,12 @@ public class PostulantExamService {
                 with(1, Type.SECTION).title("PENSAMIENTO CRITICO")
                     .addChild(with(5, Type.QUESTION))
             ));
+    }
+
+    public boolean isTaker(Postulant postulant, Long postulantExamId) {
+        return this.postulantExamRepository.findById(postulantExamId).map(exam -> {
+            // TODO: implement equals()
+            return exam.postulant.getId().equals(postulant.getId());
+        }).orElse(false);
     }
 }
