@@ -7,8 +7,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
 import org.ouracademy.exams.domain.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.ExamRandomBuilder;
@@ -24,7 +22,6 @@ import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 @Service
@@ -32,7 +29,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostulantExamService {
 
-    PostulantRepository postulantRepository;
     ExamEventRepository examEventRepository;
     PostulantExamRepository postulantExamRepository;
     ExamPartRepository examPartRepository;
@@ -44,13 +40,6 @@ public class PostulantExamService {
         return postulantExam;
     }
 
-    @Data
-    public static class StartExamRequest {
-        @NotNull Long postulantId;
-        @NotNull Long eventExamId;
-    }
-
-
     public static class ExamAlreadyStartedException extends AbstractThrowableProblem {
         private static final URI TYPE = URI.create("https://our-academy.org/start-exam-already-started");
 
@@ -59,11 +48,9 @@ public class PostulantExamService {
         }
     }
 
-    public PostulantExamResponse start(StartExamRequest request) {
-        var postulant = postulantRepository.findById(request.getPostulantId())
-            .orElseThrow(() -> new NotFoundException(Postulant.class, request.getPostulantId()));
-        var examEvent = examEventRepository.findById(request.getEventExamId())
-            .orElseThrow(() -> new NotFoundException(ExamEvent.class, request.getEventExamId()));
+    public PostulantExamResponse start(Long eventExamId, Postulant postulant) {
+        var examEvent = examEventRepository.findById(eventExamId)
+            .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
         
         var examAlreadyStarted = postulantExamRepository.existsByPostulantAndEvent(postulant, examEvent);
 

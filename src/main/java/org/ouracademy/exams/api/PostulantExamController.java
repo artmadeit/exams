@@ -1,13 +1,11 @@
 package org.ouracademy.exams.api;
 
-import javax.validation.Valid;
-
 import org.ouracademy.exams.api.PostulantExamService.PostulantExamResponse;
-import org.ouracademy.exams.api.PostulantExamService.StartExamRequest;
+import org.ouracademy.exams.domain.Postulant;
 import org.ouracademy.exams.domain.PostulantExam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,9 +19,9 @@ public class PostulantExamController {
     PostulantExamService postulantExamService;
 
 
-    @PostMapping("/start")
-    public PostulantExamResponse start(@RequestBody @Valid StartExamRequest request) {
-        return postulantExamService.start(request);
+    @PostMapping("/start/{eventExamId}")
+    public PostulantExamResponse start(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
+        return postulantExamService.start(eventExamId, postulant);
     }
 
     @PostMapping("/finish/{id}")
