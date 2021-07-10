@@ -31,11 +31,17 @@ public class PostulantQuestion {
     @ManyToOne
     @Setter PostulantExam postulantExam;
 
+    /**
+     * Can be null if no answer is responded by the postulant
+     * e.g, if alternatives are A, B, C, D
+     * postulantAnswer of diana can be C 
+     * and arthur can be none.
+     */
     @ManyToOne
-    @Setter ExamPart postulantAnswer; // B <= postulant edit this
+    @Setter ExamPart postulantAnswer;
     
     @ManyToMany
-    List<ExamPart> alternatives = new ArrayList<>(); // C, D, A, B
+    List<ExamPart> alternatives = new ArrayList<>();
     
     /**
      * @apiNote jpa only
