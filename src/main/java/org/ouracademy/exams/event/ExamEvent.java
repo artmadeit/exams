@@ -43,10 +43,18 @@ public class ExamEvent {
 
 
     public static class NotStartedException extends AbstractThrowableProblem {
-        private static final URI TYPE = URI.create("https://our-academy.org/exam-not-started");
+        private static final URI TYPE = URI.create("https://our-academy.org/start-exam-not-started");
 
         public NotStartedException(ExamEvent event) {
             super(TYPE, "Exam not started", Status.BAD_REQUEST, "Exam will start at:" + event.range.getStart());
+        }
+    }
+
+    public static class EndedException extends AbstractThrowableProblem {
+        private static final URI TYPE = URI.create("https://our-academy.org/start-exam-ended");
+
+        public EndedException(ExamEvent event) {
+            super(TYPE, "Exam ended", Status.BAD_REQUEST, "Exam has ended at:" + event.range.getEnd());
         }
     }
 
@@ -57,5 +65,10 @@ public class ExamEvent {
         //    --now --------
         var now = LocalDateTime.now();
         return this.range.getStart().isBefore(now) || this.range.getStart().isEqual(now);
+    }
+
+    public boolean hasEnded() {
+        // t: end---------now-------
+        return this.range.getEnd().isBefore(LocalDateTime.now());
     }
 }

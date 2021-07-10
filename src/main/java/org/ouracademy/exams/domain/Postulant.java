@@ -43,6 +43,9 @@ public class Postulant extends UserAccount {
         if (!event.hasStarted())
             throw new ExamEvent.NotStartedException(event);
 
+        if (event.hasEnded())
+            throw new ExamEvent.EndedException(event);
+
         return PostulantExam.builder()
             .questions(questions)
             .postulant(this)
