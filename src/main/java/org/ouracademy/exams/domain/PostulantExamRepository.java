@@ -1,7 +1,5 @@
-package org.ouracademy.exams.api;
+package org.ouracademy.exams.domain;
 
-import org.ouracademy.exams.domain.Postulant;
-import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.event.ExamEvent;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

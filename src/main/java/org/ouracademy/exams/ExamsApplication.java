@@ -1,9 +1,9 @@
 package org.ouracademy.exams;
 
-import org.ouracademy.exams.api.ExamPartRepository;
-import org.ouracademy.exams.api.PostulantRepository;
+import org.ouracademy.exams.domain.ExamPartRepository;
 import org.ouracademy.exams.domain.ExamTestData;
 import org.ouracademy.exams.domain.Postulant;
+import org.ouracademy.exams.domain.PostulantRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
