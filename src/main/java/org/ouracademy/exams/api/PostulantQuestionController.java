@@ -10,6 +10,7 @@ import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -77,8 +78,7 @@ public class PostulantQuestionController {
     }
 
 
-    // TODO: only admin & postulant taker can see
-
+    @PreAuthorize("hasRole('POSTULANT') and @postulantExamService.isTaker(authentication, #id)")
     @GetMapping("/{id}")
     public PostulantQuestionResponse get(@PathVariable Long id) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
@@ -93,8 +93,8 @@ public class PostulantQuestionController {
         Long alternativeId;
     }
 
-    // TODO: only postulant taker can edit answer
-
+    
+    @PreAuthorize("hasRole('POSTULANT') and @postulantExamService.isTaker(authentication, #id)")
     @PutMapping("/{id}/answer")
     @Transactional
     public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody AnswerRequest answer) {
