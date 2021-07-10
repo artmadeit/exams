@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.Question;
+import org.ouracademy.exams.utils.NotFoundException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +59,16 @@ public class PostulantQuestion {
         return this.alternatives.stream()
             .filter(x -> x.getId().equals(alternativeId))
             .findFirst();
+    }
+
+    /**
+     * @param alternativeId must be in the alternatives of this question
+     */
+    public void updateAnswer(Long alternativeId) {
+        var alternative = alternativeId == null? 
+            null:
+            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("Alternative not found in the alternatives of the question, alternativeId:" + alternativeId + ", question.id:" + id));
+        
+        this.postulantAnswer = alternative;
     }
 }

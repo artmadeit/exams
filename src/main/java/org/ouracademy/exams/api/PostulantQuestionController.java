@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
 import org.ouracademy.exams.domain.structure.ExamPart;
-import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,12 +96,7 @@ public class PostulantQuestionController {
         var postulantQuestion = postulantQuestionRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
             
-        var postulantAnswer = answer.alternativeId == null? 
-            null:
-            postulantQuestion.getAlternative(answer.alternativeId)
-            .orElseThrow(() -> new NotFoundException("Not found altenative for question, alternativeId:" + answer.alternativeId + ", question.id:" + id));
-        
-        postulantQuestion.setPostulantAnswer(postulantAnswer);
+        postulantQuestion.updateAnswer(answer.alternativeId);
         return new PostulantQuestionResponse(postulantQuestion);
     }
 }
