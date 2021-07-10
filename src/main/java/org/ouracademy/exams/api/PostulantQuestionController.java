@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
@@ -89,19 +88,19 @@ public class PostulantQuestionController {
 
 
     @Data
-    public static class Answer {
-        Long id;
+    public static class AnswerRequest {
+        Long alternativeId;
     }
 
     @PutMapping("/{id}/answer")
     @Transactional
-    public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody Answer answer) {
+    public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody AnswerRequest answer) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
             
-        var postulantAnswer = answer.id == null? 
+        var postulantAnswer = answer.alternativeId == null? 
             null:
-            examPartRepository.findById(answer.id).orElseThrow(() -> new NotFoundException("Not found answer with answerId:" + answer.id));
+            examPartRepository.findById(answer.alternativeId).orElseThrow(() -> new NotFoundException("Not found answer with answerId:" + answer.alternativeId));
         
         postulantQuestion.setPostulantAnswer(postulantAnswer);
         return new PostulantQuestionResponse(postulantQuestion);
