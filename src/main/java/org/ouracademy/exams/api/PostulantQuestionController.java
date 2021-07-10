@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
-import org.ouracademy.exams.domain.ExamPart;
-import org.ouracademy.exams.domain.ExamPartRepository;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
+import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

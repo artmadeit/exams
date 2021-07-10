@@ -1,9 +1,11 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.structure;
 
-import static org.ouracademy.exams.domain.ExamPart.Type;
+import static org.ouracademy.exams.domain.structure.ExamPart.Type;
 
 import java.util.List;
 import java.util.stream.IntStream;
+
+import lombok.Getter;
 
 public class ExamTestData {
     
@@ -11,7 +13,7 @@ public class ExamTestData {
         return new ExamTestData().build(numero);
     }
     
-    int numeroPreguntas = 0;
+    @Getter int numeroPreguntas = 0;
     int numeroExamen;
 
     public ExamPart build(int numero) {

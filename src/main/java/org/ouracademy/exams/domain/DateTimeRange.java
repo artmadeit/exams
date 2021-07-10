@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.ouracademy.exams.event.ExamEvent;
 import org.ouracademy.exams.utils.BadArgumentsException;
 
 import lombok.Getter;

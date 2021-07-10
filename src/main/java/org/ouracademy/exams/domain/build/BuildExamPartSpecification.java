@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.ouracademy.exams.domain.ExamPart;
-import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.ExamPart.Type;
 
 public class BuildExamPartSpecification {
     

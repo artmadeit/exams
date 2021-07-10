@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.ouracademy.exams.domain.ExamPart;
 import org.ouracademy.exams.domain.PostulantQuestion;
-import org.ouracademy.exams.domain.Question;
-import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.Question;
+import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {

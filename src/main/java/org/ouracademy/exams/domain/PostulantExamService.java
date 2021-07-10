@@ -7,10 +7,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.ouracademy.exams.domain.ExamPart.Type;
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.postulant.Postulant;
+import org.ouracademy.exams.domain.structure.ExamPartRepository;
+import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.event.ExamEvent;
 import org.ouracademy.exams.event.ExamEventRepository;
 import org.ouracademy.exams.utils.NotFoundException;

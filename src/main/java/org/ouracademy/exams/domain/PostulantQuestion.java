@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.Question;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,7 +46,7 @@ public class PostulantQuestion {
     }
 
     public boolean isCorrect() {
-        return question.answer.equals(postulantAnswer);
+        return question.getAnswer().equals(postulantAnswer);
     }
 
     public boolean isWrong() {

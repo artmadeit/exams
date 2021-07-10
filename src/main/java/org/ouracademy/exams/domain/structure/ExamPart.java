@@ -1,4 +1,4 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.structure;
 
 import java.util.ArrayList;
 import java.util.List;
