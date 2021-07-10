@@ -10,6 +10,7 @@ import org.ouracademy.exams.domain.DateTimeRange;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -19,10 +20,10 @@ public class ExamEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String description;
+    @Setter String description;
     
     @Embedded
-    DateTimeRange range;
+    @Setter DateTimeRange range;
 
     @Builder
     ExamEvent(String description, DateTimeRange range) {
