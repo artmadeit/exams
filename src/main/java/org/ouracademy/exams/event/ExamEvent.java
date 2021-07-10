@@ -1,5 +1,8 @@
 package org.ouracademy.exams.event;
 
+import java.net.URI;
+import java.time.LocalDateTime;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.zalando.problem.AbstractThrowableProblem;
+import org.zalando.problem.Status;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,4 +40,22 @@ public class ExamEvent {
      * @apiNote jpa only
      */
     ExamEvent() {}
+
+
+    public static class NotStartedException extends AbstractThrowableProblem {
+        private static final URI TYPE = URI.create("https://our-academy.org/exam-not-started");
+
+        public NotStartedException(ExamEvent event) {
+            super(TYPE, "Exam not started", Status.BAD_REQUEST, "Exam will start at:" + event.range.getStart());
+        }
+    }
+
+    public boolean hasStarted() {            
+        // t: start---------now-------
+
+        // t: --start ------
+        //    --now --------
+        var now = LocalDateTime.now();
+        return this.range.getStart().isBefore(now) || this.range.getStart().isEqual(now);
+    }
 }

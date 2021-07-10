@@ -40,6 +40,9 @@ public class Postulant extends UserAccount {
     }
 
     public PostulantExam start(ExamEvent event, List<PostulantQuestion> questions) {
+        if (!event.hasStarted())
+            throw new ExamEvent.NotStartedException(event);
+
         return PostulantExam.builder()
             .questions(questions)
             .postulant(this)
