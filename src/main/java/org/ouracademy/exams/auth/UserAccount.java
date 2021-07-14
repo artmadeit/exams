@@ -1,7 +1,6 @@
 package org.ouracademy.exams.auth;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
