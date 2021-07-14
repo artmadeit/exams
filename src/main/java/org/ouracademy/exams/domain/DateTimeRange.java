@@ -23,16 +23,20 @@ public class DateTimeRange {
     DateTimeRange() {}
 
     public DateTimeRange(LocalDateTime start, LocalDateTime end) {
-        validate(start, end);
-            
         this.start = start;
         this.end = end;
+        
+        this.validate();
     }
 
-    private void validate(LocalDateTime start, LocalDateTime end) {
-        var endX = end != null? end: LocalDateTime.MAX;
-        if(!start.isBefore(endX))
+    private void validate() {
+        if(!start.isBefore(end()))
             throw new BadArgumentsException("start < end, start:" + start + ", end:" + end);
+    }
+
+    private LocalDateTime end() {
+        // self encapsulation
+        return end != null? end: LocalDateTime.MAX;
     }
 
     public boolean hasStarted() {            
@@ -46,6 +50,6 @@ public class DateTimeRange {
 
     public boolean hasEnded() {
         // t: end---------now-------
-        return end.isBefore(LocalDateTime.now());
+        return end().isBefore(LocalDateTime.now());
     }
 }

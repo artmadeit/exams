@@ -1,6 +1,5 @@
 package org.ouracademy.exams.api;
 
-import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantExamService;
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
 import org.ouracademy.exams.domain.postulant.Postulant;
