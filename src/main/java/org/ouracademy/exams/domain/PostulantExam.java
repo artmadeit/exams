@@ -60,12 +60,15 @@ public class PostulantExam {
     }
 
     public void finish() {
+        assertHasNotEnded();
+        this.actualRange = new DateTimeRange(this.actualRange.start, LocalDateTime.now());
+    }
+
+    public void assertHasNotEnded() {
         if(event.hasEnded())
             throw new BadArgumentsException("Evento ya termino");
         
         if(actualRange.hasEnded())
             throw new BadArgumentsException("Examen ya fue dado");
-
-        this.actualRange = new DateTimeRange(this.actualRange.start, LocalDateTime.now());
     }
 }

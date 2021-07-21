@@ -93,15 +93,15 @@ public class PostulantQuestionController {
         Long alternativeId;
     }
 
-    // TODO: can edit the answer of a exam ended
     @PreAuthorize("@postulantExamService.isAnswerOfTaker(principal, #id)")
     @PutMapping("/{id}/answer")
     @Transactional
     public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody AnswerRequest answer) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
-            
+        
         postulantQuestion.updateAnswer(answer.alternativeId);
+        
         return new PostulantQuestionResponse(postulantQuestion);
     }
 }

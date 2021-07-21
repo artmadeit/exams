@@ -71,6 +71,8 @@ public class PostulantQuestion {
      * @param alternativeId must be in the alternatives of this question
      */
     public void updateAnswer(Long alternativeId) {
+        postulantExam.assertHasNotEnded();
+
         var alternative = alternativeId == null? 
             null:
             getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("Alternative not found in the alternatives of the question, alternativeId:" + alternativeId + ", question.id:" + id));
