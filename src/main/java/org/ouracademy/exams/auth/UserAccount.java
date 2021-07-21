@@ -17,16 +17,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 public class UserAccount implements UserDetails {
-
+	
 	private static final long serialVersionUID = 2474883796077234405L;
-
+	
     @Id
+	@EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	

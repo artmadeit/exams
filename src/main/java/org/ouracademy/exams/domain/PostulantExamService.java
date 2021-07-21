@@ -101,9 +101,8 @@ public class PostulantExamService {
     public boolean isTaker(Authentication authentication, Long postulantExamId) {
         var postulant = (Postulant) authentication.getPrincipal();
 
-        return this.postulantExamRepository.findById(postulantExamId).map(exam -> {
-            // TODO: implement equals()
-            return exam.postulant.getId().equals(postulant.getId());
-        }).orElse(false);
+        return this.postulantExamRepository.findById(postulantExamId)
+            .map(exam -> exam.postulant.equals(postulant))
+            .orElse(false);
     }
 }
