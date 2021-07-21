@@ -99,17 +99,14 @@ public class PostulantExamService {
     }
 
     public boolean isTaker(Postulant postulant, Long postulantExamId) {
-        return isTaker(this.postulantExamRepository.findById(postulantExamId), postulant);
+        var postulantExam = this.postulantExamRepository.findById(postulantExamId);
+        return postulant.isTaker(postulantExam);
     }
     
     PostulantQuestionRepository postulantQuestionRepository;
 
     public boolean isAnswerOfTaker(Postulant postulant, Long answerId) {
         var postulantExam = postulantQuestionRepository.findById(answerId).map(question -> question.postulantExam);
-        return  isTaker(postulantExam, postulant);
-    }
-    
-    public boolean isTaker(Optional<PostulantExam> postulantExam, Postulant postulant) {
-        return postulantExam.map(exam -> exam.postulant.equals(postulant)).orElse(false);
+        return postulant.isTaker(postulantExam);
     }
 }

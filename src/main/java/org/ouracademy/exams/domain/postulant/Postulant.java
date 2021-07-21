@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain.postulant;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 
@@ -10,10 +11,12 @@ import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.event.ExamEvent;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class Postulant extends UserAccount { 
     String firstName;
     String lastName;
@@ -60,5 +63,11 @@ public class Postulant extends UserAccount {
 
     public String getDni() {
         return this.getPassword();
+    }
+
+    public boolean isTaker(Optional<PostulantExam> postulantExam) {
+        return postulantExam
+            .map(exam -> this.equals(exam.getPostulant()))
+            .orElse(false);
     }
 }
