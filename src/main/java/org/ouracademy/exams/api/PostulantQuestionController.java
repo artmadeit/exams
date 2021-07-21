@@ -78,7 +78,7 @@ public class PostulantQuestionController {
     }
 
 
-    @PreAuthorize("@postulantExamService.isAnswerOfTaker(authentication, #id)")
+    @PreAuthorize("@postulantExamService.isAnswerOfTaker(principal, #id)")
     @GetMapping("/{id}")
     public PostulantQuestionResponse get(@PathVariable Long id) {
         var postulantQuestion = postulantQuestionRepository.findById(id)
@@ -94,7 +94,7 @@ public class PostulantQuestionController {
     }
 
     // TODO: can edit the answer of a exam ended
-    @PreAuthorize("@postulantExamService.isAnswerOfTaker(authentication, #id)")
+    @PreAuthorize("@postulantExamService.isAnswerOfTaker(principal, #id)")
     @PutMapping("/{id}/answer")
     @Transactional
     public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody AnswerRequest answer) {

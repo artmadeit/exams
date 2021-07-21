@@ -25,7 +25,7 @@ public class PostulantExamController {
         return postulantExamService.start(eventExamId, postulant);
     }
 
-    @PreAuthorize("@postulantExamService.isTaker(authentication, #id)")
+    @PreAuthorize("@postulantExamService.isTaker(principal, #id)")
     @PostMapping("/finish/{id}")
     public PostulantExamResponse finish(@PathVariable Long id) {
         return postulantExamService.finish(id);
