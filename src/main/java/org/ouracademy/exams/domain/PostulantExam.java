@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
+import org.ouracademy.exams.utils.BadArgumentsException;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -59,6 +60,12 @@ public class PostulantExam {
     }
 
     public void finish() {
+        if(event.hasEnded())
+            throw new BadArgumentsException("Evento ya termino");
+        
+        if(actualRange.hasEnded())
+            throw new BadArgumentsException("Examen ya fue dado");
+
         this.actualRange = new DateTimeRange(this.actualRange.start, LocalDateTime.now());
     }
 }
