@@ -4,7 +4,6 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.creat
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,7 +16,6 @@ import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zalando.problem.AbstractThrowableProblem;
@@ -100,15 +98,15 @@ public class PostulantExamService {
             ));
     }
 
-    public boolean isTaker(Principal postulant, Long postulantExamId) {
-        return isTaker(this.postulantExamRepository.findById(postulantExamId), (Postulant) postulant);
+    public boolean isTaker(Postulant postulant, Long postulantExamId) {
+        return isTaker(this.postulantExamRepository.findById(postulantExamId), postulant);
     }
     
     PostulantQuestionRepository postulantQuestionRepository;
 
-    public boolean isAnswerOfTaker(Principal postulant, Long answerId) {
+    public boolean isAnswerOfTaker(Postulant postulant, Long answerId) {
         var postulantExam = postulantQuestionRepository.findById(answerId).map(question -> question.postulantExam);
-        return  isTaker(postulantExam, (Postulant) postulant);
+        return  isTaker(postulantExam, postulant);
     }
     
     public boolean isTaker(Optional<PostulantExam> postulantExam, Postulant postulant) {
