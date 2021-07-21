@@ -5,6 +5,7 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
@@ -100,9 +101,18 @@ public class PostulantExamService {
 
     public boolean isTaker(Authentication authentication, Long postulantExamId) {
         var postulant = (Postulant) authentication.getPrincipal();
+        return isTaker(this.postulantExamRepository.findById(postulantExamId), postulant);
+    }
+    
+    PostulantQuestionRepository postulantQuestionRepository;
 
-        return this.postulantExamRepository.findById(postulantExamId)
-            .map(exam -> exam.postulant.equals(postulant))
-            .orElse(false);
+    public boolean isAnswerOfTaker(Authentication authentication, Long answerId) {
+        var postulant = (Postulant) authentication.getPrincipal();
+        var postulantExam = postulantQuestionRepository.findById(answerId).map(question -> question.postulantExam);
+        return  isTaker(postulantExam, postulant);
+    }
+    
+    public boolean isTaker(Optional<PostulantExam> postulantExam, Postulant postulant) {
+        return postulantExam.map(exam -> exam.postulant.equals(postulant)).orElse(false);
     }
 }
