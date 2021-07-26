@@ -52,6 +52,10 @@ public class PostulantExamService {
         var examEvent = examEventRepository.findById(eventExamId)
             .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
         
+        return this.start(examEvent, postulant);
+    }
+
+    private PostulantExamResponse start(ExamEvent examEvent, Postulant postulant) {
         var examAlreadyStarted = postulantExamRepository.existsByPostulantAndEvent(postulant, examEvent);
 
         if(examAlreadyStarted)
@@ -108,5 +112,21 @@ public class PostulantExamService {
     public boolean isAnswerOfTaker(Postulant postulant, Long answerId) {
         var postulantExam = postulantQuestionRepository.findById(answerId).map(question -> question.postulantExam);
         return postulant.isTaker(postulantExam);
+    }
+
+
+    public PostulantExamResponse startOrGet(Long eventExamId, Postulant postulant) {
+        var examEvent = examEventRepository.findById(eventExamId)
+            .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
+        
+        try {
+            return this.start(examEvent, postulant);
+        } catch(ExamAlreadyStartedException alreadyStartedException) {
+            var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
+                .orElseThrow(() -> new NotFoundException(
+                    "Not found postulant exam with postulant.id:" + postulant.getId() + ", examEvent.id:" + examEvent.getId()));
+
+            return new PostulantExamResponse(postulantExam);
+        }
     }
 }
