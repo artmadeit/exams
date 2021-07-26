@@ -61,12 +61,13 @@ public class PostulantQuestionController {
 
     @Getter
     public static class PostulantQuestionResponse{
-        
+        Long id;
         ExamParthWithParent question;
         Long postulantAnswerId;
         List<ExamPartResponse> alternatives = new ArrayList<>();
 
         public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
+            this.id = postulantQuestion.getId();
             this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
             this.postulantAnswerId = postulantQuestion.getPostulantAnswer() != null? 
                 postulantQuestion.getPostulantAnswer().getId(): null;
