@@ -6,25 +6,20 @@ import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.postulant.PostulantRepository;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.ExamTestData;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class ExamsApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(ExamsApplication.class, args);
 	}
-
-	@Value("${cors_origin}")
-	private String corsOrigin;
 
 	@Bean
 	public CommandLineRunner commandLineRunner(
@@ -70,17 +65,4 @@ public class ExamsApplication {
 			);
 		};
 	}
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-					.allowedOrigins(corsOrigin)
-					.allowedMethods("*");
-			}
-		};
-	}
-
 }
