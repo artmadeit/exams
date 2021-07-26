@@ -24,6 +24,9 @@ public class Postulant extends UserAccount {
     String programCode;
     String upgCode;
 
+    /**
+     * @apiNote jpa only
+     */
     Postulant(){ }
 
     @Builder
