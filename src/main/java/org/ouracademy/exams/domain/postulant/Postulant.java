@@ -39,7 +39,7 @@ public class Postulant extends UserAccount {
         String programCode,
         String upgCode
     ) {
-        super(code, dni, Role.POSTULANT);
+        super(dni, code, Role.POSTULANT);
         this.firstName = firstName;
         this.lastName = lastName;
         this.motherLastName = motherLastName;
