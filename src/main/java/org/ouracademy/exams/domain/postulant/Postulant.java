@@ -59,15 +59,15 @@ public class Postulant extends UserAccount {
             .postulant(this)
             .event(event).build();
     }
-
-    public String getCode() {
+    
+    public String getDni() {
         return this.getName();
     }
-
-    public String getDni() {
+    
+    public String getCode() {
         return this.getPassword();
     }
-
+    
     public boolean isTaker(Optional<PostulantExam> postulantExam) {
         return postulantExam
             .map(exam -> this.equals(exam.getPostulant()))

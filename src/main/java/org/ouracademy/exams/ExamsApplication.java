@@ -41,8 +41,8 @@ public class ExamsApplication {
 
 			postulantRepository.save(
 				Postulant.builder()
-				.code("12123123")
 				.dni("73646447")
+				.code("12123123")
 				.lastName("mauricio")
 				.motherLastName("delgadillo")
 				.firstName("arthur")
@@ -54,8 +54,8 @@ public class ExamsApplication {
 			
 			postulantRepository.save(
 				Postulant.builder()
-				.code("12312390")
 				.dni("48484489")
+				.code("12312390")
 				.lastName("quintanilla")
 				.motherLastName("perez")
 				.firstName("diana")
