@@ -66,9 +66,9 @@ public class PostulantExam {
 
     public void assertHasNotEnded() {
         if(event.hasEnded())
-            throw new BadArgumentsException("Evento ya termino");
+            throw new ExamEvent.EndedException(event);
         
         if(actualRange.hasEnded())
-            throw new BadArgumentsException("Examen ya fue dado");
+            throw new BadArgumentsException("exam.ended");
     }
 }

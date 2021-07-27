@@ -47,7 +47,7 @@ public class ExamEvent {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-not-started");
 
         public NotStartedException(ExamEvent event) {
-            super("exam.not_started", "Exam not started", ERROR_TYPE, new Object[] {event.range.getStart()});
+            super("exam_event.not_started", "Exam not started", ERROR_TYPE, new Object[] {event.range.getStart()});
         }
 
         @Override
@@ -60,7 +60,7 @@ public class ExamEvent {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-ended");
 
         public EndedException(ExamEvent event) {
-            super("exam.ended", "Exam ended", ERROR_TYPE, new Object[] { event.range.getEnd() });
+            super("exam_event.ended", "Exam ended", ERROR_TYPE, new Object[] { event.range.getEnd() });
         }
 
         @Override
