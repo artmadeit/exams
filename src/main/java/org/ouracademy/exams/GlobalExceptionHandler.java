@@ -25,8 +25,9 @@ public class GlobalExceptionHandler {
             .withDetail(errorMessage)
             .withTitle(ex.getTitle())
             .withType(ex.getType())
+            .withStatus(ex.getStatus())
             .build();
 
-        return new ResponseEntity<>(problem, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(problem, HttpStatus.valueOf(ex.getStatus().getStatusCode()));
     }
 }

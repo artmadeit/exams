@@ -3,10 +3,10 @@ package org.ouracademy.exams.utils;
 import java.net.URI;
 
 import org.apache.commons.lang3.StringUtils;
-import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
+import org.zalando.problem.StatusType;
 
-public class NotFoundException extends AbstractThrowableProblem {
+public class NotFoundException extends OuracademyException {
 
     private static final URI TYPE
       = URI.create("https://our-academy.org/not-found");
@@ -16,11 +16,22 @@ public class NotFoundException extends AbstractThrowableProblem {
     }
 
     public NotFoundException(String detail) {
-      super(
-          TYPE,
-          "Not found",
-          Status.NOT_FOUND,
-          detail);
+      super(detail);
+    }
+
+    @Override
+    public String getTitle() {
+        return "Not found";
+    }
+
+    @Override
+    public URI getType() {
+      return TYPE;
+    }
+
+    @Override
+    public StatusType getStatus() {
+      return Status.NOT_FOUND;
     }
 
     /**
