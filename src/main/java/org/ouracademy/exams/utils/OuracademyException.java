@@ -18,11 +18,15 @@ public abstract class OuracademyException extends RuntimeException {
     final URI type;
     final Object[] args;
 
-    protected OuracademyException(String message, String title, URI type, Object[] args) {
-        super(message);
+    protected OuracademyException(String code, String title, URI type, Object[] args) {
+        super(code);
         this.title = title;
         this.type = type;
         this.args = args;
+    }
+
+    protected OuracademyException(String code, String title, URI type) {
+        this(code, title, type, new Object[] {}); 
     }
 
     public abstract StatusType getStatus();

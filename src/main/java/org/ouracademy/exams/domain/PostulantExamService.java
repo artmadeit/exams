@@ -15,10 +15,11 @@ import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.ouracademy.exams.utils.OuracademyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
+import org.zalando.problem.StatusType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,11 +40,16 @@ public class PostulantExamService {
         return new PostulantExamResponse(postulantExam);
     }
 
-    public static class ExamAlreadyStartedException extends AbstractThrowableProblem {
-        private static final URI TYPE = URI.create("https://our-academy.org/start-exam-already-started");
+    public static class ExamAlreadyStartedException extends OuracademyException {
+        private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-already-started");
 
         public ExamAlreadyStartedException() {
-            super(TYPE, "Exam already started", Status.BAD_REQUEST);
+            super("exam.already_started", "Exam already started", ERROR_TYPE);
+        }
+
+        @Override
+        public StatusType getStatus() {
+            return Status.BAD_REQUEST;
         }
     }
 

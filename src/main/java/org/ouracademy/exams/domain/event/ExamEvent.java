@@ -9,8 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.ouracademy.exams.domain.DateTimeRange;
-import org.zalando.problem.AbstractThrowableProblem;
+import org.ouracademy.exams.utils.OuracademyException;
 import org.zalando.problem.Status;
+import org.zalando.problem.StatusType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -42,19 +43,29 @@ public class ExamEvent {
     ExamEvent() {}
 
 
-    public static class NotStartedException extends AbstractThrowableProblem {
-        private static final URI TYPE = URI.create("https://our-academy.org/start-exam-not-started");
+    public static class NotStartedException extends OuracademyException {
+        private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-not-started");
 
         public NotStartedException(ExamEvent event) {
-            super(TYPE, "Exam not started", Status.BAD_REQUEST, "Exam will start at:" + event.range.getStart());
+            super("exam.not_started", "Exam not started", ERROR_TYPE, new Object[] {event.range.getStart()});
+        }
+
+        @Override
+        public StatusType getStatus() {
+            return Status.BAD_REQUEST;
         }
     }
 
-    public static class EndedException extends AbstractThrowableProblem {
-        private static final URI TYPE = URI.create("https://our-academy.org/start-exam-ended");
+    public static class EndedException extends OuracademyException {
+        private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-ended");
 
         public EndedException(ExamEvent event) {
-            super(TYPE, "Exam ended", Status.BAD_REQUEST, "Exam has ended at:" + event.range.getEnd());
+            super("exam.ended", "Exam ended", ERROR_TYPE, new Object[] { event.range.getEnd() });
+        }
+
+        @Override
+        public StatusType getStatus() {
+            return Status.BAD_REQUEST;
         }
     }
 
