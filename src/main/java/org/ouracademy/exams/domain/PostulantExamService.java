@@ -5,7 +5,6 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
@@ -123,8 +122,7 @@ public class PostulantExamService {
             return this.start(examEvent, postulant);
         } catch(ExamAlreadyStartedException alreadyStartedException) {
             var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
-                .orElseThrow(() -> new NotFoundException(
-                    "Not found postulant exam with postulant.id:" + postulant.getId() + ", examEvent.id:" + examEvent.getId()));
+                .orElseThrow(() -> new NotFoundException("exam_by_postulant_id", new Object[] {postulant.getId(), examEvent.getId()}));
 
             return new PostulantExamResponse(postulantExam);
         }

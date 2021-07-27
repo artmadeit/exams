@@ -30,7 +30,7 @@ public class SignInService {
 
     public String run(LoginInput input) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
-        var user = repository.findByName(input.name).orElseThrow(() -> new NotFoundException("Not found user account, name:" + input.name));
+        var user = repository.findByName(input.name).orElseThrow(() -> new NotFoundException("user_account", new Object[] {input.name}));
         return jwtTokenProvider.createToken(input.name, user.getAuthorities());
     }
 }

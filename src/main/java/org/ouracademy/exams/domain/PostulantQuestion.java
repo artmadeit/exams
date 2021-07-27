@@ -75,7 +75,7 @@ public class PostulantQuestion {
 
         var alternative = alternativeId == null? 
             null:
-            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("Alternative not found in the alternatives of the question, alternativeId:" + alternativeId + ", question.id:" + id));
+            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("alternative_in_question", new Object[] {alternativeId, id} ));
         
         this.postulantAnswer = alternative;
     }
