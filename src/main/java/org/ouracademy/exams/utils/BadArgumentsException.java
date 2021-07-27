@@ -2,20 +2,21 @@ package org.ouracademy.exams.utils;
 
 import java.net.URI;
 
-import org.zalando.problem.AbstractThrowableProblem;
-import org.zalando.problem.Status;
+import lombok.Getter;
 
-public class BadArgumentsException extends AbstractThrowableProblem {
+public class BadArgumentsException extends RuntimeException {
+  @Getter
+  final Object[] violations;
+  
+  public static final URI TYPE = URI.create("https://our-academy.org/bad-request");
+  
+  public BadArgumentsException(String message) {
+    super(message);
+    this.violations = new Object[] {};
+  }
 
-    private static final URI TYPE
-      = URI.create("https://our-academy.org/bad-request");
-
-    public BadArgumentsException(String detail) {
-        super(
-          TYPE,
-          "Illegal arguments exception",
-          Status.BAD_REQUEST,
-          detail);
-    }
-
+  public BadArgumentsException(String message, Object[] args) {
+    super(message);
+    this.violations = args;
+  }
 }

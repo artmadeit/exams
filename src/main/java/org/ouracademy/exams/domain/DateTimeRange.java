@@ -31,7 +31,7 @@ public class DateTimeRange {
 
     private void validate() {
         if(!start.isBefore(end()))
-            throw new BadArgumentsException("start < end, start:" + start + ", end:" + end);
+            throw new BadArgumentsException("date_time_range.start_greater_end", new Object[] {start, end});
     }
 
     private LocalDateTime end() {
