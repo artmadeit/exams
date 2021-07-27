@@ -8,24 +8,14 @@ import org.zalando.problem.StatusType;
 
 public class NotFoundException extends OuracademyException {
 
-  private static final URI TYPE = URI.create("https://our-academy.org/not-found");
+  private static final URI ERROR_TYPE = URI.create("https://our-academy.org/not-found");
 
   public NotFoundException(@SuppressWarnings("rawtypes") Class entity, Long id) {
     this("entity_by_id", new Object[] { humanize(entity.getSimpleName()), id });
   }
 
   public NotFoundException(String code, Object[] args) {
-    super("not_found." + code, args);
-  }
-
-  @Override
-  public String getTitle() {
-    return "Not found";
-  }
-
-  @Override
-  public URI getType() {
-    return TYPE;
+    super("not_found." + code, "Not found", ERROR_TYPE, args);
   }
 
   @Override

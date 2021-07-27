@@ -7,24 +7,14 @@ import org.zalando.problem.StatusType;
 
 public class BadArgumentsException extends OuracademyException {
   
-  public static final URI TYPE = URI.create("https://our-academy.org/bad-request");
+  public static final URI ERROR_TYPE = URI.create("https://our-academy.org/bad-request");
   
   public BadArgumentsException(String message) {
-    super(message);
+    this(message, new Object[] {});
   }
 
   public BadArgumentsException(String message, Object[] args) {
-    super(message, args);
-  }
-
-  @Override
-  public String getTitle() {
-    return "Bad request";
-  }
-
-  @Override
-  public URI getType() {
-      return TYPE;
+    super(message, "Bad request", ERROR_TYPE, args);
   }
 
   @Override

@@ -8,29 +8,21 @@ import lombok.Getter;
 
 // Used as a base exception object
 // see Patterns of Enterprise Architecture & Exceptional Ruby
+@Getter
 public abstract class OuracademyException extends RuntimeException {
     
-    public static final URI TYPE = URI.create("https://our-academy.org/generic-exception");
-    public static final String TITLE = "Exception in ouracademy application";
+    public static final URI DEFAULT_TYPE = URI.create("https://our-academy.org/generic-exception");
+    public static final String DEFAULT_TITLE = "Exception in ouracademy application";
   
-    @Getter
+    final String title;
+    final URI type;
     final Object[] args;
 
-    protected OuracademyException(String message) {
-        this(message,  new Object[] {});
-    }
-
-    protected OuracademyException(String message, Object[] args) {
+    protected OuracademyException(String message, String title, URI type, Object[] args) {
         super(message);
+        this.title = title;
+        this.type = type;
         this.args = args;
-    }
-
-    public String getTitle() {
-        return TITLE;
-    }
-    
-    public URI getType() {
-        return TYPE;
     }
 
     public abstract StatusType getStatus();
