@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.ouracademy.exams.utils.OuracademyException;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
 
     @ExceptionHandler(OuracademyException.class)
     public ResponseEntity<Problem> handleIllegalArgument(OuracademyException ex, Locale locale) {
-        String errorMessage = messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale);
+        String errorMessage = getLocalizedMessage(ex, locale);
         var problem = Problem.builder()
             .withDetail(errorMessage)
             .withTitle(ex.getTitle())
@@ -46,5 +47,13 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
             .build();
             
         return new ResponseEntity<>(problem, HttpStatus.UNAUTHORIZED);
+    }
+
+    private String getLocalizedMessage(OuracademyException ex, Locale locale) {
+        try {
+            return messageSource.getMessage(ex.getCode(), ex.getArgs(), locale);
+        } catch(NoSuchMessageException e) {
+            return ex.getCode();
+        }
     }
 }

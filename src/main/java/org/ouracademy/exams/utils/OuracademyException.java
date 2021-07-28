@@ -5,10 +5,12 @@ import java.net.URI;
 import org.zalando.problem.StatusType;
 
 import lombok.Getter;
+import lombok.ToString;
 
 // Used as a base exception object
 // see Patterns of Enterprise Architecture & Exceptional Ruby
 @Getter
+@ToString
 public abstract class OuracademyException extends RuntimeException {
     
     public static final URI DEFAULT_TYPE = URI.create("https://our-academy.org/generic-exception");
@@ -17,9 +19,10 @@ public abstract class OuracademyException extends RuntimeException {
     final String title;
     final URI type;
     final Object[] args;
+    final String code;
 
     protected OuracademyException(String code, String title, URI type, Object[] args) {
-        super(code);
+        this.code = code;
         this.title = title;
         this.type = type;
         this.args = args;
@@ -30,4 +33,9 @@ public abstract class OuracademyException extends RuntimeException {
     }
 
     public abstract StatusType getStatus();
+
+    @Override
+    public String getMessage() {
+        return toString();
+    }
 }

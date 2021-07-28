@@ -9,12 +9,12 @@ public class BadArgumentsException extends OuracademyException {
   
   public static final URI ERROR_TYPE = URI.create("https://our-academy.org/bad-request");
   
-  public BadArgumentsException(String message) {
-    this(message, new Object[] {});
+  public BadArgumentsException(String code) {
+    this(code, new Object[] {});
   }
 
-  public BadArgumentsException(String message, Object[] args) {
-    super(message, "Bad request", ERROR_TYPE, args);
+  public BadArgumentsException(String code, Object[] args) {
+    super(code, "Bad request", ERROR_TYPE, args);
   }
 
   @Override
