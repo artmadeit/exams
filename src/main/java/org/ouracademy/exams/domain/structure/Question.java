@@ -1,14 +1,16 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.structure;
 
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Question extends ExamPart {
-    Double score;
+    Double score = 4.0;
     @OneToOne
     ExamPart answer; // B    
 
@@ -16,7 +18,7 @@ public class Question extends ExamPart {
         this.type = Type.QUESTION;
     }
     
-    List<ExamPart> alternatives() {// A, B, C, D
+    public List<ExamPart> alternatives() {// A, B, C, D
         return this.getChilds();
     }
 }

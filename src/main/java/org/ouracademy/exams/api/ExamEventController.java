@@ -1,15 +1,20 @@
-package org.ouracademy.exams.event;
+package org.ouracademy.exams.api;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.domain.event.ExamEvent;
+import org.ouracademy.exams.domain.event.ExamEventRepository;
+import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +29,8 @@ public class ExamEventController {
     ExamEventRepository repository;
 
     @GetMapping("/{id}")
-    public Optional<ExamEvent> find(@PathVariable Long id) {
-        return this.repository.findById(id);
+    public ExamEvent find(@PathVariable Long id) {
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
     }
 
     @Data
@@ -37,6 +42,7 @@ public class ExamEventController {
         LocalDateTime end;
     }
 
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ExamEvent create(@RequestBody @Valid ExamEventRequest request) {
         var examEvent = ExamEvent.builder()
@@ -44,5 +50,15 @@ public class ExamEventController {
             .range(new DateTimeRange(request.start, request.end))
             .build();
         return this.repository.save(examEvent);
+    }
+
+    @RolesAllowed("ADMIN")
+    @PutMapping("/{id}")
+    @Transactional
+    public ExamEvent edit(@PathVariable Long id, @RequestBody @Valid ExamEventRequest request) {
+        var examEvent = this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
+        examEvent.setDescription(request.description);
+        examEvent.setRange(new DateTimeRange(request.start, request.end));
+        return examEvent;
     }
 }

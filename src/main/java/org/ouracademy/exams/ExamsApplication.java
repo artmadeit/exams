@@ -1,42 +1,68 @@
 package org.ouracademy.exams;
 
-import org.ouracademy.exams.api.ExamPartRepository;
-import org.ouracademy.exams.domain.ExamTestData;
+import org.ouracademy.exams.auth.UserAccount;
+import org.ouracademy.exams.auth.UserRepository;
+import org.ouracademy.exams.domain.postulant.Postulant;
+import org.ouracademy.exams.domain.postulant.PostulantRepository;
+import org.ouracademy.exams.domain.structure.ExamPartRepository;
+import org.ouracademy.exams.domain.structure.ExamTestData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @SpringBootApplication
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class ExamsApplication {
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExamsApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(ExamPartRepository repository) {
+	public CommandLineRunner commandLineRunner(
+		ExamPartRepository examPartRepository, 
+		PostulantRepository postulantRepository,
+		UserRepository userRepository) {
+		
 		return args -> {
-			repository.save(
+			examPartRepository.save(
 				ExamTestData.examen(1)
 			);
-			repository.save(
+			examPartRepository.save(
 				ExamTestData.examen(2)
+			);
+
+			userRepository.save(
+				UserAccount.admin("unmsm-admin", "unsuperpasword")
+			);
+
+			postulantRepository.save(
+				Postulant.builder()
+				.dni("73646447")
+				.code("12123123")
+				.lastName("mauricio")
+				.motherLastName("delgadillo")
+				.firstName("arthur")
+				.programCode("1")
+				.upgCode("12")
+				.build()
+			);
+
+			
+			postulantRepository.save(
+				Postulant.builder()
+				.dni("48484489")
+				.code("12312390")
+				.lastName("quintanilla")
+				.motherLastName("perez")
+				.firstName("diana")
+				.programCode("1")
+				.upgCode("12")
+				.build()
 			);
 		};
 	}
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			// TODO: configure this
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
-			}
-		};
-	}
-
 }

@@ -1,4 +1,4 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.structure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +15,39 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+
+@Getter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ExamPart {
 
     
     public enum Type {
-        EXAM, SECTION, TEXT, QUESTION;
+        EXAM, SECTION, TEXT, QUESTION, ALTERNATIVE;
+
+        // un examen => secciones
+        // una seccion => textos | preguntas
+        // una texto => preguntas
+
+
+        // examen tiene titulo, opcional contenido
+        // seccion tiene titulo, opcional contenido
+        
+        // texto tiene titulo, contenido
+
+        // question tiene contenido
+        // alternativa tiene contenido
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    
+    String title;
+    
     String content;
+
     @Enumerated(EnumType.STRING)
     Type type;
 

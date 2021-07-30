@@ -12,8 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
-import org.ouracademy.exams.event.ExamEvent;
+import org.ouracademy.exams.domain.event.ExamEvent;
+import org.ouracademy.exams.domain.postulant.Postulant;
+import org.ouracademy.exams.utils.BadArgumentsException;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +33,9 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
+
     @OneToMany(mappedBy="postulantExam", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("number")
     List<PostulantQuestion> questions = new ArrayList<>();
 
     /**
@@ -58,6 +63,15 @@ public class PostulantExam {
     }
 
     public void finish() {
+        assertHasNotEnded();
         this.actualRange = new DateTimeRange(this.actualRange.start, LocalDateTime.now());
+    }
+
+    public void assertHasNotEnded() {
+        if(event.hasEnded())
+            throw new ExamEvent.EndedException(event);
+        
+        if(actualRange.hasEnded())
+            throw new BadArgumentsException("exam.ended");
     }
 }

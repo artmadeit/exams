@@ -2,22 +2,21 @@
 
 class "ExamPart" {
   id : Long
+  title : String
   content : String
   type : Type
   parent : ExamPart
   childs : List<ExamPart>
 }
 
-class "ExamPartContainer" {
-  title : String
-}
-
 class "Question" {
   score : Double
   answer : ExamPart
+  alternatives() : List<ExamPart>
 }
 
 class "ExamRandomBuilder" {
+  totalQuestions : Integer
   from(List<ExamPart>, BuildExamPartSpecification) : List<PostulantQuestion>
 }
 
@@ -35,44 +34,54 @@ class "ExamEvent" {
   id : Long
   description : String
   range : DateTimeRange
+  hasStarted() : boolean
+  hasEnded() : boolean
 }
 
 class "PostulantExam" {
   id : Long
-  postulant : Postulante
+  postulant : Postulant
   event : ExamEvent
   actualRange : DateTimeRange
   questions : List<PostulantQuestion>
+  finish()
+  assertHasNotEnded()
 }
 
 class "PostulantQuestion" {
-  question : Question
-  alternativas : List<ExamPart>
+  postulantExam : PostulantExam
   postulantAnswer : ExamPart
+  alternativeReferences : List<ExamPartReference>
+  getAlternative(Long) : Optional<ExamPart>
+  updateAnswer(Long)
 }
 
-class "Postulante" {
+class "ExamPartReference" {
   id : Long
-  dni : String
-  nombre : String
-  apellidoPaterno : String
-  apellidoMaterno : String
-  codigoPostulante : String
-  codigoPrograma : String
-  codigoUpg : String
-  start(ExamEvent, List<PostulantQuestion>) : PostulantExam
+  examPart : ExamPart
+  number : Integer
 }
 
-"ExamPart" <|-- "ExamPartContainer"
+class "Postulant" {
+  firstName : String
+  lastName : String
+  motherLastName : String
+  programCode : String
+  upgCode : String
+  start(ExamEvent, List<PostulantQuestion>) : PostulantExam
+  isTaker(Optional<PostulantExam>) : boolean
+}
+
 "ExamPart" <|-- "Question"
+"ExamPartReference" <|-- "PostulantQuestion"
 "ExamPart" <-> "ExamPart" : parent
 "Question" --> "ExamPart" : answer
 "BuildExamPartSpecification" --> "*" "BuildExamPartSpecification" : childs
-"PostulantExam" --> "Postulante" : postulant
+"PostulantExam" --> "Postulant" : postulant
 "PostulantExam" --> "ExamEvent" : event
-"PostulantExam" --> "*" "PostulantQuestion" : questions
-"PostulantQuestion" --> "Question" : question
-"PostulantQuestion" --> "*" "ExamPart" : alternativas
+"PostulantExam" <-> "*" "PostulantQuestion" : questions
 "PostulantQuestion" --> "ExamPart" : postulantAnswer
+"PostulantQuestion" --> "*" "ExamPartReference" : alternativeReferences
+"ExamPartReference" --> "ExamPart" : examPart
 
 @enduml

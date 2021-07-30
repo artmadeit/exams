@@ -1,6 +1,5 @@
-package org.ouracademy.exams.api;
+package org.ouracademy.exams.domain.postulant;
 
-import org.ouracademy.exams.domain.Postulant;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface PostulantRepository extends PagingAndSortingRepository<Postulant, Long> {

@@ -1,14 +1,19 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.domain.build;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.ouracademy.exams.domain.ExamPart.Type;
+import org.ouracademy.exams.domain.PostulantQuestion;
+import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.Question;
+import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {
+
+    Integer totalQuestions = 0;
 
     public List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
         if(specification.examPartType != Type.EXAM)
@@ -26,7 +31,7 @@ public class ExamRandomBuilder {
             }
             if(spec.examPartType.equals(Type.QUESTION)) {
                 var randomExamParts = RandomSampling.getNUniqueElements(spec.number, examParts);
-                result.addAll(toPostulantQuestions((List<Question>) (List<?>) randomExamParts));
+                result.addAll(toPostulantQuestions(randomExamParts));
             }
             if(spec.examPartType.equals(Type.SECTION)) {
                 var examPartsMeetingSpec = spec.findExamParts(examParts);
@@ -52,10 +57,14 @@ public class ExamRandomBuilder {
             .collect(Collectors.toList());
     }
 
-    private List<PostulantQuestion> toPostulantQuestions(List<Question> randomQuestions) {
-        return randomQuestions.stream().map(question -> 
-            new PostulantQuestion(question, RandomSampling.ofAll(question.alternatives()))
-        ).collect(Collectors.toList());
+    private List<PostulantQuestion> toPostulantQuestions(List<ExamPart> randomQuestions) {
+        assert randomQuestions.stream().allMatch(x -> x.getType().equals(Type.QUESTION));
+
+        return randomQuestions.stream().map(examPart -> {
+            var question = (Question) examPart;
+            totalQuestions++;
+            return new PostulantQuestion(totalQuestions, question, RandomSampling.ofAll(question.alternatives()));
+        }).collect(Collectors.toList());
     }
 
 }
