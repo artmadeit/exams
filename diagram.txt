@@ -16,6 +16,7 @@ class "Question" {
 }
 
 class "ExamRandomBuilder" {
+  totalQuestions : Integer
   from(List<ExamPart>, BuildExamPartSpecification) : List<PostulantQuestion>
 }
 
@@ -25,8 +26,8 @@ class "BuildExamPartSpecification" {
   number : int
   childs : List<BuildExamPartSpecification>
   title(String) : BuildExamPartSpecification
-  findExamParts(List<ExamPart>) : List<ExamPart>
   addChild(BuildExamPartSpecification) : BuildExamPartSpecification
+  findExamParts(List<ExamPart>) : List<ExamPart>
 }
 
 class "ExamEvent" {
@@ -44,16 +45,21 @@ class "PostulantExam" {
   actualRange : DateTimeRange
   questions : List<PostulantQuestion>
   finish()
+  assertHasNotEnded()
 }
 
 class "PostulantQuestion" {
-  id : Long
-  question : Question
   postulantExam : PostulantExam
   postulantAnswer : ExamPart
-  alternatives : List<ExamPart>
+  alternativeReferences : List<ExamPartReference>
   getAlternative(Long) : Optional<ExamPart>
   updateAnswer(Long)
+}
+
+class "ExamPartReference" {
+  id : Long
+  examPart : ExamPart
+  number : Integer
 }
 
 class "Postulant" {
@@ -63,17 +69,19 @@ class "Postulant" {
   programCode : String
   upgCode : String
   start(ExamEvent, List<PostulantQuestion>) : PostulantExam
+  isTaker(Optional<PostulantExam>) : boolean
 }
 
 "ExamPart" <|-- "Question"
+"ExamPartReference" <|-- "PostulantQuestion"
 "ExamPart" <-> "ExamPart" : parent
 "Question" --> "ExamPart" : answer
 "BuildExamPartSpecification" --> "*" "BuildExamPartSpecification" : childs
 "PostulantExam" --> "Postulant" : postulant
 "PostulantExam" --> "ExamEvent" : event
 "PostulantExam" <-> "*" "PostulantQuestion" : questions
-"PostulantQuestion" --> "Question" : question
 "PostulantQuestion" --> "ExamPart" : postulantAnswer
-"PostulantQuestion" --> "*" "ExamPart" : alternatives
+"PostulantQuestion" --> "*" "ExamPartReference" : alternativeReferences
+"ExamPartReference" --> "ExamPart" : examPart
 
 @enduml

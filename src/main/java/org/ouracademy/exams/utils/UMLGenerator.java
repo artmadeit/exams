@@ -3,6 +3,7 @@ package org.ouracademy.exams.utils;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import org.ouracademy.exams.domain.ExamPartReference;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
@@ -22,7 +23,7 @@ public class UMLGenerator {
             ExamRandomBuilder.class, 
             BuildExamPartSpecification.class,
             ExamEvent.class,
-            PostulantExam.class, PostulantQuestion.class,
+            PostulantExam.class, PostulantQuestion.class, ExamPartReference.class,
             Postulant.class)
         .build();
 
