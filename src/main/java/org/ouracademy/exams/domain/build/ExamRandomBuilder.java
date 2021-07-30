@@ -13,6 +13,8 @@ import org.ouracademy.exams.utils.RandomSampling;
 
 public class ExamRandomBuilder {
 
+    Integer totalQuestions = 0;
+
     public List<PostulantQuestion> from(List<ExamPart> exams, BuildExamPartSpecification specification) {
         if(specification.examPartType != Type.EXAM)
             throw new IllegalArgumentException("Spec isn't of exam, spec.type" + specification.examPartType);
@@ -60,7 +62,8 @@ public class ExamRandomBuilder {
 
         return randomQuestions.stream().map(examPart -> {
             var question = (Question) examPart;
-            return new PostulantQuestion(question, RandomSampling.ofAll(question.alternatives()));
+            totalQuestions++;
+            return new PostulantQuestion(totalQuestions, question, RandomSampling.ofAll(question.alternatives()));
         }).collect(Collectors.toList());
     }
 

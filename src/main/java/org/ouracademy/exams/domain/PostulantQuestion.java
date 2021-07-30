@@ -20,13 +20,10 @@ import lombok.Setter;
 
 @Getter
 @Entity
-public class PostulantQuestion {
+public class PostulantQuestion extends ExamPartReference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    
-    @ManyToOne
-    Question question;
     
     @ManyToOne
     @Setter PostulantExam postulantExam;
@@ -48,21 +45,18 @@ public class PostulantQuestion {
      */
     PostulantQuestion() {}
 
-    public PostulantQuestion(Question question, List<ExamPart> alternatives) {
-        this.question = question;
-        setAlternativeReferences(alternatives);
-    }
-
-    private void setAlternativeReferences(List<ExamPart> alternatives) {
-        this.alternativeReferences = new ArrayList<>();
-        for (int i = 0; i < alternatives.size(); i++) {
-            ExamPart examPart = alternatives.get(i);
-            this.alternativeReferences.add(new ExamPartReference(examPart, i + 1));
-        }
+    public PostulantQuestion(Integer number, Question question, List<ExamPart> alternatives) {
+        this.number = number;
+        this.examPart = question;
+        this.alternativeReferences = ExamPartReference.toReferences(alternatives);
     }
 
     public boolean isCorrect() {
-        return question.getAnswer().equals(postulantAnswer);
+        return getQuestion().getAnswer().equals(postulantAnswer);
+    }
+
+    public Question getQuestion() {
+        return (Question) this.examPart;
     }
 
     public boolean isWrong() {

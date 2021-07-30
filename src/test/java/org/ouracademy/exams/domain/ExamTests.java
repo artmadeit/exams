@@ -67,17 +67,17 @@ public class ExamTests {
             assertEquals(25, randomQuestions.size());
 
             // section 1
-            var text1 =  randomQuestions.get(0).question.getParent();
-            assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> q.question.getParent().getType().equals(Type.TEXT));
+            var text1 =  randomQuestions.get(0).getQuestion().getParent();
+            assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> q.getQuestion().getParent().getType().equals(Type.TEXT));
             assertThat(randomQuestions.subList(0, 5)).allMatch((q) -> 
-                q.question.getParent().getTitle().equals(text1.getTitle())
+                q.getQuestion().getParent().getTitle().equals(text1.getTitle())
             );
             assertThat(randomQuestions.subList(0, 5)).doesNotHaveDuplicates();
             
-            var text2 =  randomQuestions.get(5).question.getParent();
-            assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> q.question.getParent().getType().equals(Type.TEXT));
+            var text2 =  randomQuestions.get(5).getQuestion().getParent();
+            assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> q.getQuestion().getParent().getType().equals(Type.TEXT));
             assertThat(randomQuestions.subList(5, 10)).allMatch((q) -> 
-                q.question.getParent().getTitle().equals(text2.getTitle())
+                q.getQuestion().getParent().getTitle().equals(text2.getTitle())
             );
             assertThat(randomQuestions.subList(5, 10)).doesNotHaveDuplicates();
 
@@ -97,7 +97,7 @@ public class ExamTests {
 
         var grouped =
             allQuestions.stream().collect(
-                Collectors.groupingBy(w -> w.question.getContent(), Collectors.counting())
+                Collectors.groupingBy(w -> w.getQuestion().getContent(), Collectors.counting())
             );
         grouped.forEach((k, v) -> {
             System.out.println(k + ": " + v);
@@ -106,9 +106,9 @@ public class ExamTests {
     }
 
     private void assertSectionOk(List<PostulantQuestion> randomQuestions, String title) {
-        assertThat(randomQuestions).allMatch((q) -> q.question.getParent().getType().equals(Type.SECTION));
+        assertThat(randomQuestions).allMatch((q) -> q.getQuestion().getParent().getType().equals(Type.SECTION));
         assertThat(randomQuestions).allMatch((q) -> {
-            return q.question.getParent().getTitle().equals(title);
+            return q.getQuestion().getParent().getTitle().equals(title);
         });
         assertThat(randomQuestions).doesNotHaveDuplicates();
     }

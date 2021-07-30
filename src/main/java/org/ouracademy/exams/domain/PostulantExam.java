@@ -32,6 +32,7 @@ public class PostulantExam {
     ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
+
     @OneToMany(mappedBy="postulantExam", cascade = CascadeType.ALL, orphanRemoval = true)
     List<PostulantQuestion> questions = new ArrayList<>();
 
@@ -49,7 +50,6 @@ public class PostulantExam {
     }
 
     private void setQuestions(List<PostulantQuestion> questions) {
-        // questionNumber
         for (PostulantQuestion postulantQuestion : questions) {
             addPostulantQuestion(postulantQuestion);
         }
