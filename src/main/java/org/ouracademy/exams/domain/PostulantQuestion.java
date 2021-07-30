@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.Question;
@@ -20,11 +18,7 @@ import lombok.Setter;
 
 @Getter
 @Entity
-public class PostulantQuestion extends ExamPartReference {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    
+public class PostulantQuestion extends ExamPartReference {    
     @ManyToOne
     @Setter PostulantExam postulantExam;
 
@@ -37,7 +31,7 @@ public class PostulantQuestion extends ExamPartReference {
     @ManyToOne
     @Setter ExamPart postulantAnswer;
     
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     List<ExamPartReference> alternativeReferences = new ArrayList<>();
     
     /**
