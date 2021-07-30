@@ -3,6 +3,7 @@ package org.ouracademy.exams.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -60,10 +61,16 @@ public class PostulantQuestion extends ExamPartReference {
     }
 
     public Optional<ExamPart> getAlternative(Long alternativeId) {
-        return this.alternativeReferences.stream()
-            .map(ExamPartReference::getExamPart)
+        return getAlternatives()
+            .stream()
             .filter(x -> x.getId().equals(alternativeId))
             .findFirst();
+    }
+
+    public List<ExamPart> getAlternatives() {
+        return this.alternativeReferences.stream()
+            .map(ExamPartReference::getExamPart)
+            .collect(Collectors.toList());
     }
 
     /**

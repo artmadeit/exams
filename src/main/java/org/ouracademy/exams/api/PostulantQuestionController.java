@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.ouracademy.exams.domain.ExamPartReference;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
 import org.ouracademy.exams.domain.structure.ExamPart;
@@ -60,32 +59,20 @@ public class PostulantQuestionController {
         }
     }
 
-
-    @Getter
-    public static class ExamPartReferenceResponse {
-        ExamPartResponse examPart;
-        Integer number;
-
-        ExamPartReferenceResponse(ExamPartReference reference) {
-            this.examPart = new ExamPartResponse(reference.getExamPart());
-            this.number = reference.getNumber();
-        }
-    }
-
     @Getter
     public static class PostulantQuestionResponse{
         Long id;
         ExamParthWithParent question;
         Long postulantAnswerId;
-        List<ExamPartReferenceResponse> alternativeReferences = new ArrayList<>();
+        List<ExamPartResponse> alternatives = new ArrayList<>();
 
         public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
             this.id = postulantQuestion.getId();
             this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
             this.postulantAnswerId = postulantQuestion.getPostulantAnswer() != null? 
                 postulantQuestion.getPostulantAnswer().getId(): null;
-            this.alternativeReferences = postulantQuestion.getAlternativeReferences().stream()
-                .map(ExamPartReferenceResponse::new)
+            this.alternatives = postulantQuestion.getAlternatives().stream()
+                .map(ExamPartResponse::new)
                 .collect(Collectors.toList());
         }
         
