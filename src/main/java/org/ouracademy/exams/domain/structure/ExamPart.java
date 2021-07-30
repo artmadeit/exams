@@ -33,7 +33,8 @@ public class ExamPart {
 
         // examen tiene titulo, opcional contenido
         // seccion tiene titulo, opcional contenido
-        // texto tiene titulo, opcional contenido
+        
+        // texto tiene titulo, contenido
 
         // question tiene contenido
         // alternativa tiene contenido
