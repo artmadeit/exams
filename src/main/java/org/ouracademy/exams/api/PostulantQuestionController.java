@@ -62,12 +62,14 @@ public class PostulantQuestionController {
     @Getter
     public static class PostulantQuestionResponse{
         Long id;
+        Integer number;
         ExamParthWithParent question;
         Long postulantAnswerId;
         List<ExamPartResponse> alternatives = new ArrayList<>();
 
         public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
             this.id = postulantQuestion.getId();
+            this.number = postulantQuestion.getNumber();
             this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
             this.postulantAnswerId = postulantQuestion.getPostulantAnswer() != null? 
                 postulantQuestion.getPostulantAnswer().getId(): null;
@@ -79,11 +81,11 @@ public class PostulantQuestionController {
     }
 
 
-    @PreAuthorize("@postulantExamService.isAnswerOfTaker(principal, #id)")
-    @GetMapping("/{id}")
-    public PostulantQuestionResponse get(@PathVariable Long id) {
-        var postulantQuestion = postulantQuestionRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
+    @PreAuthorize("@postulantExamService.isTaker(principal, #examId)")
+    @GetMapping("{examId}/{questionNumber}")
+    public PostulantQuestionResponse get(@PathVariable Long examId, @PathVariable Integer questionNumber) {
+        var postulantQuestion = postulantQuestionRepository.findByNumberAndPostulantExam_Id(questionNumber, examId)
+            .orElseThrow(() -> new NotFoundException("404", new Object[]{}));
 
         return new PostulantQuestionResponse(postulantQuestion);
     }
