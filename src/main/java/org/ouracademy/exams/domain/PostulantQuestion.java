@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.Question;
@@ -32,6 +33,7 @@ public class PostulantQuestion extends ExamPartReference {
     @Setter ExamPart postulantAnswer;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("number")
     List<ExamPartReference> alternativeReferences = new ArrayList<>();
     
     /**

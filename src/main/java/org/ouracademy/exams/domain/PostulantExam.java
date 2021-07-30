@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
@@ -34,6 +35,7 @@ public class PostulantExam {
     DateTimeRange actualRange;
 
     @OneToMany(mappedBy="postulantExam", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("number")
     List<PostulantQuestion> questions = new ArrayList<>();
 
     /**
