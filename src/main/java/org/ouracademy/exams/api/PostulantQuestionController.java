@@ -96,12 +96,14 @@ public class PostulantQuestionController {
         Long alternativeId;
     }
 
-    @PreAuthorize("@postulantExamService.isAnswerOfTaker(principal, #id)")
-    @PutMapping("/{id}/answer")
+    @PreAuthorize("@postulantExamService.isTaker(principal, #examId)")
+    @PutMapping("{examId}/{questionNumber}/answer")
     @Transactional
-    public PostulantQuestionResponse updateAnswer(@PathVariable Long id, @RequestBody AnswerRequest answer) {
-        var postulantQuestion = postulantQuestionRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException(PostulantQuestion.class, id));
+    public PostulantQuestionResponse updateAnswer(
+        @PathVariable Long examId, @PathVariable Integer questionNumber, @RequestBody AnswerRequest answer) {
+        
+        var postulantQuestion = postulantQuestionRepository.findByNumberAndPostulantExam_Id(questionNumber, examId)
+            .orElseThrow(() -> new NotFoundException("question", new Object[]{ questionNumber }));
         
         postulantQuestion.updateAnswer(answer.alternativeId);
         

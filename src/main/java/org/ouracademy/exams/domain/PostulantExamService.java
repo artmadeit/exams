@@ -5,7 +5,6 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
@@ -110,14 +109,6 @@ public class PostulantExamService {
         var postulantExam = this.postulantExamRepository.findById(postulantExamId);
         return postulant.isTaker(postulantExam);
     }
-    
-    PostulantQuestionRepository postulantQuestionRepository;
-
-    public boolean isAnswerOfTaker(Postulant postulant, Long answerId) {
-        var postulantExam = postulantQuestionRepository.findById(answerId).map(question -> question.postulantExam);
-        return postulant.isTaker(postulantExam);
-    }
-
 
     public PostulantExamResponse startOrGet(Long eventExamId, Postulant postulant) {
         var examEvent = examEventRepository.findById(eventExamId)
