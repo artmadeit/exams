@@ -41,7 +41,7 @@ public class PostulantQuestion {
     @Setter ExamPart postulantAnswer;
     
     @ManyToMany
-    List<ExamPart> alternatives = new ArrayList<>();
+    List<ExamPartReference> alternativeReferences = new ArrayList<>();
     
     /**
      * @apiNote jpa only
@@ -50,7 +50,15 @@ public class PostulantQuestion {
 
     public PostulantQuestion(Question question, List<ExamPart> alternatives) {
         this.question = question;
-        this.alternatives = alternatives;
+        setAlternativeReferences(alternatives);
+    }
+
+    private void setAlternativeReferences(List<ExamPart> alternatives) {
+        this.alternativeReferences = new ArrayList<>();
+        for (int i = 0; i < alternatives.size(); i++) {
+            ExamPart examPart = alternatives.get(i);
+            this.alternativeReferences.add(new ExamPartReference(examPart, i + 1));
+        }
     }
 
     public boolean isCorrect() {
@@ -62,7 +70,8 @@ public class PostulantQuestion {
     }
 
     public Optional<ExamPart> getAlternative(Long alternativeId) {
-        return this.alternatives.stream()
+        return this.alternativeReferences.stream()
+            .map(ExamPartReference::getExamPart)
             .filter(x -> x.getId().equals(alternativeId))
             .findFirst();
     }

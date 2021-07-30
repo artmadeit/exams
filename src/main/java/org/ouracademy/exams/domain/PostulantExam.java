@@ -49,6 +49,7 @@ public class PostulantExam {
     }
 
     private void setQuestions(List<PostulantQuestion> questions) {
+        // questionNumber
         for (PostulantQuestion postulantQuestion : questions) {
             addPostulantQuestion(postulantQuestion);
         }
