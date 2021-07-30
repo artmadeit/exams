@@ -75,13 +75,12 @@ public class PostulantExamService {
     @Getter
     public static class PostulantExamResponse {
         Long examPostulantId;
-        List<Long> questionIds;
+        Integer numberOfQuestions;
 
         PostulantExamResponse(PostulantExam postulantExam) {
             this.examPostulantId = postulantExam.getId();
-            this.questionIds = postulantExam.getQuestions().stream()
-                .map(PostulantQuestion::getId)
-                .collect(Collectors.toList());
+            this.numberOfQuestions = postulantExam.getQuestions().size();
+                
         }
     }
 
