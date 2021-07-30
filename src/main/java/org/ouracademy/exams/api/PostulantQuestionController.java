@@ -85,7 +85,7 @@ public class PostulantQuestionController {
     @GetMapping("{examId}/{questionNumber}")
     public PostulantQuestionResponse get(@PathVariable Long examId, @PathVariable Integer questionNumber) {
         var postulantQuestion = postulantQuestionRepository.findByNumberAndPostulantExam_Id(questionNumber, examId)
-            .orElseThrow(() -> new NotFoundException("404", new Object[]{}));
+            .orElseThrow(() -> new NotFoundException("question", new Object[]{ questionNumber }));
 
         return new PostulantQuestionResponse(postulantQuestion);
     }
