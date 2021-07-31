@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @RestController
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class ExamPartController {
     
     ExamPartRepository repository;
 
-    @Data
+    @Getter @Setter
     public static class CreateExamRequest {
         @NotNull
         String title;
@@ -33,7 +34,7 @@ public class ExamPartController {
         return repository.save(examPart);
     }
 
-    @Data
+    @Getter @Setter
     public static class CreateSectionRequest extends CreateExamRequest {
         @NotNull
         Long parentId;        
@@ -43,6 +44,13 @@ public class ExamPartController {
     public ExamPart createSection(@Valid @RequestBody CreateSectionRequest request) {
         var parent = repository.findById(request.getParentId()).orElseThrow();
         var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
+        return repository.save(examPart);
+    }
+
+    @PostMapping("/text")
+    public ExamPart createText(@Valid @RequestBody CreateSectionRequest request) {
+        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
         return repository.save(examPart);
     }
 }

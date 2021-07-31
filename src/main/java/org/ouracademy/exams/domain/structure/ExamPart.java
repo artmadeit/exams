@@ -14,6 +14,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
 
@@ -73,7 +74,7 @@ public class ExamPart {
         return result;
     }
 
-    public static ExamPart text(String title, String content, ExamPart exam) {
+    public static ExamPart text(String title, @NotNull String content, ExamPart exam) {
         var result = generic(Type.TEXT, title, content);
         result.setParent(exam);
         return result;
