@@ -19,7 +19,7 @@ public class Question extends ExamPart {
         if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
             throw new IllegalArgumentException("parent can't be another question or an alternative");
         
-        this.parent = parent;
+        setParent(parent);
     }
     
     public static ExamPart alternative(String content, Question parent) {
