@@ -14,6 +14,12 @@ public class Question extends ExamPart {
     @OneToOne
     ExamPart answer; // B    
 
+    
+    /**
+     * @apiNote jpa only
+     */
+    Question() {}
+
     public Question(String content, ExamPart parent) {
         super(Type.QUESTION, null, content);
         if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
