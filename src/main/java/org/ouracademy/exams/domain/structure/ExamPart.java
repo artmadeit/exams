@@ -68,17 +68,21 @@ public class ExamPart {
         return new ExamPart(Type.EXAM, title, description);
     }
 
-    public static ExamPart section(String title, @Nullable String description, ExamPart exam) {
-        // TODO: vlaidate parent is exam
+    public static ExamPart section(String title, @Nullable String description, ExamPart parentExam) {
+        if(!parentExam.type.equals(Type.EXAM))
+            throw new IllegalArgumentException("parent has to be an exam");
+
         var result = new ExamPart(Type.SECTION, title, description);
-        result.setParent(exam);
+        result.setParent(parentExam);
         return result;
     }
 
-    public static ExamPart text(String title, @NotNull String content, ExamPart section) {
-        // TODO: vlaidate parent is section
+    public static ExamPart text(String title, @NotNull String content, ExamPart parent) {
+        if(!parent.type.equals(Type.SECTION) && !parent.type.equals(Type.EXAM))
+            throw new IllegalArgumentException("parent has to be a section or exam");
+        
         var result = new ExamPart(Type.TEXT, title, content);
-        result.setParent(section);
+        result.setParent(parent);
         return result;
     }
 

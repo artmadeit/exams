@@ -15,8 +15,10 @@ public class Question extends ExamPart {
     ExamPart answer; // B    
 
     public Question(String content, ExamPart parent) {
-        // TODO: assert parent is not a final child
         super(Type.QUESTION, null, content);
+        if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
+            throw new IllegalArgumentException("parent can't be another question or an alternative");
+        
         this.parent = parent;
     }
     

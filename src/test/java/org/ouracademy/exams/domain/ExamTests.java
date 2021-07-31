@@ -20,7 +20,6 @@ import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
-import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 
 
