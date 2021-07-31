@@ -73,11 +73,11 @@ public class PostulantExamService {
 
     @Getter
     public static class PostulantExamResponse {
-        Long examPostulantId;
+        Long id;
         Integer numberOfQuestions;
 
         PostulantExamResponse(PostulantExam postulantExam) {
-            this.examPostulantId = postulantExam.getId();
+            this.id = postulantExam.getId();
             this.numberOfQuestions = postulantExam.getQuestions().size();
                 
         }

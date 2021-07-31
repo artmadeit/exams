@@ -19,9 +19,6 @@ public class PostulantExamController {
 
     PostulantExamService postulantExamService;
 
-
-   
-
     @PostMapping("/start-or-get/{eventExamId}")
     public PostulantExamResponse startOrGet(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
         return postulantExamService.startOrGet(eventExamId, postulant);
