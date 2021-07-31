@@ -65,26 +65,32 @@ public class ExamPart {
 
 
     public static ExamPart exam(String title, @Nullable String description) {
-        return generic(Type.EXAM, title, description);
+        return new ExamPart(Type.EXAM, title, description);
     }
 
     public static ExamPart section(String title, @Nullable String description, ExamPart exam) {
-        var result = generic(Type.SECTION, title, description);
+        // TODO: vlaidate parent is exam
+        var result = new ExamPart(Type.SECTION, title, description);
         result.setParent(exam);
         return result;
     }
 
-    public static ExamPart text(String title, @NotNull String content, ExamPart exam) {
-        var result = generic(Type.TEXT, title, content);
-        result.setParent(exam);
+    public static ExamPart text(String title, @NotNull String content, ExamPart section) {
+        // TODO: vlaidate parent is section
+        var result = new ExamPart(Type.TEXT, title, content);
+        result.setParent(section);
         return result;
     }
 
-    protected static ExamPart generic(Type type, String title, String description) {
-        var examenBase = new ExamPart();
-        examenBase.type = type;
-        examenBase.title = title;
-        examenBase.content = description;
-        return examenBase;
+
+    /**
+     * @apiNote jpa only
+     */
+    ExamPart() {}
+
+    ExamPart(Type type, String title, String content) {
+        this.type = type;
+        this.title = title;
+        this.content = content;
     }
 }

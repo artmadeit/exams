@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.Question;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

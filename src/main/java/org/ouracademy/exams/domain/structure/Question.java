@@ -15,13 +15,13 @@ public class Question extends ExamPart {
     ExamPart answer; // B    
 
     public Question(String content, ExamPart parent) {
-        this.content = content;
+        // TODO: assert parent is not a final child
+        super(Type.QUESTION, null, content);
         this.parent = parent;
-        this.type = Type.QUESTION;
     }
     
     public static ExamPart alternative(String content, Question parent) {
-        var result = generic(Type.ALTERNATIVE, null, content);
+        var result = new ExamPart(Type.ALTERNATIVE, null, content);
         result.setParent(parent);
         return result;
     }
