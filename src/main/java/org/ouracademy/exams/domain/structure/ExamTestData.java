@@ -76,10 +76,7 @@ public class ExamTestData {
 
     private void agregarAlternativas(Question p1) {
         List.of("A", "B", "C", "D").forEach(i -> {
-            var a1 = new ExamPart();
-            a1.content = "alternativa " + i;
-            a1.type = Type.ALTERNATIVE;
-            a1.setParent(p1);
+            Question.alternative("alternativa " + i, p1);
         });
     }
 

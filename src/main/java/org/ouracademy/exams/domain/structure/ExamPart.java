@@ -80,7 +80,7 @@ public class ExamPart {
         return result;
     }
 
-    private static ExamPart generic(Type type, String title, String description) {
+    protected static ExamPart generic(Type type, String title, String description) {
         var examenBase = new ExamPart();
         examenBase.type = type;
         examenBase.title = title;

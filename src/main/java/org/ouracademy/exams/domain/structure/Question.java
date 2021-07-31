@@ -20,6 +20,12 @@ public class Question extends ExamPart {
         this.type = Type.QUESTION;
     }
     
+    public static ExamPart alternative(String content, Question parent) {
+        var result = generic(Type.ALTERNATIVE, null, content);
+        result.setParent(parent);
+        return result;
+    }
+
     public List<ExamPart> alternatives() {// A, B, C, D
         return this.getChilds();
     }
