@@ -40,9 +40,8 @@ public class ExamTestData {
         //         P12
 
         this.numeroExamen = numero;
-        var examenBase = new ExamPart();
-        examenBase.type = Type.EXAM;
-        examenBase.title = "Examen "+ numero;
+
+        var examenBase = ExamPart.exam("Examen "+ numero);
         
         var section1 = new ExamPart();
         section1.type = Type.SECTION;

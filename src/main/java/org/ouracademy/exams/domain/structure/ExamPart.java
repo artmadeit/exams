@@ -65,4 +65,17 @@ public class ExamPart {
         parent.childs.add(this);       
         this.parent = parent;
     }
+
+
+    public static ExamPart exam(String title) {
+        return exam(title, null);
+    }
+
+    public static ExamPart exam(String title, String description) {
+        var examenBase = new ExamPart();
+        examenBase.type = Type.EXAM;
+        examenBase.title = title;
+        examenBase.content = description;
+        return examenBase;
+    }
 }
