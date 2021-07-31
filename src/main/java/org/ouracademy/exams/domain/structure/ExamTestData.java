@@ -59,18 +59,10 @@ public class ExamTestData {
     }
 
     private void agregarTextos(ExamPart seccion) {
-        var texto1 = new ExamPart();
-        texto1.type = Type.TEXT;
-        texto1.title = "Texto 1, examen:" + numeroExamen;
-        texto1.content = "El desarrollo...";
-        texto1.setParent(seccion);
+        var texto1 = ExamPart.text("Texto 1, examen:" + numeroExamen, "El desarrollo...", seccion);
         agregarPreguntas(5, texto1);
 
-        var texto2 = new ExamPart();
-        texto2.type = Type.TEXT;
-        texto2.title = "Texto 2, examen: "+ numeroExamen;
-        texto2.content = "Los ingresos ...";
-        texto2.setParent(seccion);
+        var texto2 = ExamPart.text("Texto 2, examen: "+ numeroExamen, "Los ingresos ...", seccion);
         agregarPreguntas(5, texto2);
     }
 

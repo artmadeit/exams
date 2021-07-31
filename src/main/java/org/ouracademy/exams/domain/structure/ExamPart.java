@@ -32,9 +32,6 @@ public class ExamPart {
         // una seccion => textos | preguntas
         // una texto => preguntas
 
-        
-        // texto tiene titulo, contenido
-
         // question tiene contenido
         // alternativa tiene contenido
     }
@@ -72,6 +69,12 @@ public class ExamPart {
 
     public static ExamPart section(String title, @Nullable String description, ExamPart exam) {
         var result = generic(Type.SECTION, title, description);
+        result.setParent(exam);
+        return result;
+    }
+
+    public static ExamPart text(String title, String content, ExamPart exam) {
+        var result = generic(Type.TEXT, title, content);
         result.setParent(exam);
         return result;
     }
