@@ -69,10 +69,8 @@ public class ExamTestData {
     private void agregarPreguntas(int numero, ExamPart padre) {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
-            var p1 = new Question();
-            p1.content = "P" + numeroPreguntas + "-E" + numeroExamen;
-            p1.setParent(padre);
-            agregarAlternativas(p1);
+            var question = new Question("P" + numeroPreguntas + "-E" + numeroExamen, padre);
+            agregarAlternativas(question);
         });
     }
 

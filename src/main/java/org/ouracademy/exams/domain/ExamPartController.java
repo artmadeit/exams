@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
+import org.ouracademy.exams.domain.structure.Question;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,6 @@ public class ExamPartController {
     public static class CreateExamRequest {
         @NotNull
         String title;
-        @Nullable
         String description;
     }
 
@@ -51,6 +51,22 @@ public class ExamPartController {
     public ExamPart createText(@Valid @RequestBody CreateSectionRequest request) {
         var parent = repository.findById(request.getParentId()).orElseThrow();
         var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
+        return repository.save(examPart);
+    }
+
+    
+    @Getter @Setter
+    public static class CreateQuestionRequest {
+        @NotNull
+        String description;
+        @NotNull
+        Long parentId;
+    }
+
+    @PostMapping("/question")
+    public ExamPart createQuestion(@Valid @RequestBody CreateQuestionRequest request) {
+        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var examPart = new Question(request.getDescription(), parent);
         return repository.save(examPart);
     }
 }

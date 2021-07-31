@@ -14,7 +14,9 @@ public class Question extends ExamPart {
     @OneToOne
     ExamPart answer; // B    
 
-    public Question() {
+    public Question(String content, ExamPart parent) {
+        this.content = content;
+        this.parent = parent;
         this.type = Type.QUESTION;
     }
     
