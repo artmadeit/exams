@@ -15,6 +15,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Getter;
 
 @Getter
@@ -30,9 +32,6 @@ public class ExamPart {
         // una seccion => textos | preguntas
         // una texto => preguntas
 
-
-        // examen tiene titulo, opcional contenido
-        // seccion tiene titulo, opcional contenido
         
         // texto tiene titulo, contenido
 
@@ -67,13 +66,19 @@ public class ExamPart {
     }
 
 
-    public static ExamPart exam(String title) {
-        return exam(title, null);
+    public static ExamPart exam(String title, @Nullable String description) {
+        return generic(Type.EXAM, title, description);
     }
 
-    public static ExamPart exam(String title, String description) {
+    public static ExamPart section(String title, @Nullable String description, ExamPart exam) {
+        var result = generic(Type.SECTION, title, description);
+        result.setParent(exam);
+        return result;
+    }
+
+    private static ExamPart generic(Type type, String title, String description) {
         var examenBase = new ExamPart();
-        examenBase.type = Type.EXAM;
+        examenBase.type = type;
         examenBase.title = title;
         examenBase.content = description;
         return examenBase;

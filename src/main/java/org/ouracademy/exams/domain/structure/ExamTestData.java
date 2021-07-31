@@ -41,30 +41,18 @@ public class ExamTestData {
 
         this.numeroExamen = numero;
 
-        var examenBase = ExamPart.exam("Examen "+ numero);
-        
-        var section1 = new ExamPart();
-        section1.type = Type.SECTION;
-        section1.title = "CAPACIDADES COMUNICATIVAS";
-        section1.setParent(examenBase);
+        var examenBase = ExamPart.exam("Examen "+ numero, null);
+
+        var section1 = ExamPart.section("CAPACIDADES COMUNICATIVAS", null, examenBase);
         agregarTextos(section1);
         
-        var section2 = new ExamPart();
-        section2.type = Type.SECTION;
-        section2.title = "CAPACIDADES LOGICO MATEMATICAS";
-        section2.setParent(examenBase);
+        var section2 = ExamPart.section("CAPACIDADES LOGICO MATEMATICAS", null, examenBase);
         agregarPreguntas(5, section2);
 
-        var section3 = new ExamPart();
-        section3.type = Type.SECTION;
-        section3.title = "CAPACIDADES INVESTIGATIVAS";
-        section3.setParent(examenBase);
+        var section3 = ExamPart.section("CAPACIDADES INVESTIGATIVAS", null, examenBase);
         agregarPreguntas(5, section3);
 
-        var section4 = new ExamPart();
-        section4.type = Type.SECTION;
-        section4.title = "PENSAMIENTO CRITICO";
-        section4.setParent(examenBase);
+        var section4 = ExamPart.section("PENSAMIENTO CRITICO", null, examenBase);
         agregarPreguntas(5, section4);
 
         return examenBase;
