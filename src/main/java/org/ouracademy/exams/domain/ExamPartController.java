@@ -32,4 +32,17 @@ public class ExamPartController {
         var examPart = ExamPart.exam(request.getTitle(), request.getDescription());
         return repository.save(examPart);
     }
+
+    @Data
+    public static class CreateSectionRequest extends CreateExamRequest {
+        @NotNull
+        Long parentId;        
+    }
+
+    @PostMapping("/section")
+    public ExamPart createSection(@Valid @RequestBody CreateSectionRequest request) {
+        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
+        return repository.save(examPart);
+    }
 }
