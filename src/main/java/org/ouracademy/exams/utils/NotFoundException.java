@@ -3,22 +3,24 @@ package org.ouracademy.exams.utils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * A special illegal arguments exception...maybe this will deleted
+ * A special illegal arguments exception...maybe this will deleted (avoid when possible)
  * 
- * Don't use this in examples like:
- * entityRepository.findById(id).orElseThrow(() -> new NotFoundException(...))
  * 
- * instead use ResponseEntity.of(entity.findById(id))
- * 
- * Use this when, argument is not found, example:
+ * Never use this in GET
+ * Possible use in POST / PUT when validating body, example:
  * 
  * class SectionRequest { Long parentId }
  * 
+ * // validating parentId exist in DB
  * var parent = examPartRepository.findById(sectionRequest.getParentId()).orElseThrow(() -> new NotFoundException())
  * var section = ExamPart.section("Section I: Soft skills", parent)
  * 
  */
 public class NotFoundException extends BadArgumentsException {
+  
+  public NotFoundException(@SuppressWarnings("rawtypes") Class entity, Long id) {
+    this("entity_by_id", new Object[] { humanize(entity.getSimpleName()), id });
+  }
 
   public NotFoundException(String code, Object[] args) {
     super("not_found." + code, args);
