@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.Question;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,14 +42,14 @@ public class ExamPartController {
 
     @PostMapping("/section")
     public ExamPart createSection(@Valid @RequestBody CreateSectionRequest request) {
-        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var parent = getParent(request.getParentId());
         var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
         return repository.save(examPart);
     }
 
     @PostMapping("/text")
     public ExamPart createText(@Valid @RequestBody CreateSectionRequest request) {
-        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var parent = getParent(request.getParentId());
         var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
         return repository.save(examPart);
     }
@@ -64,8 +65,12 @@ public class ExamPartController {
 
     @PostMapping("/question")
     public ExamPart createQuestion(@Valid @RequestBody CreateQuestionRequest request) {
-        var parent = repository.findById(request.getParentId()).orElseThrow();
+        var parent = getParent(request.getParentId());
         var examPart = new Question(request.getDescription(), parent);
         return repository.save(examPart);
+    }
+    
+    private ExamPart getParent(Long parentId) {
+        return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", new Object[] { parentId }));
     }
 }

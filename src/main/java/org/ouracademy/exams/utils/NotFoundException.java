@@ -6,9 +6,17 @@ import org.apache.commons.lang3.StringUtils;
  * A special illegal arguments exception...maybe this will deleted
  * 
  * Don't use this in examples like:
- * entity.findById(id).orElseThrow(() -> new NotFoundException(...))
+ * entityRepository.findById(id).orElseThrow(() -> new NotFoundException(...))
  * 
  * instead use ResponseEntity.of(entity.findById(id))
+ * 
+ * Use this when, argument is not found, example:
+ * 
+ * class SectionRequest { Long parentId }
+ * 
+ * var parent = examPartRepository.findById(sectionRequest.getParentId()).orElseThrow(() -> new NotFoundException())
+ * var section = ExamPart.section("Section I: Soft skills", parent)
+ * 
  */
 public class NotFoundException extends BadArgumentsException {
 
