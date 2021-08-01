@@ -53,15 +53,9 @@ public class PostulantExamService {
     }
 
 
-    private PostulantExamResponse start(ExamEvent examEvent, Postulant postulant) {
-        var examAlreadyStarted = postulantExamRepository.existsByPostulantAndEvent(postulant, examEvent);
-
-        if(examAlreadyStarted)
-            throw new ExamAlreadyStartedException();
-
+    private PostulantExam start(ExamEvent examEvent, Postulant postulant) {
         var postulantExam = postulant.start(examEvent, randomQuestions());
-        postulantExamRepository.save(postulantExam);
-        return new PostulantExamResponse(postulantExam);
+        return postulantExamRepository.save(postulantExam);
     }
 
 
@@ -108,13 +102,9 @@ public class PostulantExamService {
         var examEvent = examEventRepository.findById(eventExamId)
             .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
         
-        try {
-            return this.start(examEvent, postulant);
-        } catch(ExamAlreadyStartedException alreadyStartedException) {
-            var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
-                .orElseThrow(() -> new NotFoundException("exam_by_postulant_id", new Object[] {postulant.getId(), examEvent.getId()}));
+        var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
+            .orElseGet(() -> this.start(examEvent, postulant));
 
-            return new PostulantExamResponse(postulantExam);
-        }
+        return new PostulantExamResponse(postulantExam);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface PostulantExamRepository extends PagingAndSortingRepository<PostulantExam, Long> {
 
-    boolean existsByPostulantAndEvent(Postulant postulant, ExamEvent examEvent);
     Optional<PostulantExam> findByPostulantAndEvent(Postulant postulant, ExamEvent examEvent);
 
 }
