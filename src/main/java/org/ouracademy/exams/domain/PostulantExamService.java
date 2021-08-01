@@ -52,12 +52,6 @@ public class PostulantExamService {
         }
     }
 
-    public PostulantExamResponse start(Long eventExamId, Postulant postulant) {
-        var examEvent = examEventRepository.findById(eventExamId)
-            .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
-        
-        return this.start(examEvent, postulant);
-    }
 
     private PostulantExamResponse start(ExamEvent examEvent, Postulant postulant) {
         var examAlreadyStarted = postulantExamRepository.existsByPostulantAndEvent(postulant, examEvent);
