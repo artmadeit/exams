@@ -7,14 +7,14 @@ import org.zalando.problem.StatusType;
 
 public class BadArgumentsException extends OuracademyException {
   
-  public static final URI ERROR_TYPE = URI.create("https://our-academy.org/bad-request");
+  public static final URI ERROR_TYPE = URI.create("https://our-academy.org/bad-arguments");
   
   public BadArgumentsException(String code) {
     this(code, new Object[] {});
   }
 
   public BadArgumentsException(String code, Object[] args) {
-    super(code, "Bad request", ERROR_TYPE, args);
+    super(code, "Bad arguments", ERROR_TYPE, args);
   }
 
   @Override
