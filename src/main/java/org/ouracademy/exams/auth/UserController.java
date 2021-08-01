@@ -25,7 +25,7 @@ public class UserController {
         return signInService.run(input);
     }
 
-    @GetMapping
+    @GetMapping("/me")
     public Principal user(Principal principal) {
         return principal;
     }
