@@ -31,13 +31,6 @@ public class PostulantExamService {
     PostulantExamRepository postulantExamRepository;
     ExamPartRepository examPartRepository;
 
-    public PostulantExamResponse finish(Long id) {
-        var postulantExam = postulantExamRepository.findById(id).orElseThrow();
-        postulantExam.finish();
-        
-        return new PostulantExamResponse(postulantExam);
-    }
-
     public static class ExamAlreadyStartedException extends OuracademyException {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-already-started");
 
@@ -63,7 +56,7 @@ public class PostulantExamService {
         Long id;
         Integer numberOfQuestions;
 
-        PostulantExamResponse(PostulantExam postulantExam) {
+        public PostulantExamResponse(PostulantExam postulantExam) {
             this.id = postulantExam.getId();
             this.numberOfQuestions = postulantExam.getQuestions().size();
                 
