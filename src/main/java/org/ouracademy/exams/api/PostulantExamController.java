@@ -1,8 +1,12 @@
 package org.ouracademy.exams.api;
 
+import java.util.Optional;
+
 import org.ouracademy.exams.domain.PostulantExamService;
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
+import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +24,10 @@ public class PostulantExamController {
     PostulantExamService postulantExamService;
 
     @PostMapping("/start-or-get/{eventExamId}")
-    public PostulantExamResponse startOrGet(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
-        return postulantExamService.startOrGet(eventExamId, postulant);
+    public ResponseEntity<PostulantExamResponse> startOrGet(@PathVariable("eventExamId") Optional<ExamEvent> optionalExamEvent, @AuthenticationPrincipal Postulant postulant) {
+        return ResponseEntity.of(
+            optionalExamEvent.map(examEvent -> postulantExamService.startOrGet(examEvent, postulant))
+        );
     }
 
     @PreAuthorize("@postulantExamService.isTaker(principal, #id)")

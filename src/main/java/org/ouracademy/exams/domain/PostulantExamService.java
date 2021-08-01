@@ -13,7 +13,6 @@ import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
-import org.ouracademy.exams.utils.NotFoundException;
 import org.ouracademy.exams.utils.OuracademyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,10 +97,7 @@ public class PostulantExamService {
         return postulant.isTaker(postulantExam);
     }
 
-    public PostulantExamResponse startOrGet(Long eventExamId, Postulant postulant) {
-        var examEvent = examEventRepository.findById(eventExamId)
-            .orElseThrow(() -> new NotFoundException(ExamEvent.class, eventExamId));
-        
+    public PostulantExamResponse startOrGet(ExamEvent examEvent, Postulant postulant) {
         var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
             .orElseGet(() -> this.start(examEvent, postulant));
 
