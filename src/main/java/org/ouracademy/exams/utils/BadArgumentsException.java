@@ -19,6 +19,7 @@ public class BadArgumentsException extends OuracademyException {
 
   @Override
   public StatusType getStatus() {
-    return Status.BAD_REQUEST;
+    // Reason why not 400 bad arguments: https://stackoverflow.com/questions/16133923/400-vs-422-response-to-post-of-data
+    return Status.UNPROCESSABLE_ENTITY;
   }
 }
