@@ -3,11 +3,11 @@ package org.ouracademy.exams.utils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * A special illegal arguments exception...maybe this will deleted (avoid when possible)
+ * A special illegal arguments exception
  * 
  * 
  * Never use this in GET
- * Possible use in POST / PUT when validating body, example:
+ * Use in POST / PUT when validating request body or path variables, example:
  * 
  * class SectionRequest { Long parentId }
  * 

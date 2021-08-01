@@ -45,6 +45,12 @@ public class PostulantExamService {
         }
     }
 
+    public PostulantExamResponse finish(Long id) {
+        var postulantExam = postulantExamRepository.findById(id).orElseThrow();
+        postulantExam.finish();
+        
+        return new PostulantExamResponse(postulantExam);
+    }
 
     private PostulantExam start(ExamEvent examEvent, Postulant postulant) {
         var postulantExam = postulant.start(examEvent, randomQuestions());

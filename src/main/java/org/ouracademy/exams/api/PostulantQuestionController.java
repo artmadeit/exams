@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
 import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,15 +100,16 @@ public class PostulantQuestionController {
     @PreAuthorize("@postulantExamService.isTaker(principal, #examId)")
     @PutMapping("{examId}/{questionNumber}/answer")
     @Transactional
-    public ResponseEntity<PostulantQuestionResponse> updateAnswer(
+    public PostulantQuestionResponse updateAnswer(
         @PathVariable Long examId, @PathVariable Integer questionNumber, @RequestBody AnswerRequest answer) {
         
-        return ResponseEntity.of(
-            postulantQuestionRepository.findByNumberAndPostulantExam_Id(questionNumber, examId)
-            .map(postulantQuestion -> {
-                postulantQuestion.updateAnswer(answer.alternativeId);
-                return new PostulantQuestionResponse(postulantQuestion);
-            })
-        );
+        var postulantQuestion = postulantQuestionRepository
+            .findByNumberAndPostulantExam_Id(questionNumber, examId)
+            .orElseThrow(() -> new NotFoundException("question", new Object[]{ questionNumber }));
+        
+        postulantQuestion.updateAnswer(answer.alternativeId);
+        
+        return new PostulantQuestionResponse(postulantQuestion);
+
     }
 }

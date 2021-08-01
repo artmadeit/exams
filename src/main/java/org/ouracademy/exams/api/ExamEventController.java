@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.ouracademy.exams.domain.DateTimeRange;
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,13 +57,10 @@ public class ExamEventController {
     @RolesAllowed("ADMIN")
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<ExamEvent> edit(@PathVariable("id") Optional<ExamEvent> event, @RequestBody @Valid ExamEventRequest request) {
-        return ResponseEntity.of(
-            event.map(examEvent -> {
-                examEvent.setDescription(request.description);
-                examEvent.setRange(new DateTimeRange(request.start, request.end));
-                return examEvent;
-            })
-        );
+    public ExamEvent edit(@PathVariable Long id, @RequestBody @Valid ExamEventRequest request) {
+        var examEvent = this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
+        examEvent.setDescription(request.description);
+        examEvent.setRange(new DateTimeRange(request.start, request.end));
+        return examEvent;
     }
 }
