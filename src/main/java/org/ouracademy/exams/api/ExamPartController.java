@@ -1,4 +1,4 @@
-package org.ouracademy.exams.domain;
+package org.ouracademy.exams.api;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
