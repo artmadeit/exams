@@ -1,5 +1,6 @@
 package org.ouracademy.exams.domain;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -14,12 +16,15 @@ import javax.persistence.OrderBy;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class PostulantQuestion extends ExamPartReference {    
     @ManyToOne
     @Setter PostulantExam postulantExam;
@@ -36,6 +41,9 @@ public class PostulantQuestion extends ExamPartReference {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("number")
     List<ExamPartReference> alternativeReferences = new ArrayList<>();
+
+    @LastModifiedDate 
+    @Setter private Instant lastModifiedDate;
     
     /**
      * @apiNote jpa only
