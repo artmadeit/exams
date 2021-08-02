@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 public class NotFoundException extends BadArgumentsException {
   
   public NotFoundException(@SuppressWarnings("rawtypes") Class entity, Long id) {
-    this("entity_by_id", new Object[] { humanize(entity.getSimpleName()), id });
+    this("entity_by_id", new Object[] { toUnderscore(entity.getSimpleName()), id });
   }
 
   public NotFoundException(String code, Object[] args) {
@@ -31,7 +31,7 @@ public class NotFoundException extends BadArgumentsException {
    * 
    *         from => to ExamEvent => exam event Person => person
    */
-  public static String humanize(String className) {
-    return StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(className), ' ').toLowerCase();
+  public static String toUnderscore(String className) {
+    return StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(className), '_').toLowerCase();
   }
 }
