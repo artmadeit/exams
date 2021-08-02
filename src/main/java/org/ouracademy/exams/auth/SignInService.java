@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import org.ouracademy.exams.auth.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -23,13 +24,11 @@ public class SignInService {
         protected String password;
     }
 
-    private UserRepository repository;
     private JwtTokenProvider jwtTokenProvider;
     private AuthenticationManager authenticationManager;
 
     public String run(LoginInput input) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
-        var user = repository.findByName(input.name).orElseThrow();
-        return jwtTokenProvider.createToken(input.name, user.getAuthorities());
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
+        return jwtTokenProvider.createToken(input.name, authentication.getAuthorities());
     }
 }
