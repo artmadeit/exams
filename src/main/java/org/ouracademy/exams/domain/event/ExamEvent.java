@@ -1,15 +1,20 @@
 package org.ouracademy.exams.domain.event;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.ouracademy.exams.domain.DateTimeRange;
 import org.ouracademy.exams.utils.OuracademyException;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
 
@@ -19,6 +24,8 @@ import lombok.Setter;
 
 @Getter
 @Entity
+
+@EntityListeners(AuditingEntityListener.class)
 public class ExamEvent {
 
     @Id
@@ -30,6 +37,13 @@ public class ExamEvent {
     @Embedded
     @Setter
     public DateTimeRange range;
+
+    @CreatedDate
+    public LocalDateTime createdDate;
+
+    @LastModifiedDate
+    public LocalDateTime lastModifiedDate;
+
 
     @Builder
     ExamEvent(String description, DateTimeRange range) {
