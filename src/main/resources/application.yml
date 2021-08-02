@@ -4,16 +4,23 @@ spring:
     url: jdbc:postgresql://127.0.0.1:5432/exams
     username: postgres
     password: 123456
-  # use only if you need debug
+  # use only if you need debug (1)
   jpa:
-  #   spring: jpa: show-sql: true
-  #   properties:
-  #     hibernate:
-  #       format_sql: true
+    # properties:
+    #   hibernate:
+    #     format_sql: true
     hibernate:
       ddl-auto: create-drop
   # flyway:
   #   locations: classpath:/db/migration,classpath:/db/testdata
+
+# use only if you need debug (1)
+# logging:
+#   level:
+#     org:
+#       hibernate:
+#         SQL: DEBUG
+        # type.descriptor.sql.BasicBinder: TRACE # to show parameter (values) of sql queries
 
 # monitoring, more on: https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-actuator
 # management:
