@@ -37,14 +37,14 @@ public class ExamPartController {
     }
 
     @PostMapping("/exam")
-    public ExamPart createExam(@Valid @RequestBody CreateExamRequest request) {
+    public ExamPartResponse createExam(@Valid @RequestBody CreateExamRequest request) {
         var examPart = ExamPart.exam(request.getTitle(), request.getDescription());
-        return repository.save(examPart);
+        return new ExamPartResponse(repository.save(examPart));
     }
 
     @GetMapping("/exams")
-    public Page<ExamPart> getAll(final Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<ExamPartResponse> getAll(final Pageable pageable) {
+        return repository.findAll(pageable).map(ExamPartResponse::new);
     }
 
 
@@ -120,7 +120,7 @@ public class ExamPartController {
     }
 
     @Transactional
-    @PutMapping("/question/{id}")
+    @PutMapping("/question")
     public ExamPart updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
         var question = questionOptional.orElseThrow();
         question.setContent(request.getDescription());
