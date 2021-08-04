@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
 import lombok.Getter;
+import lombok.Setter;
+
 
 @Getter
 @Entity
@@ -40,14 +42,17 @@ public class ExamPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    
+
+    @Setter
     String title;
     
+    @Setter
     String content;
 
     @Enumerated(EnumType.STRING)
     Type type;
 
+    @Setter
     @ManyToOne
     ExamPart parent;
 
