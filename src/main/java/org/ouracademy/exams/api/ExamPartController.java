@@ -44,7 +44,7 @@ public class ExamPartController {
 
     @GetMapping("/exams")
     public Page<ExamPartResponse> getAll(final Pageable pageable) {
-        return repository.findAll(pageable).map(ExamPartResponse::new);
+        return repository.findByType( ExamPart.Type.EXAM, pageable).map(ExamPartResponse::new);
     }
 
 
