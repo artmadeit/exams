@@ -10,11 +10,14 @@ import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +41,14 @@ public class ExamPartController {
         var examPart = ExamPart.exam(request.getTitle(), request.getDescription());
         return repository.save(examPart);
     }
+
+    @GetMapping("/exams")
+    public Page<ExamPart> getAll(final Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+
+   
 
     @Getter @Setter
     public static class CreateSectionRequest extends CreateExamRequest {
