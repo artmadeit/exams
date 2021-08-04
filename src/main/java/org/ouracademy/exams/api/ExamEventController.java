@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,6 +54,11 @@ public class ExamEventController {
             .range(new DateTimeRange(request.start, request.end))
             .build();
         return this.repository.save(examEvent);
+    }
+
+    @GetMapping("")
+    public Page<ExamEvent> getAll(final Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @RolesAllowed("ADMIN")
