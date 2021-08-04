@@ -82,7 +82,6 @@ public class ExamPartController {
         return updateExamPart(examPartOptional, request);
     }
 
-
     @PostMapping("/text")
     public ExamPart createText(@Valid @RequestBody CreateSectionRequest request) {
         var parent = getParent(request.getParentId());
@@ -121,7 +120,7 @@ public class ExamPartController {
     }
 
     @Transactional
-    @PutMapping("/question")
+    @PutMapping("/question/{id}")
     public ExamPart updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
         var question = questionOptional.orElseThrow();
         question.setContent(request.getDescription());
