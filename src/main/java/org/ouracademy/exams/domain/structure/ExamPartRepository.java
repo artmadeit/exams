@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ExamPartRepository extends PagingAndSortingRepository<ExamPart, Long> {

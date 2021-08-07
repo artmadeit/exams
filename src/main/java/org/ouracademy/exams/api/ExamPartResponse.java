@@ -3,7 +3,7 @@ import lombok.Getter;
 import org.ouracademy.exams.domain.structure.ExamPart;
 
 @Getter
-public static class ExamPartResponse {
+public class ExamPartResponse {
 
     Long id;
     String content;
