@@ -63,7 +63,10 @@ public class ExamPart {
     }
     
     public void setParent(ExamPart newParent) {
-        this.parent.childs.removeIf(obj -> obj.id.equals(this.id));
+        if(this.parent != null) {
+            this.parent.childs.removeIf(obj -> obj.id.equals(this.id));
+        }
+            
         newParent.childs.add(this);
         this.parent = newParent;
     }

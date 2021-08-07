@@ -3,6 +3,7 @@ package org.ouracademy.exams.api;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.structure.ExamPart;
@@ -29,9 +30,14 @@ public class ExamPartController {
     
     ExamPartRepository repository;
 
+    @GetMapping("/exams")
+    public Page<ExamPartResponse> getAll(final Pageable pageable) {
+        return repository.findByType(ExamPart.Type.EXAM, pageable).map(ExamPartResponse::new);
+    }
+
     @Getter @Setter
     public static class CreateExamRequest {
-        @NotNull
+        @NotBlank
         String title;
         String description;
     }
@@ -42,14 +48,6 @@ public class ExamPartController {
         return new ExamPartResponse(repository.save(examPart));
     }
 
-    @GetMapping("/exams")
-    public Page<ExamPartResponse> getAll(final Pageable pageable) {
-        return repository.findByType( ExamPart.Type.EXAM, pageable).map(ExamPartResponse::new);
-    }
-
-
-   
-
     @Getter @Setter
     public static class CreateSectionRequest extends CreateExamRequest {
         @NotNull
@@ -58,74 +56,73 @@ public class ExamPartController {
 
     @Getter @Setter
     public static class CreateTextRequest extends CreateSectionRequest{
-        @NotNull
+        @NotBlank
         String description;
-     
     }
 
     @PostMapping("/section")
-    public ExamPart createSection(@Valid @RequestBody CreateSectionRequest request) {
+    public ExamPartResponse createSection(@Valid @RequestBody CreateSectionRequest request) {
         var parent = getParent(request.getParentId());
         var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
-        return repository.save(examPart);
+        return new ExamPartResponse(repository.save(examPart));
     }
 
     @Transactional
     @PutMapping("/section/{id}")
-    public ExamPart updateSection(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateSectionRequest request) {
+    public ExamPartResponse updateSection(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateSectionRequest request) {
        return updateExamPart(examPartOptional, request);
     }
 
     @Transactional
     @PutMapping("/text/{id}")
-    public ExamPart updateText(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateTextRequest request) {
+    public ExamPartResponse updateText(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateTextRequest request) {
         return updateExamPart(examPartOptional, request);
     }
 
     @PostMapping("/text")
-    public ExamPart createText(@Valid @RequestBody CreateSectionRequest request) {
+    public ExamPartResponse createText(@Valid @RequestBody CreateSectionRequest request) {
         var parent = getParent(request.getParentId());
         var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
-        return repository.save(examPart);
+        return new ExamPartResponse(repository.save(examPart));
     }
 
-    public ExamPart updateExamPart(Optional<ExamPart> examPartOptional, CreateSectionRequest request){
+    public ExamPartResponse updateExamPart(Optional<ExamPart> examPartOptional, CreateSectionRequest request){
         var examPart = examPartOptional.orElseThrow();
         examPart.setContent(request.description);
         examPart.setTitle(request.title);
         examPart.setParent(getParent(request.getParentId()));
-        return examPart;
+        return new ExamPartResponse(examPart);
     }
 
     
     @Getter @Setter
     public static class CreateQuestionRequest {
-        @NotNull
+        @NotBlank
         String description;
         @NotNull
         Long parentId;
     }
 
     @PostMapping("/question")
-    public ExamPart createQuestion(@Valid @RequestBody CreateQuestionRequest request) {
+    public ExamPartResponse createQuestion(@Valid @RequestBody CreateQuestionRequest request) {
         var parent = getParent(request.getParentId());
         var examPart = new Question(request.getDescription(), parent);
-        return repository.save(examPart);
+        return new ExamPartResponse(repository.save(examPart));
     }
 
     @PostMapping("/alternative")
-    public ExamPart createAlternative(@Valid @RequestBody CreateQuestionRequest request) {
+    public ExamPartResponse createAlternative(@Valid @RequestBody CreateQuestionRequest request) {
         var alternative = Question.alternative(request.getDescription(), (Question) getParent(request.getParentId()));
-        return repository.save(alternative);
+        return new ExamPartResponse(repository.save(alternative));
     }
 
     @Transactional
     @PutMapping("/question")
-    public ExamPart updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
+    public ExamPartResponse updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
         var question = questionOptional.orElseThrow();
         question.setContent(request.getDescription());
         question.setParent(getParent(request.getParentId()));
-        return question;
+        return new ExamPartResponse(question);
     }
     
     private ExamPart getParent(Long parentId) {
