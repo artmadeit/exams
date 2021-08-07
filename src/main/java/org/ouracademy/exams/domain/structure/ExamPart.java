@@ -52,7 +52,6 @@ public class ExamPart {
     @Enumerated(EnumType.STRING)
     Type type;
 
-    @Setter
     @ManyToOne
     ExamPart parent;
 
@@ -63,9 +62,10 @@ public class ExamPart {
         return new ArrayList<>(childs);
     }
     
-    public void setParent(ExamPart parent) {
-        parent.childs.add(this);       
-        this.parent = parent;
+    public void setParent(ExamPart newParent) {
+        this.parent.childs.removeIf(obj -> obj.id.equals(this.id));
+        newParent.childs.add(this);
+        this.parent = newParent;
     }
 
 
