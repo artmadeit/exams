@@ -6,21 +6,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.ouracademy.exams.domain.structure.ExamPartInfoResponse;
+import org.ouracademy.exams.api.ExamController.CreateExamRequest;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
-import org.ouracademy.exams.domain.structure.ExamRepository;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,26 +27,6 @@ import lombok.Setter;
 public class ExamPartController {
     
     ExamPartRepository repository;
-    
-    ExamRepository examRepository;
-
-    @GetMapping("/exams")
-    public Page<ExamPartInfoResponse> getAll(final Pageable pageable) {
-        return examRepository.findAll(pageable).map(ExamPartInfoResponse::fromExam);
-    }
-
-    @Getter @Setter
-    public static class CreateExamRequest {
-        @NotBlank
-        String title;
-        String description;
-    }
-
-    @PostMapping("/exam")
-    public ExamPartResponse createExam(@Valid @RequestBody CreateExamRequest request) {
-        var examPart = ExamPart.exam(request.getTitle(), request.getDescription());
-        return new ExamPartResponse(repository.save(examPart));
-    }
 
     @Getter @Setter
     public static class CreateSectionRequest extends CreateExamRequest {
