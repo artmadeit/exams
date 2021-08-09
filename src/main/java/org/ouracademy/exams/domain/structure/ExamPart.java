@@ -1,10 +1,12 @@
 package org.ouracademy.exams.domain.structure;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.lang.Nullable;
 
 import lombok.Getter;
@@ -25,6 +29,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(AuditingEntityListener.class)
 public class ExamPart {
 
     
@@ -57,6 +62,9 @@ public class ExamPart {
 
     @OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExamPart> childs = new ArrayList<>();
+
+    @LastModifiedDate
+    public LocalDateTime lastModifiedDate;
 
     public List<ExamPart> getChilds() {
         return new ArrayList<>(childs);
