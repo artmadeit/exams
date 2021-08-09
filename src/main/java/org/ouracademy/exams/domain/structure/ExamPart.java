@@ -14,6 +14,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
@@ -56,6 +57,7 @@ public class ExamPart {
     ExamPart parent;
 
     @OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderColumn
     private List<ExamPart> childs = new ArrayList<>();
 
     public List<ExamPart> getChilds() {
