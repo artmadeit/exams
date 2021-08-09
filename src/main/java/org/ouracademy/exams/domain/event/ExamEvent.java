@@ -32,6 +32,7 @@ public class ExamEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Setter String title;
     @Setter String description;
     
     @Embedded
@@ -46,7 +47,8 @@ public class ExamEvent {
 
 
     @Builder
-    ExamEvent(String description, DateTimeRange range) {
+    ExamEvent(String title, String description, DateTimeRange range) {
+        this.title = title;
         this.description = description;
         this.range = range;
     }

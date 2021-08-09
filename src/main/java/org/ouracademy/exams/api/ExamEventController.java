@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.domain.DateTimeRange;
@@ -39,6 +40,8 @@ public class ExamEventController {
 
     @Data
     public static class ExamEventRequest {
+        @NotBlank
+        String title;
         String description;
         @NotNull
         LocalDateTime start;
@@ -50,6 +53,7 @@ public class ExamEventController {
     @PostMapping
     public ExamEvent create(@RequestBody @Valid ExamEventRequest request) {
         var examEvent = ExamEvent.builder()
+            .title(request.title)
             .description(request.description)
             .range(new DateTimeRange(request.start, request.end))
             .build();
@@ -66,6 +70,7 @@ public class ExamEventController {
     @Transactional
     public ExamEvent edit(@PathVariable Long id, @RequestBody @Valid ExamEventRequest request) {
         var examEvent = this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
+        examEvent.setTitle(request.title);
         examEvent.setDescription(request.description);
         examEvent.setRange(new DateTimeRange(request.start, request.end));
         return examEvent;
