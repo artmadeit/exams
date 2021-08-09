@@ -15,6 +15,12 @@ public class Exam extends ExamPart {
     @LastModifiedDate
     LocalDateTime lastModifiedDate;
 
+    
+    /**
+     * @apiNote jpa only
+     */
+    Exam() {}
+
     Exam(String title, String content) {
         super(Type.EXAM, title, content);
     }
