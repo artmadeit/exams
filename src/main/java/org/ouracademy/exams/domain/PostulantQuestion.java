@@ -51,8 +51,7 @@ public class PostulantQuestion extends ExamPartReference {
     PostulantQuestion() {}
 
     public PostulantQuestion(Integer number, Question question, List<ExamPart> alternatives) {
-        this.number = number;
-        this.examPart = question;
+        super(question, number);
         this.alternativeReferences = ExamPartReference.toReferences(alternatives);
     }
 
