@@ -51,6 +51,7 @@ public class PostulantExam {
         setQuestions(questions);
     }
 
+    // TODO: when number is set?
     private void setQuestions(List<PostulantQuestion> questions) {
         for (PostulantQuestion postulantQuestion : questions) {
             addPostulantQuestion(postulantQuestion);

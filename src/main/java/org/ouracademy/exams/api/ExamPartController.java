@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.ouracademy.exams.domain.structure.ExamPartInfoResponse;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.Question;
@@ -31,8 +32,8 @@ public class ExamPartController {
     ExamPartRepository repository;
 
     @GetMapping("/exams")
-    public Page<ExamPartResponse> getAll(final Pageable pageable) {
-        return repository.findByType(ExamPart.Type.EXAM, pageable).map(ExamPartResponse::new);
+    public Page<ExamPartInfoResponse> getAll(final Pageable pageable) {
+        return repository.findByType(ExamPart.Type.EXAM, pageable);
     }
 
     @Getter @Setter

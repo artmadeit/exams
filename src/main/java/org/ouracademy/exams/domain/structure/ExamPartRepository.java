@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+@Transactional(readOnly = true)
 public interface ExamPartRepository extends PagingAndSortingRepository<ExamPart, Long> {
 
-    @Transactional(readOnly = true)
     List<ExamPart> findByTitleIn(Collection<String> titles);
 
-    Page<ExamPart> findByType(ExamPart.Type type, Pageable pageable);
+    Page<ExamPartInfoResponse> findByType(ExamPart.Type type, Pageable pageable);
 
     
 }
