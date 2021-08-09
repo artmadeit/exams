@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +19,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @RestController
+@RequestMapping("/exam")
 @AllArgsConstructor
 public class ExamController {
     ExamRepository repository;
 
-    @GetMapping("/exams")
+
+    @GetMapping
     public Page<ExamPartInfoResponse> getAll(final Pageable pageable) {
         return repository.findAll(pageable).map(ExamPartInfoResponse::fromExam);
     }
@@ -34,7 +37,7 @@ public class ExamController {
         String description;
     }
 
-    @PostMapping("/exam")
+    @PostMapping
     public ExamPartResponse createExam(@Valid @RequestBody CreateExamRequest request) {
         var examPart = ExamPart.exam(request.getTitle(), request.getDescription());
         return new ExamPartResponse(repository.save(examPart));
