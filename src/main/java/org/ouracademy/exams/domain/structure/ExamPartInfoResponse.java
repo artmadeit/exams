@@ -10,4 +10,8 @@ public class ExamPartInfoResponse {
     String title;
     String content;
     LocalDateTime lastModifiedDate;
+
+    public static ExamPartInfoResponse fromExam(Exam exam) {
+        return new ExamPartInfoResponse(exam.id, exam.title, exam.content, exam.lastModifiedDate);
+    }
 }

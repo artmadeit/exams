@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.ouracademy.exams.domain.structure.ExamPartInfoResponse;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
+import org.ouracademy.exams.domain.structure.ExamRepository;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +31,12 @@ import lombok.Setter;
 public class ExamPartController {
     
     ExamPartRepository repository;
+    
+    ExamRepository examRepository;
 
     @GetMapping("/exams")
     public Page<ExamPartInfoResponse> getAll(final Pageable pageable) {
-        return repository.findByType(ExamPart.Type.EXAM, pageable);
+        return examRepository.findAll(pageable).map(ExamPartInfoResponse::fromExam);
     }
 
     @Getter @Setter
