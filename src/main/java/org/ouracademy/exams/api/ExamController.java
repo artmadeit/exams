@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import org.ouracademy.exams.domain.structure.Exam;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartInfoResponse;
 import org.ouracademy.exams.domain.structure.ExamRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +27,7 @@ import lombok.Setter;
 @RestController
 @RequestMapping("/exam")
 @AllArgsConstructor
+@Secured({ "ROLE_ADMIN" })
 public class ExamController {
     ExamRepository repository;
 

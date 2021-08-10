@@ -11,6 +11,7 @@ import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import lombok.Setter;
 
 @RestController
 @AllArgsConstructor
+@Secured({ "ROLE_ADMIN" })
 public class ExamPartController {
     
     ExamPartRepository repository;
