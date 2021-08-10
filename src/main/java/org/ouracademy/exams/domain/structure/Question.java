@@ -34,6 +34,10 @@ public class Question extends ExamPart {
         return result;
     }
 
+    public void markAsAnswer(int alternativeNumber) {
+        this.answer = this.alternatives().get(alternativeNumber - 1);
+    }
+
     public List<ExamPart> alternatives() {// A, B, C, D
         return this.getChilds();
     }

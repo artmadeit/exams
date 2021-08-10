@@ -1,7 +1,5 @@
 package org.ouracademy.exams.domain.structure;
 
-import static org.ouracademy.exams.domain.structure.ExamPart.Type;
-
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -71,6 +69,7 @@ public class ExamTestData {
             numeroPreguntas ++;
             var question = new Question("P" + numeroPreguntas + "-E" + numeroExamen, padre);
             agregarAlternativas(question);
+            question.markAsAnswer(1);
         });
     }
 
