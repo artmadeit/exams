@@ -51,7 +51,6 @@ public class PostulantExam {
         setQuestions(questions);
     }
 
-    // TODO: when number is set?
     private void setQuestions(List<PostulantQuestion> questions) {
         for (PostulantQuestion postulantQuestion : questions) {
             addPostulantQuestion(postulantQuestion);
@@ -74,5 +73,9 @@ public class PostulantExam {
         
         if(actualRange.hasEnded())
             throw new BadArgumentsException("exam.ended");
+    }
+
+    public Double getScore() {
+        return this.questions.stream().mapToDouble(PostulantQuestion::getScore).sum();
     }
 }

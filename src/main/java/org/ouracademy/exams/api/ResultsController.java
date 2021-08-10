@@ -31,9 +31,10 @@ public class ResultsController {
         Long id;
         Postulant postulant;
         DateTimeRange actualRange;
+        Double score;
 
         public static PostulantExamSummary toDTO(PostulantExam exam) {
-            return new PostulantExamSummary(exam.getId(), exam.getPostulant(), exam.getActualRange());
+            return new PostulantExamSummary(exam.getId(), exam.getPostulant(), exam.getActualRange(), exam.getScore());
         }
     }
 
@@ -43,13 +44,4 @@ public class ResultsController {
             .orElseThrow(() -> new NotFoundException(ExamEvent.class, examEventId));
         return postulantExamRepository.findByEvent(examEvent, pageable).map(PostulantExamSummary::toDTO);
     }
-
-            //  {{ `*${p.dni}` }}</td>
-            //   *{{ p.codigo_postulante }}</td>
-            // {{ `${p.apellido_paterno} ${p.apellido_materno}, ${p.nombre}` }}
-            //   {{ p.codigo_upg }}</td>
-            //   *{{ p.codigo_programa }}</td>
-            //   {{ p.puntaje }}</td>
-            //   {{ p.timeStart | time }}</td>
-            //   {{ p.timeEnd | time }}</td>
 }

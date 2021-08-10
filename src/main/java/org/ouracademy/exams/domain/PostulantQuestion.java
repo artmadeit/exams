@@ -67,6 +67,12 @@ public class PostulantQuestion extends ExamPartReference {
         return !isCorrect();
     }
 
+    public Double getScore() {
+        if (this.isCorrect()) return getQuestion().getScore();
+        if (this.postulantAnswer == null) return 0.0;
+        return 0.0;
+    }
+
     public Optional<ExamPart> getAlternative(Long alternativeId) {
         return getAlternatives()
             .stream()
