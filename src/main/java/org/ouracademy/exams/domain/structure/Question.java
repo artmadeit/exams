@@ -44,4 +44,10 @@ public class Question extends ExamPart {
     public List<ExamPart> alternatives() {// A, B, C, D
         return this.getChilds();
     }
+
+    public Double score(ExamPart postulantAnswer) {
+        if (answer.equals(postulantAnswer)) return correctScore;
+        if (postulantAnswer == null) return blankScore;
+        return incorrectScore;
+    }
 }

@@ -55,22 +55,12 @@ public class PostulantQuestion extends ExamPartReference {
         this.alternativeReferences = ExamPartReference.toReferences(alternatives);
     }
 
-    public boolean isCorrect() {
-        return getQuestion().getAnswer().equals(postulantAnswer);
-    }
-
     public Question getQuestion() {
         return (Question) this.examPart;
     }
 
-    public boolean isWrong() {
-        return !isCorrect();
-    }
-
     public Double getScore() {
-        if (this.isCorrect()) return getQuestion().getCorrectScore();
-        if (this.postulantAnswer == null) return getQuestion().getBlankScore();
-        return getQuestion().getIncorrectScore();
+        return getQuestion().score(getPostulantAnswer());
     }
 
     public Optional<ExamPart> getAlternative(Long alternativeId) {
