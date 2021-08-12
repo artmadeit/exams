@@ -1,4 +1,3 @@
-from router import db
 import pandas as pd
 
 
@@ -63,15 +62,6 @@ def demos():
     ]
 
 def seed_users():
-
-    db.postulante.delete_many({})
-    db.admin.delete_many({})
-
-    db.admin.insert_one({'usuario': 'admin', 'contraseña': 'MCbY/-vV7qL5Xj9Hzq^['})
-
-    db.postulante.create_index("codigo_postulante", unique = True)
-    db.postulante.create_index("dni", unique = True)
-
     db.postulante.insert_many([
         *postulantes,
         *demos(),

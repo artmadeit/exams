@@ -18,6 +18,8 @@ import lombok.Getter;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class Postulant extends UserAccount { 
+    // TODO: codigo_postulante y dni unique
+
     String firstName;
     String lastName;
     String motherLastName;
