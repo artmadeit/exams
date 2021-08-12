@@ -1,5 +1,7 @@
 package org.ouracademy.exams.api;
 
+import java.util.Optional;
+
 import org.ouracademy.exams.domain.DateTimeRange;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantExamRepository;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +43,11 @@ public class ResultsController {
     }
 
     @GetMapping("{examEventId}")
-    public Page<PostulantExamSummary> search(@PathVariable Long examEventId, final Pageable pageable) {
+    public Page<PostulantExamSummary> search(
+        @PathVariable Long examEventId, final Pageable pageable,
+        @RequestParam Optional<String> dni,
+        @RequestParam Optional<String> programCode) {
+        
         var examEvent = examEvents.findById(examEventId)
             .orElseThrow(() -> new NotFoundException(ExamEvent.class, examEventId));
         return postulantExamRepository.findByEvent(examEvent, pageable).map(PostulantExamSummary::toDTO);
