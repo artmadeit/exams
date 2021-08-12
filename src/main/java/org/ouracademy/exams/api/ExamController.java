@@ -36,6 +36,7 @@ public class ExamController {
     @AllArgsConstructor
     public static class ExamPartResponse2 {
         Long id;
+        Long parentId;
         String title;
         String content;
         ExamPart.Type type;
@@ -43,7 +44,8 @@ public class ExamController {
 
         public static ExamPartResponse2 recursive(ExamPart exam) {
             var childs = exam.getChilds().stream().map(ExamPartResponse2::recursive).collect(Collectors.toList());
-            return new ExamPartResponse2(exam.getId(), exam.getTitle(), exam.getContent(), exam.getType(), childs);
+            var parentId = exam.getParent() != null ?  exam.getParent().getId() : null;
+            return new ExamPartResponse2(exam.getId(), parentId ,exam.getTitle(), exam.getContent(), exam.getType(), childs);
         }
     }
 
