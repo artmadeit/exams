@@ -1,7 +1,12 @@
 package org.ouracademy.exams;
 
+import java.time.LocalDateTime;
+
 import org.ouracademy.exams.auth.UserAccount;
 import org.ouracademy.exams.auth.UserRepository;
+import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.domain.event.ExamEvent;
+import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.postulant.PostulantRepository;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
@@ -25,11 +30,19 @@ public class ExamsApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(
+		ExamEventRepository eventRepository,
 		ExamPartRepository examPartRepository, 
 		PostulantRepository postulantRepository,
 		UserRepository userRepository) {
 		
 		return args -> {
+			eventRepository.save(
+				ExamEvent.builder()
+					.title("Examen postgrado UNMSM 2021 - II")
+					.description("Examen virtual de aptitud para maestría")
+					.range(new DateTimeRange(LocalDateTime.of(2021, 11, 28, 16, 0, 0), LocalDateTime.of(2021, 11, 28, 17, 0, 0)))
+					.build());
+
 			examPartRepository.save(
 				ExamTestData.examen(1)
 			);
