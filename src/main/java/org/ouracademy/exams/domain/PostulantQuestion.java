@@ -68,9 +68,9 @@ public class PostulantQuestion extends ExamPartReference {
     }
 
     public Double getScore() {
-        if (this.isCorrect()) return getQuestion().getScore();
-        if (this.postulantAnswer == null) return 0.0;
-        return 0.0;
+        if (this.isCorrect()) return getQuestion().getCorrectScore();
+        if (this.postulantAnswer == null) return getQuestion().getBlankScore();
+        return getQuestion().getIncorrectScore();
     }
 
     public Optional<ExamPart> getAlternative(Long alternativeId) {

@@ -10,7 +10,10 @@ import lombok.Getter;
 @Getter
 @Entity
 public class Question extends ExamPart {
-    Double score = 4.0;
+    Double correctScore = 4.0;
+    Double blankScore = 0.0;
+    Double incorrectScore = -1.0;
+
     @OneToOne
     ExamPart answer; // B    
 
