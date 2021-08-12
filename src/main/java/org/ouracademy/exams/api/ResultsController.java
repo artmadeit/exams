@@ -1,8 +1,11 @@
 package org.ouracademy.exams.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 
 import org.ouracademy.exams.domain.DateTimeRange;
 import org.ouracademy.exams.domain.PostulantExam;
@@ -63,12 +66,19 @@ public class ResultsController {
             // and p.dni = :dni and p.programCode = :programCode
             
             var exam = root;
-            var p = exam.join("postulant", JoinType.RIGHT);
+            var p = exam.join("postulant");
+            
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(exam.get("event").get("id"), examEventId));
+            if (optionalDni.isPresent()) {
+                predicates.add(cb.equal(p.get("dni"), optionalDni.get()));
+            }
+            if (optionalProgramCode.isPresent()) {
+                predicates.add(cb.equal(p.get("programCode"), optionalProgramCode.get()));
+            }
             
             return cb.and(
-                cb.equal(exam.get("event").get("id"), examEventId),
-                optionalDni.map(dni -> cb.equal(p.get("dni"), dni)).orElse(null),
-                optionalProgramCode.map(programCode -> cb.equal(p.get("programCode"), programCode)).orElse(null)
+                predicates.toArray(Predicate[]::new)
             );
         };
     }
