@@ -32,9 +32,10 @@ public class ResultsController {
         Postulant postulant;
         DateTimeRange actualRange;
         Double score;
+        Boolean isApproved;
 
         public static PostulantExamSummary toDTO(PostulantExam exam) {
-            return new PostulantExamSummary(exam.getId(), exam.getPostulant(), exam.getActualRange(), exam.getScore());
+            return new PostulantExamSummary(exam.getId(), exam.getPostulant(), exam.getActualRange(), exam.getScore(), exam.isApproved());
         }
     }
 

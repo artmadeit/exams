@@ -78,4 +78,8 @@ public class PostulantExam {
     public Double getScore() {
         return this.questions.stream().mapToDouble(PostulantQuestion::getScore).sum();
     }
+
+    public Boolean isApproved() {
+        return getScore() >= 55.0;
+    }
 }
