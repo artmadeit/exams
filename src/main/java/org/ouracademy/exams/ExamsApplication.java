@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import org.ouracademy.exams.auth.UserAccount;
 import org.ouracademy.exams.auth.UserRepository;
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.domain.Inscription;
+import org.ouracademy.exams.domain.InscriptionRepository;
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
@@ -33,10 +35,11 @@ public class ExamsApplication {
 		ExamEventRepository eventRepository,
 		ExamPartRepository examPartRepository, 
 		PostulantRepository postulantRepository,
-		UserRepository userRepository) {
+		UserRepository userRepository,
+		InscriptionRepository inscriptionRepository) {
 		
 		return args -> {
-			eventRepository.save(
+			var examEvent = eventRepository.save(
 				ExamEvent.builder()
 					.title("Examen postgrado UNMSM 2021 - II")
 					.description("Examen virtual de aptitud para maestría")
@@ -54,7 +57,7 @@ public class ExamsApplication {
 				UserAccount.admin("unmsm-admin", "unsuperpasword")
 			);
 
-			postulantRepository.save(
+			var arthur = postulantRepository.save(
 				Postulant.builder()
 				.dni("73646447")
 				.code("12123123")
@@ -67,7 +70,9 @@ public class ExamsApplication {
 			);
 
 			
-			postulantRepository.save(
+			inscriptionRepository.save(new Inscription(arthur, examEvent));
+
+			var diana = postulantRepository.save(
 				Postulant.builder()
 				.dni("48484489")
 				.code("12312390")
@@ -78,6 +83,21 @@ public class ExamsApplication {
 				.upgCode("12")
 				.build()
 			);
+			
+			inscriptionRepository.save(new Inscription(diana, examEvent));
+
+			postulantRepository.save(
+				Postulant.builder()
+				.dni("1111111")
+				.code("111111")
+				.lastName("sin")
+				.motherLastName("inscripcion")
+				.firstName("alguien")
+				.programCode("1")
+				.upgCode("12")
+				.build()
+			);
+
 		};
 	}
 }

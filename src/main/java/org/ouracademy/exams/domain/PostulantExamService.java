@@ -31,6 +31,7 @@ public class PostulantExamService {
     ExamEventRepository examEventRepository;
     PostulantExamRepository postulantExamRepository;
     ExamPartRepository examPartRepository;
+    InscriptionRepository inscriptionRepository;
 
     public static class ExamAlreadyStartedException extends OuracademyException {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-already-started");
@@ -50,11 +51,6 @@ public class PostulantExamService {
         postulantExam.finish();
         
         return new PostulantExamResponse(postulantExam);
-    }
-
-    private PostulantExam start(ExamEvent examEvent, Postulant postulant) {
-        var postulantExam = postulant.start(examEvent, randomQuestions());
-        return postulantExamRepository.save(postulantExam);
     }
 
 
@@ -97,11 +93,16 @@ public class PostulantExamService {
         return postulant.isTaker(postulantExam);
     }
 
-    public PostulantExamResponse startOrGet(Long examEventId, Postulant postulant) {
-        var examEvent = examEventRepository.findById(examEventId).orElseThrow(() -> new NotFoundException(ExamEvent.class, examEventId));
-        var postulantExam = postulantExamRepository.findByPostulantAndEvent(postulant, examEvent)
-            .orElseGet(() -> this.start(examEvent, postulant));
-
-        return new PostulantExamResponse(postulantExam);
+    @Transactional
+    public PostulantExam startOrGet(Long examEventId, Postulant postulant) {
+        // TODO: put inscription id
+        var examEvent = examEventRepository.getById(examEventId);
+        var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent).orElseThrow();
+        
+        if(inscription.getPostulantExam() == null) {
+            inscription.setPostulantExam(inscription.startExam(randomQuestions()));
+        }
+        
+        return inscription.getPostulantExam();
     }
 }

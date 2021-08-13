@@ -34,9 +34,12 @@ public class ExamTests {
                 LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2022, 03, 07, 17, 00) 
             )).build();
         
-
+        var inscription = new Inscription(
+            postulant, examEvent
+        );
+        
         List<PostulantQuestion> randomQuestions = List.of();
-        var postulantExam = postulant.start(examEvent, randomQuestions);
+        var postulantExam = inscription.startExam(randomQuestions);
         assertNotNull(postulantExam);
     }
 

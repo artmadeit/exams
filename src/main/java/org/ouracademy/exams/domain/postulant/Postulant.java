@@ -48,19 +48,6 @@ public class Postulant extends UserAccount {
         this.programCode = programCode;
         this.upgCode = upgCode;
     }
-
-    public PostulantExam start(ExamEvent event, List<PostulantQuestion> questions) {
-        if (!event.hasStarted())
-            throw new ExamEvent.NotStartedException(event);
-
-        if (event.hasEnded())
-            throw new ExamEvent.EndedException(event);
-
-        return PostulantExam.builder()
-            .questions(questions)
-            .postulant(this)
-            .event(event).build();
-    }
     
     public String getDni() {
         return this.getName();

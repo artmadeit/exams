@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
 import org.ouracademy.exams.domain.event.ExamEvent;
@@ -27,8 +28,8 @@ public class PostulantExam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne
-    Postulant postulant;
+    @OneToOne
+    Inscription inscription;
     @ManyToOne
     ExamEvent event;
     @Embedded
@@ -44,11 +45,15 @@ public class PostulantExam {
     PostulantExam() {}
 
     @Builder
-    public PostulantExam(Postulant postulant, ExamEvent event, List<PostulantQuestion> questions) {
-        this.postulant = postulant;
+    public PostulantExam(Inscription inscription, ExamEvent event, List<PostulantQuestion> questions) {
+        this.inscription = inscription;
         this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         setQuestions(questions);
+    }
+
+    public Postulant getPostulant() {
+        return this.inscription.postulant;
     }
 
     private void setQuestions(List<PostulantQuestion> questions) {
