@@ -70,8 +70,8 @@ public class ExamPartController {
 
     public ExamPartResponse updateExamPart(Optional<ExamPart> examPartOptional, CreateSectionRequest request){
         var examPart = examPartOptional.orElseThrow();
-        examPart.setContent(request.description);
-        examPart.setTitle(request.title);
+        examPart.setContent(request.getDescription());
+        examPart.setTitle(request.getTitle());
         examPart.setParent(getParent(request.getParentId()));
         return new ExamPartResponse(examPart);
     }
