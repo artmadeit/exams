@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -49,7 +50,9 @@ public class ExamPart {
     String title;
     
     @Setter
-    @Lob
+    // Not using @Lob because we need always put @Transactional
+    // https://stackoverflow.com/questions/3164072/large-objects-may-not-be-used-in-auto-commit-mode
+    @Column(columnDefinition="TEXT")
     String content;
 
     @Enumerated(EnumType.STRING)
