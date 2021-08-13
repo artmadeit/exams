@@ -99,6 +99,14 @@ public class ExamPartController {
     }
 
     @Transactional
+    @PutMapping("/alternative")
+    public ExamPartResponse updateAlternative(@PathVariable("id") Optional<ExamPart> alternativeOptional, @Valid @RequestBody CreateQuestionRequest request) {
+        var alternative = alternativeOptional.orElseThrow();
+        alternative.setContent(request.getDescription());
+        return new ExamPartResponse(alternative);
+    }
+
+    @Transactional
     @PutMapping("/question")
     public ExamPartResponse updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
         var question = questionOptional.orElseThrow();
