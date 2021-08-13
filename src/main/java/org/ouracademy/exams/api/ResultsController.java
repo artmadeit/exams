@@ -8,7 +8,11 @@ import java.util.Optional;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 
+import com.google.common.collect.Lists;
+
 import org.ouracademy.exams.domain.DateTimeRange;
+import org.ouracademy.exams.domain.Inscription;
+import org.ouracademy.exams.domain.InscriptionRepository;
 import org.ouracademy.exams.domain.PostulantExam;
 import org.ouracademy.exams.domain.PostulantExamRepository;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
@@ -31,47 +35,61 @@ import lombok.Value;
 public class ResultsController {
     
     ExamEventRepository examEvents;
-    PostulantExamRepository postulantExamRepository;
+    InscriptionRepository inscriptions;
 
 
     @Value
     public static class PostulantExamSummary {
         Long id;
-        Postulant postulant;
         DateTimeRange actualRange;
         Double score;
         Boolean isApproved;
 
+        
         public static PostulantExamSummary toDTO(PostulantExam exam) {
-            return new PostulantExamSummary(exam.getId(), exam.getPostulant(), exam.getActualRange(), exam.getScore(), exam.isApproved());
+            if(exam == null)
+                return null;
+            return new PostulantExamSummary(exam.getId(), exam.getActualRange(), exam.getScore(), exam.isApproved());
+        }
+    }
+        
+    @Value
+    public static class InscriptionResponse {
+        Postulant postulant;
+        PostulantExamSummary exam;
+        
+        public static InscriptionResponse toDTO(Inscription inscription) {
+            var examSummary = PostulantExamSummary.toDTO(inscription.getPostulantExam());
+            return new InscriptionResponse(inscription.getPostulant(), examSummary);
         }
     }
 
     @GetMapping("{examEventId}")
-    public Page<PostulantExamSummary> search(
+    public Page<InscriptionResponse> search(
         @PathVariable Long examEventId, final Pageable pageable,
         @RequestParam Optional<String> dni,
         @RequestParam Optional<String> programCode) {
         
         var spec = postulantExamsofExamEvent(examEventId, dni, programCode);
 
-        return postulantExamRepository.findAll(spec, pageable).map(PostulantExamSummary::toDTO);
+        return inscriptions.findAll(spec, pageable).map(InscriptionResponse::toDTO);
     }
 
-    public static Specification<PostulantExam> postulantExamsofExamEvent(
+    public static Specification<Inscription> postulantExamsofExamEvent(
         Long examEventId, Optional<String> optionalDni, Optional<String> optionalProgramCode) {
         return (root, query, cb) -> {
-            // select e.*
-            // from postulant_exam e right join postulant p
-            // where e.event_id = :eventId
+            // select i
+            // from inscription i join i.postulant p
+            // left join postulant_exam ex
+            // where i.event.id = :eventId
             // and p.dni = :dni and p.programCode = :programCode
             
-            var exam = root;
-            var p = exam.join("postulant");
+            var i = root;
+            var p = cb.treat(i.join("postulant"), Postulant.class);
             
             return cb.and(
-                List.of(
-                    cb.equal(exam.get("event").get("id"), examEventId),
+                Lists.newArrayList(
+                    cb.equal(i.get("event").get("id"), examEventId),
                     optionalDni.map(dni -> cb.equal(p.get("dni"), dni)).orElse(null),
                     optionalProgramCode.map(programCode -> cb.equal(p.get("programCode"), programCode)).orElse(null)
                 )
