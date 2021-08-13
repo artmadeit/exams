@@ -72,8 +72,7 @@ public class ExamsApplication {
 			
 			inscriptionRepository.save(new Inscription(arthur, examEvent));
 
-			
-			postulantRepository.save(
+			var diana = postulantRepository.save(
 				Postulant.builder()
 				.dni("48484489")
 				.code("12312390")
@@ -84,6 +83,21 @@ public class ExamsApplication {
 				.upgCode("12")
 				.build()
 			);
+			
+			inscriptionRepository.save(new Inscription(diana, examEvent));
+
+			postulantRepository.save(
+				Postulant.builder()
+				.dni("1111111")
+				.code("111111")
+				.lastName("sin")
+				.motherLastName("inscripcion")
+				.firstName("alguien")
+				.programCode("1")
+				.upgCode("12")
+				.build()
+			);
+
 		};
 	}
 }
