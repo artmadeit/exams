@@ -80,17 +80,17 @@ public class ResultsController {
         return (root, query, cb) -> {
             // select i
             // from inscription i join i.postulant p
-            // left join postulant_exam ex
             // where i.event.id = :eventId
             // and p.dni = :dni and p.programCode = :programCode
             
             var i = root;
-            var p = cb.treat(i.join("postulant"), Postulant.class);
+            
+            var p = i.join("postulant");
             
             return cb.and(
                 Lists.newArrayList(
                     cb.equal(i.get("event").get("id"), examEventId),
-                    optionalDni.map(dni -> cb.equal(p.get("dni"), dni)).orElse(null),
+                    optionalDni.map(dni -> cb.equal(p.get("name"), dni)).orElse(null),
                     optionalProgramCode.map(programCode -> cb.equal(p.get("programCode"), programCode)).orElse(null)
                 )
                 .stream()
