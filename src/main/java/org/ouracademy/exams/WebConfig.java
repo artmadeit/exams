@@ -25,27 +25,27 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedMethods("*");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
+    // @Override
+    // public void addInterceptors(InterceptorRegistry registry) {
+    //     registry.addInterceptor(localeChangeInterceptor());
+    // }
 
     /**
      * Source: 
      * https://lokalise.com/blog/spring-boot-internationalization/
      * https://www.baeldung.com/spring-boot-internationalization
      */
-    @Bean
-	public LocaleResolver localeResolver() {
-		var slr = new AcceptHeaderLocaleResolver();
-		slr.setDefaultLocale(Locale.forLanguageTag("es"));
-		return slr;
-	}
+    // @Bean
+	// public LocaleResolver localeResolver() {
+	// 	var slr = new AcceptHeaderLocaleResolver();
+	// 	slr.setDefaultLocale(Locale.forLanguageTag("es"));
+	// 	return slr;
+	// }
 
-	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
-		var lci = new LocaleChangeInterceptor();
-		lci.setParamName("lang");
-		return lci;
-	}
+	// @Bean
+	// public LocaleChangeInterceptor localeChangeInterceptor() {
+	// 	var lci = new LocaleChangeInterceptor();
+	// 	lci.setParamName("lang");
+	// 	return lci;
+	// }
 }

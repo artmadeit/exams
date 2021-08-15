@@ -25,9 +25,8 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
 
     @ExceptionHandler(OuracademyException.class)
     public ResponseEntity<Problem> handleIllegalArgument(OuracademyException ex, Locale locale) {
-        String errorMessage = getLocalizedMessage(ex, locale);
         var problem = Problem.builder()
-            .withDetail(errorMessage)
+            .withDetail(ex.getCode())
             .withTitle(ex.getTitle())
             .withType(ex.getType())
             .withStatus(ex.getStatus())
@@ -37,24 +36,24 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
         return new ResponseEntity<>(problem, HttpStatus.valueOf(ex.getStatus().getStatusCode()));
     }
 
-    @Override
-    public ResponseEntity<Problem> handleAuthentication(AuthenticationException ex, NativeWebRequest request) {
-        String errorMessage = messageSource.getMessage("unauthorized", null, LocaleContextHolder.getLocale());
+    // @Override
+    // public ResponseEntity<Problem> handleAuthentication(AuthenticationException ex, NativeWebRequest request) {
+    //     String errorMessage = messageSource.getMessage("unauthorized", null, LocaleContextHolder.getLocale());
 
-        var problem = Problem.builder()
-            .withDetail(errorMessage)
-            .withTitle(ex.getMessage())
-            .withStatus(Status.UNAUTHORIZED)
-            .build();
+    //     var problem = Problem.builder()
+    //         .withDetail(errorMessage)
+    //         .withTitle(ex.getMessage())
+    //         .withStatus(Status.UNAUTHORIZED)
+    //         .build();
             
-        return new ResponseEntity<>(problem, HttpStatus.UNAUTHORIZED);
-    }
+    //     return new ResponseEntity<>(problem, HttpStatus.UNAUTHORIZED);
+    // }
 
-    private String getLocalizedMessage(OuracademyException ex, Locale locale) {
-        try {
-            return messageSource.getMessage(ex.getCode(), ex.getArgs().values().toArray(), locale);
-        } catch(NoSuchMessageException e) {
-            return ex.getCode();
-        }
-    }
+    // private String getLocalizedMessage(OuracademyException ex, Locale locale) {
+    //     try {
+    //         return messageSource.getMessage(ex.getCode(), ex.getArgs().values().toArray(), locale);
+    //     } catch(NoSuchMessageException e) {
+    //         return ex.getCode();
+    //     }
+    // }
 }
