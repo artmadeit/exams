@@ -2,6 +2,7 @@ package org.ouracademy.exams.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -94,7 +95,7 @@ public class PostulantQuestionController {
         
         var postulantQuestion = postulantQuestionRepository
             .findByNumberAndPostulantExam_Id(questionNumber, examId)
-            .orElseThrow(() -> new NotFoundException("question", new Object[]{ questionNumber }));
+            .orElseThrow(() -> new NotFoundException("question", Map.of("questionNumber", questionNumber)));
         
         postulantQuestion.updateAnswer(answer.alternativeId);
         

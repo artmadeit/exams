@@ -3,6 +3,7 @@ package org.ouracademy.exams.domain;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -84,7 +85,7 @@ public class PostulantQuestion extends ExamPartReference {
 
         var alternative = alternativeId == null? 
             null:
-            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("alternative_in_question", new Object[] {alternativeId, id} ));
+            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("alternative_in_question", Map.of("alternativeId", alternativeId, "id", id) ));
         
         this.postulantAnswer = alternative;
     }

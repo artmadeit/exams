@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -31,7 +32,7 @@ public class DateTimeRange {
 
     private void validate() {
         if(!start.isBefore(end()))
-            throw new BadArgumentsException("date_time_range.start_greater_end", new Object[] {start, end});
+            throw new BadArgumentsException("date_time_range.start_greater_end", Map.of("start", start, "end", end));
     }
 
     private LocalDateTime end() {

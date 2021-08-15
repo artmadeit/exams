@@ -2,6 +2,7 @@ package org.ouracademy.exams.domain.event;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -61,7 +62,7 @@ public class ExamEvent {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-not-started");
 
         public NotStartedException(ExamEvent event) {
-            super("exam_event.not_started", "Exam not started", ERROR_TYPE, new Object[] {event.getRange().getStart()});
+            super("exam_event.not_started", "Exam not started", ERROR_TYPE, Map.of("start", event.getRange().getStart()));
         }
     }
 
@@ -69,7 +70,7 @@ public class ExamEvent {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-ended");
 
         public EndedException(ExamEvent event) {
-            super("exam_event.ended", "Exam ended", ERROR_TYPE, new Object[] { event.getRange().getEnd() });
+            super("exam_event.ended", "Exam ended", ERROR_TYPE, Map.of("end", event.getRange().getEnd()));
         }
     }
 

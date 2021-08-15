@@ -51,7 +51,7 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
 
     private String getLocalizedMessage(OuracademyException ex, Locale locale) {
         try {
-            return messageSource.getMessage(ex.getCode(), ex.getArgs(), locale);
+            return messageSource.getMessage(ex.getCode(), ex.getArgs().values().toArray(), locale);
         } catch(NoSuchMessageException e) {
             return ex.getCode();
         }

@@ -1,5 +1,6 @@
 package org.ouracademy.exams.api;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -116,6 +117,6 @@ public class ExamPartController {
     }
     
     private ExamPart getParent(Long parentId) {
-        return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", new Object[] { parentId }));
+        return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", Map.of("parentId", parentId)));
     }
 }

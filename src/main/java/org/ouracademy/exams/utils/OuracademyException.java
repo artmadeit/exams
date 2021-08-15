@@ -1,6 +1,7 @@
 package org.ouracademy.exams.utils;
 
 import java.net.URI;
+import java.util.Map;
 
 import org.zalando.problem.StatusType;
 
@@ -18,10 +19,10 @@ public abstract class OuracademyException extends RuntimeException {
   
     final String title;
     final URI type;
-    final Object[] args;
+    final Map<String, Object> args;
     final String code;
 
-    protected OuracademyException(String code, String title, URI type, Object[] args) {
+    protected OuracademyException(String code, String title, URI type, Map<String, Object> args) {
         this.code = code;
         this.title = title;
         this.type = type;
