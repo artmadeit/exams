@@ -28,10 +28,6 @@ public abstract class OuracademyException extends RuntimeException {
         this.args = args;
     }
 
-    protected OuracademyException(String code, String title, URI type) {
-        this(code, title, type, new Object[] {}); 
-    }
-
     public abstract StatusType getStatus();
 
     @Override

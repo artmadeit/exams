@@ -11,12 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.ouracademy.exams.domain.DateTimeRange;
-import org.ouracademy.exams.utils.OuracademyException;
+import org.ouracademy.exams.utils.BadArgumentsException;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.zalando.problem.Status;
-import org.zalando.problem.StatusType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -59,29 +57,19 @@ public class ExamEvent {
     ExamEvent() {}
 
 
-    public static class NotStartedException extends OuracademyException {
+    public static class NotStartedException extends BadArgumentsException {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-not-started");
 
         public NotStartedException(ExamEvent event) {
             super("exam_event.not_started", "Exam not started", ERROR_TYPE, new Object[] {event.getRange().getStart()});
         }
-
-        @Override
-        public StatusType getStatus() {
-            return Status.BAD_REQUEST;
-        }
     }
 
-    public static class EndedException extends OuracademyException {
+    public static class EndedException extends BadArgumentsException {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-ended");
 
         public EndedException(ExamEvent event) {
             super("exam_event.ended", "Exam ended", ERROR_TYPE, new Object[] { event.getRange().getEnd() });
-        }
-
-        @Override
-        public StatusType getStatus() {
-            return Status.BAD_REQUEST;
         }
     }
 

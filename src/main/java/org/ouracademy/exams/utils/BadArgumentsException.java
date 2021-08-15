@@ -14,7 +14,15 @@ public class BadArgumentsException extends OuracademyException {
   }
 
   public BadArgumentsException(String code, Object[] args) {
-    super(code, "Bad arguments", ERROR_TYPE, args);
+    this(code, "Bad arguments", ERROR_TYPE, args);
+  }
+
+  public BadArgumentsException(String code, String title, URI type) {
+    this(code, title, type, new Object[] {});
+  }
+
+  public BadArgumentsException(String code, String title, URI type, Object[] args) {
+    super(code, title, type, args);
   }
 
   @Override
