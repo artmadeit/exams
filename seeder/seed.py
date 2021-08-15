@@ -80,6 +80,7 @@ def seed_users():
         in data
     ))
 
+    # sql += "INSERT INTO inscription (postulant_name)"
 
     with open("data/insert_postulants.sql", "w") as sql_script:
         sql_script.write(sql)
