@@ -31,6 +31,7 @@ public class GlobalExceptionHandler implements AuthenticationAdviceTrait {
             .withTitle(ex.getTitle())
             .withType(ex.getType())
             .withStatus(ex.getStatus())
+            .with("args", ex.getArgs())
             .build();
 
         return new ResponseEntity<>(problem, HttpStatus.valueOf(ex.getStatus().getStatusCode()));
