@@ -62,11 +62,28 @@ def demos():
     ]
 
 def seed_users():
-    db.postulante.insert_many([
+    data = [
         *postulantes,
-        *demos(),
-    ])
+        # *demos(),
+    ]
+
+    
+
+    sql = "\n".join((
+        f"""
+        INSERT INTO user_account (name, password, role)
+        VALUES ('{p["dni"]}', '{p["codigo_postulante"]}', 'POSTULANT');
+        INSERT INTO postulant (name, first_name, last_name, mother_last_name, program_code, upg_code)
+        VALUES ('{p["dni"]}', '{p['nombre']}', '{p['apellido_paterno']}', '{p['apellido_materno']}', '{p['codigo_programa']}', '{p['codigo_upg']}');
+        """
+        for p
+        in data
+    ))
+
+
+    with open("data/insert_postulants.sql", "w") as sql_script:
+        sql_script.write(sql)
 
 print("se debe registrar (consulte en su bd)")
 print(len([        *postulantes, *demos() ]))
-# seed_users()
+seed_users()
