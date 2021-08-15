@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -33,6 +35,7 @@ public class UserAccount implements UserDetails {
 	@JsonIgnore
 	private String password;
 
+	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	public enum Role {

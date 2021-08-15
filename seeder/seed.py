@@ -67,16 +67,19 @@ def seed_users():
         # *demos(),
     ]
 
-    
 
-    # role 1 = POSTULANT
     insert_account = "INSERT INTO user_account (name, password, role) \
-        VALUES \n" + ",\n".join((f"('{p['dni']}', '{p['codigo_postulante']}', 1)" for p in data )) + ";"
+        VALUES \n" + ",\n".join((f"('{p['dni']}', '{p['codigo_postulante']}', 'POSTULANT')" for p in data )) + ";"
 
     insert_postulant = "INSERT INTO postulant (name, first_name, last_name, mother_last_name, program_code, upg_code) \
         VALUES \n" + ",\n".join((f"('{p['dni']}', '{p['nombre']}', '{p['apellido_paterno']}', '{p['apellido_materno']}', '{p['codigo_programa']}', '{p['codigo_upg']}')" for p in data )) + ";"
+
+    insert_inscription = "INSERT INTO inscription (postulant_name, event_id) \
+        VALUES \n" + ",\n".join((f"('{p['dni']}', 1)" for p in data )) + ";"
       
-    sql = insert_account + "\n" + insert_postulant
+    sql = insert_account + "\n" \
+        + insert_postulant + "\n" \
+        + insert_inscription
 
     with open("data/insert_postulants.sql", "w") as sql_script:
         sql_script.write(sql)
