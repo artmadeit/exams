@@ -30,9 +30,9 @@ public class ExamPartController {
     
     ExamPartRepository repository;
 
-    public static class CreateSectionRequest extends CreateExamRequest { }
+    public static class SectionRequest extends CreateExamRequest { }
 
-    public static class CreateTextRequest extends CreateExamRequest {
+    public static class TextRequest extends CreateExamRequest {
         @NotBlank
         @Override
         public void setDescription(String description) {
@@ -41,14 +41,14 @@ public class ExamPartController {
     }
 
     @PostMapping("/{parentId}/section")
-    public ExamPartResponse createSection(@PathVariable Long parentId, @Valid @RequestBody CreateSectionRequest request) {
+    public ExamPartResponse createSection(@PathVariable Long parentId, @Valid @RequestBody SectionRequest request) {
         var parent = getParent(parentId);
         var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
         return new ExamPartResponse(repository.save(examPart));
     }
 
     @PostMapping("/{parentId}/text")
-    public ExamPartResponse createText(@PathVariable Long parentId, @Valid @RequestBody CreateTextRequest request) {
+    public ExamPartResponse createText(@PathVariable Long parentId, @Valid @RequestBody TextRequest request) {
         var parent = getParent(parentId);
         var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
         return new ExamPartResponse(repository.save(examPart));
@@ -56,13 +56,13 @@ public class ExamPartController {
 
     @Transactional
     @PutMapping("/section/{id}")
-    public ExamPartResponse updateSection(@PathVariable Long id, @Valid @RequestBody CreateSectionRequest request) {
+    public ExamPartResponse updateSection(@PathVariable Long id, @Valid @RequestBody SectionRequest request) {
        return updateExamPart(id, request);
     }
 
     @Transactional
     @PutMapping("/text/{id}")
-    public ExamPartResponse updateText(@PathVariable Long id, @Valid @RequestBody CreateTextRequest request) {
+    public ExamPartResponse updateText(@PathVariable Long id, @Valid @RequestBody TextRequest request) {
         return updateExamPart(id, request);
     }
 
