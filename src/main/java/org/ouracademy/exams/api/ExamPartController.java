@@ -52,14 +52,14 @@ public class ExamPartController {
 
     @Transactional
     @PutMapping("/section/{id}")
-    public ExamPartResponse updateSection(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateSectionRequest request) {
-       return updateExamPart(examPartOptional, request);
+    public ExamPartResponse updateSection(@PathVariable Long id, @Valid @RequestBody CreateSectionRequest request) {
+       return updateExamPart(repository.findById(id), request);
     }
 
     @Transactional
     @PutMapping("/text/{id}")
-    public ExamPartResponse updateText(@PathVariable("id") Optional<ExamPart> examPartOptional, @Valid @RequestBody CreateTextRequest request) {
-        return updateExamPart(examPartOptional, request);
+    public ExamPartResponse updateText(@PathVariable Long id, @Valid @RequestBody CreateTextRequest request) {
+        return updateExamPart(repository.findById(id), request);
     }
 
     @PostMapping("/text")
@@ -101,8 +101,8 @@ public class ExamPartController {
 
     @Transactional
     @PutMapping("/alternative/{id}")
-    public ExamPartResponse updateAlternative(@PathVariable("id") Optional<ExamPart> alternativeOptional, @Valid @RequestBody CreateQuestionRequest request) {
-        var alternative = alternativeOptional.orElseThrow();
+    public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
+        var alternative = repository.findById(id).orElseThrow();
         alternative.setContent(request.getDescription());
         return new ExamPartResponse(alternative);
     }
