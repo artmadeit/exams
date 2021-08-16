@@ -3,7 +3,6 @@ package org.ouracademy.exams.domain;
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.createExamSpecification;
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
-import java.net.URI;
 import java.util.List;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
@@ -12,7 +11,6 @@ import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
-import org.ouracademy.exams.utils.BadArgumentsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +26,6 @@ public class PostulantExamService {
     PostulantExamRepository postulantExamRepository;
     ExamPartRepository examPartRepository;
     InscriptionRepository inscriptionRepository;
-
-    public static class ExamAlreadyStartedException extends BadArgumentsException {
-        private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-already-started");
-
-        public ExamAlreadyStartedException() {
-            super("exam.already_started", "Exam already started", ERROR_TYPE);
-        }
-    }
 
     public PostulantExamResponse finish(Long id) {
         var postulantExam = postulantExamRepository.findById(id).orElseThrow();
