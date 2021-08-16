@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.ouracademy.exams.api.ExamController.CreateExamRequest;
 import org.ouracademy.exams.domain.structure.ExamPart;
@@ -35,9 +34,7 @@ public class ExamPartController {
     public static class TextRequest extends CreateExamRequest {
         @NotBlank
         @Override
-        public void setDescription(String description) {
-            this.description = description;
-        }
+        public String getDescription() { return this.description; }
     }
 
     @PostMapping("/{parentId}/section")
@@ -75,44 +72,42 @@ public class ExamPartController {
 
     
     @Getter @Setter
-    public static class CreateQuestionRequest {
+    public static class QuestionRequest {
         @NotBlank
         String description;
-        @NotNull
-        Long parentId;
     }
 
-    @PostMapping("/question")
-    public ExamPartResponse createQuestion(@Valid @RequestBody CreateQuestionRequest request) {
-        var parent = getParent(request.getParentId());
+    @PostMapping("/{parentId}/question")
+    public ExamPartResponse createQuestion(@PathVariable Long parentId, @Valid @RequestBody QuestionRequest request) {
+        var parent = getParent(parentId);
         var examPart = new Question(request.getDescription(), parent);
         return new ExamPartResponse(repository.save(examPart));
     }
 
-    @PostMapping("/alternative")
-    public ExamPartResponse createAlternative(@Valid @RequestBody CreateQuestionRequest request) {
-        var alternative = Question.alternative(request.getDescription(), (Question) getParent(request.getParentId()));
-        return new ExamPartResponse(repository.save(alternative));
-    }
-
-    @Transactional
-    @PutMapping("/alternative/{id}")
-    public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
-        var alternative = repository.findById(id).orElseThrow();
-        alternative.setContent(request.getDescription());
-        return new ExamPartResponse(alternative);
-    }
-
     @Transactional
     @PutMapping("/question/{id}")
-    public ExamPartResponse updateQuestion(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
+    public ExamPartResponse updateQuestion(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
         var question = repository.findById(id).orElseThrow();
         question.setContent(request.getDescription());
-        question.setParent(getParent(request.getParentId()));
         return new ExamPartResponse(question);
     }
     
     private ExamPart getParent(Long parentId) {
         return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", Map.of("parentId", parentId)));
     }
+
+    // TODO: DELETE this??
+    // @PostMapping("/alternative")
+    // public ExamPartResponse createAlternative(@Valid @RequestBody CreateQuestionRequest request) {
+    //     var alternative = Question.alternative(request.getDescription(), (Question) getParent(request.getParentId()));
+    //     return new ExamPartResponse(repository.save(alternative));
+    // }
+
+    // @Transactional
+    // @PutMapping("/alternative/{id}")
+    // public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
+    //     var alternative = repository.findById(id).orElseThrow();
+    //     alternative.setContent(request.getDescription());
+    //     return new ExamPartResponse(alternative);
+    // }
 }
