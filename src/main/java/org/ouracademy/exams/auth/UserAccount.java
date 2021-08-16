@@ -3,7 +3,6 @@ package org.ouracademy.exams.auth;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -92,6 +91,10 @@ public class UserAccount implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public String getId() {
+		return this.name;
 	}
 
 }
