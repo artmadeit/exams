@@ -109,8 +109,8 @@ public class ExamPartController {
 
     @Transactional
     @PutMapping("/question/{id}")
-    public ExamPartResponse updateQuestion(@PathVariable("id") Optional<Question> questionOptional, @Valid @RequestBody CreateQuestionRequest request) {
-        var question = questionOptional.orElseThrow();
+    public ExamPartResponse updateQuestion(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
+        var question = repository.findById(id).orElseThrow();
         question.setContent(request.getDescription());
         question.setParent(getParent(request.getParentId()));
         return new ExamPartResponse(question);
