@@ -13,6 +13,11 @@ spring:
       ddl-auto: create-drop
   # flyway:
   #   locations: classpath:/db/migration,classpath:/db/testdata
+  
+  # change max page size (in order to support excel download)
+  # https://stackoverflow.com/questions/33675349/spring-data-rest-max-page-size-does-not-seem-to-be-working
+  # TODO: remove this when excel download improve
+  data.web.pageable.max-page-size: 10_000
 
 # use only if you need debug (1)
 # logging:
