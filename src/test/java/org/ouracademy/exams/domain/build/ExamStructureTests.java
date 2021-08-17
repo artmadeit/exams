@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamTestData;
 import org.ouracademy.exams.domain.structure.Question;
+import org.ouracademy.exams.utils.BadArgumentsException;
 
 public class ExamStructureTests {
     @Test
@@ -28,7 +29,7 @@ public class ExamStructureTests {
         var question = new Question("una pregunta");
         var section = new ExamPart(ExamPart.Type.SECTION, "seccion 1", null);
 
-        assertThrows(IllegalArgumentException.class, () -> question.addChild(section));
+        assertThrows(BadArgumentsException.class, () -> question.addChild(section));
 
         section.addChild(question);
         assertEquals(1, section.getChilds().size());

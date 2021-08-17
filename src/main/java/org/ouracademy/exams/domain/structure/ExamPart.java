@@ -3,6 +3,7 @@ package org.ouracademy.exams.domain.structure;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
+import org.ouracademy.exams.utils.BadArgumentsException;
 import org.springframework.lang.Nullable;
 
 import lombok.Getter;
@@ -108,7 +110,7 @@ public class ExamPart {
     
     public void addChild(ExamPart child) {
         if(!this.type.allowedChilds().contains(child.type)) {
-            throw new IllegalArgumentException("child type invalid for type:" + type + ", child.type:" + child.type);
+            throw new BadArgumentsException("child_type_invalid", Map.of("type", type, "child.type", child.type));
         }
         
         this.childs.add(child);
