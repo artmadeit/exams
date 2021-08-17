@@ -13,11 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
 
@@ -82,15 +80,6 @@ public class ExamPart {
     public static Exam exam(String title, @Nullable String description) {
         return new Exam(title, description);
     }
-
-    public static ExamPart section(String title, @Nullable String description) {
-        return new ExamPart(Type.SECTION, title, description);
-    }
-
-    public static ExamPart text(String title, @NotNull String content) {
-        return new ExamPart(Type.TEXT, title, content);
-    }
-
 
     /**
      * @apiNote jpa only
