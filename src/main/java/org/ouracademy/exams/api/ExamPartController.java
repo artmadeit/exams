@@ -82,7 +82,8 @@ public class ExamPartController {
     @PostMapping("/{parentId}/question")
     public ExamPartResponse createQuestion(@PathVariable Long parentId, @Valid @RequestBody QuestionRequest request) {
         var parent = getParent(parentId);
-        var examPart = new Question(request.getDescription(), parent);
+        var examPart = new Question(request.getDescription());
+        parent.addChild(examPart);
         return new ExamPartResponse(repository.save(examPart));
     }
 
@@ -100,7 +101,8 @@ public class ExamPartController {
 
     @PostMapping("/{parentId}/alternative")
     public ExamPartResponse createAlternative(@PathVariable Long parentId, @Valid @RequestBody QuestionRequest request) {
-        var alternative = Question.alternative(request.getDescription(), (Question) getParent(parentId));
+        var alternative = Question.alternative(request.getDescription());
+        getParent(parentId).addChild(alternative);
         return new ExamPartResponse(repository.save(alternative));
     }
 

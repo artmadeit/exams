@@ -73,7 +73,8 @@ public class ExamTestData {
     private void agregarPreguntas(int numero, ExamPart padre) {
         IntStream.rangeClosed(1, numero).forEach(i -> {
             numeroPreguntas ++;
-            var question = new Question("P" + numeroPreguntas + "-E" + numeroExamen, padre);
+            var question = new Question("P" + numeroPreguntas + "-E" + numeroExamen);
+            padre.addChild(question);
             agregarAlternativas(question);
             question.markAsAnswer(1);
         });
@@ -81,7 +82,7 @@ public class ExamTestData {
 
     private void agregarAlternativas(Question p1) {
         List.of("A", "B", "C", "D").forEach(i -> {
-            Question.alternative("alternativa " + i, p1);
+            p1.addChild(Question.alternative("alternativa " + i));
         });
     }
 

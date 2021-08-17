@@ -23,18 +23,12 @@ public class Question extends ExamPart {
      */
     Question() {}
 
-    public Question(String content, ExamPart parent) {
+    public Question(String content) {
         super(Type.QUESTION, null, content);
-        if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
-            throw new IllegalArgumentException("parent can't be another question or an alternative");
-        
-        setParent(parent);
     }
     
-    public static ExamPart alternative(String content, Question parent) {
-        var result = new ExamPart(Type.ALTERNATIVE, null, content);
-        result.setParent(parent);
-        return result;
+    public static ExamPart alternative(String content) {
+        return new ExamPart(Type.ALTERNATIVE, null, content);
     }
 
     public void markAsAnswer(int alternativeNumber) {

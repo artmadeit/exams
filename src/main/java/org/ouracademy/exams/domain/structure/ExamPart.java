@@ -30,7 +30,9 @@ public class ExamPart {
 
     
     public enum Type {
-        EXAM, SECTION, TEXT, QUESTION, ALTERNATIVE;
+        EXAM, SECTION, TEXT, // <= question container
+        
+        QUESTION, ALTERNATIVE; // <= measurable
 
         // un examen => secciones
         // una seccion => textos | preguntas
@@ -66,16 +68,6 @@ public class ExamPart {
     public List<ExamPart> getChilds() {
         return new ArrayList<>(childs);
     }
-    
-    public void setParent(ExamPart newParent) {
-        if(this.parent != null) {
-            this.parent.childs.removeIf(obj -> obj.id.equals(this.id));
-        }
-            
-        newParent.childs.add(this);
-        this.parent = newParent;
-    }
-
 
     public static Exam exam(String title, @Nullable String description) {
         return new Exam(title, description);
@@ -102,8 +94,12 @@ public class ExamPart {
         // text
         // if(!parent.type.equals(Type.SECTION) && !parent.type.equals(Type.EXAM))
         //     throw new IllegalArgumentException("parent has to be a section or exam");
+
+        // question
+        // if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
+        //     throw new IllegalArgumentException("parent can't be another question or an alternative");
+        
         this.childs.add(child);
         child.parent = this;
-        
     }
 }
