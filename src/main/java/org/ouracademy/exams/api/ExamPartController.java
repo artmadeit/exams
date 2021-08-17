@@ -40,14 +40,16 @@ public class ExamPartController {
     @PostMapping("/{parentId}/section")
     public ExamPartResponse createSection(@PathVariable Long parentId, @Valid @RequestBody SectionRequest request) {
         var parent = getParent(parentId);
-        var examPart = ExamPart.section(request.getTitle(), request.getDescription(), parent);
+        var examPart = ExamPart.section(request.getTitle(), request.getDescription());
+        parent.addChild(examPart);
         return new ExamPartResponse(repository.save(examPart));
     }
 
     @PostMapping("/{parentId}/text")
     public ExamPartResponse createText(@PathVariable Long parentId, @Valid @RequestBody TextRequest request) {
         var parent = getParent(parentId);
-        var examPart = ExamPart.text(request.getTitle(), request.getDescription(), parent);
+        var examPart = ExamPart.text(request.getTitle(), request.getDescription());
+        parent.addChild(examPart);
         return new ExamPartResponse(repository.save(examPart));
     }
 

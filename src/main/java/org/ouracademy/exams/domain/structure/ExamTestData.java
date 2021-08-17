@@ -41,26 +41,32 @@ public class ExamTestData {
 
         var examenBase = ExamPart.exam("Examen "+ numero, null);
 
-        var section1 = ExamPart.section("CAPACIDADES COMUNICATIVAS", null, examenBase);
+        var section1 = ExamPart.section("CAPACIDADES COMUNICATIVAS", null);
+        examenBase.addChild(section1);
         agregarTextos(section1);
         
-        var section2 = ExamPart.section("CAPACIDADES LOGICO MATEMATICAS", null, examenBase);
+        var section2 = ExamPart.section("CAPACIDADES LOGICO MATEMATICAS", null);
+        examenBase.addChild(section2);
         agregarPreguntas(5, section2);
 
-        var section3 = ExamPart.section("CAPACIDADES INVESTIGATIVAS", null, examenBase);
+        var section3 = ExamPart.section("CAPACIDADES INVESTIGATIVAS", null);
+        examenBase.addChild(section3);
         agregarPreguntas(5, section3);
 
-        var section4 = ExamPart.section("PENSAMIENTO CRITICO", null, examenBase);
+        var section4 = ExamPart.section("PENSAMIENTO CRITICO", null);
+        examenBase.addChild(section4);
         agregarPreguntas(5, section4);
 
         return examenBase;
     }
 
     private void agregarTextos(ExamPart seccion) {
-        var texto1 = ExamPart.text("Texto 1, examen:" + numeroExamen, "El desarrollo...", seccion);
+        var texto1 = ExamPart.text("Texto 1, examen:" + numeroExamen, "El desarrollo...");
+        seccion.addChild(texto1);
         agregarPreguntas(5, texto1);
 
-        var texto2 = ExamPart.text("Texto 2, examen: "+ numeroExamen, "Los ingresos ...", seccion);
+        var texto2 = ExamPart.text("Texto 2, examen: "+ numeroExamen, "Los ingresos ...");
+        seccion.addChild(texto2);
         agregarPreguntas(5, texto2);
     }
 
