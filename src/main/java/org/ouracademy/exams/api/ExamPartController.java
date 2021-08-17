@@ -96,18 +96,17 @@ public class ExamPartController {
         return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", Map.of("parentId", parentId)));
     }
 
-    // TODO: DELETE this??
-    // @PostMapping("/alternative")
-    // public ExamPartResponse createAlternative(@Valid @RequestBody CreateQuestionRequest request) {
-    //     var alternative = Question.alternative(request.getDescription(), (Question) getParent(request.getParentId()));
-    //     return new ExamPartResponse(repository.save(alternative));
-    // }
+    @PostMapping("/{parentId}/alternative")
+    public ExamPartResponse createAlternative(@PathVariable Long parentId, @Valid @RequestBody QuestionRequest request) {
+        var alternative = Question.alternative(request.getDescription(), (Question) getParent(parentId));
+        return new ExamPartResponse(repository.save(alternative));
+    }
 
-    // @Transactional
-    // @PutMapping("/alternative/{id}")
-    // public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody CreateQuestionRequest request) {
-    //     var alternative = repository.findById(id).orElseThrow();
-    //     alternative.setContent(request.getDescription());
-    //     return new ExamPartResponse(alternative);
-    // }
+    @Transactional
+    @PutMapping("/alternative/{id}")
+    public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
+        var alternative = repository.findById(id).orElseThrow();
+        alternative.setContent(request.getDescription());
+        return new ExamPartResponse(alternative);
+    }
 }
