@@ -8,3 +8,4 @@
 
 TODO:
 - ejecutar prueba de performance (al iniciar un examen y actualizar una pregunta y respuesta)
+- agregar CORS 
