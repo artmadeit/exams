@@ -39,16 +39,17 @@ public class ExamPartController {
 
     @PostMapping("/{parentId}/section")
     public ExamPartResponse createSection(@PathVariable Long parentId, @Valid @RequestBody SectionRequest request) {
-        var parent = getParent(parentId);
-        var examPart = new ExamPart(ExamPart.Type.SECTION, request.getTitle(), request.getDescription());
-        parent.addChild(examPart);
-        return new ExamPartResponse(repository.save(examPart));
+        return createQuestionContainer(parentId, request, ExamPart.Type.SECTION);
     }
 
     @PostMapping("/{parentId}/text")
     public ExamPartResponse createText(@PathVariable Long parentId, @Valid @RequestBody TextRequest request) {
+        return createQuestionContainer(parentId, request, ExamPart.Type.TEXT);
+    }
+
+    private ExamPartResponse createQuestionContainer(Long parentId, CreateExamRequest request, ExamPart.Type type) {
         var parent = getParent(parentId);
-        var examPart = new ExamPart(ExamPart.Type.TEXT, request.getTitle(), request.getDescription());
+        var examPart = new ExamPart(type, request.getTitle(), request.getDescription());
         parent.addChild(examPart);
         return new ExamPartResponse(repository.save(examPart));
     }
@@ -56,16 +57,16 @@ public class ExamPartController {
     @Transactional
     @PutMapping("/section/{id}")
     public ExamPartResponse updateSection(@PathVariable Long id, @Valid @RequestBody SectionRequest request) {
-       return updateExamPart(id, request);
+       return updateQuestionContainer(id, request);
     }
 
     @Transactional
     @PutMapping("/text/{id}")
     public ExamPartResponse updateText(@PathVariable Long id, @Valid @RequestBody TextRequest request) {
-        return updateExamPart(id, request);
+        return updateQuestionContainer(id, request);
     }
 
-    public ExamPartResponse updateExamPart(Long id, CreateExamRequest request){
+    public ExamPartResponse updateQuestionContainer(Long id, CreateExamRequest request){
         var examPart = repository.findById(id).orElseThrow();
         examPart.setContent(request.getDescription());
         examPart.setTitle(request.getTitle());
