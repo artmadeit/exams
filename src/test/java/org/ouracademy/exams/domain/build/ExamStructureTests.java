@@ -2,12 +2,15 @@ package org.ouracademy.exams.domain.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import org.junit.jupiter.api.Test;
+import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.ExamTestData;
+import org.ouracademy.exams.domain.structure.Question;
 
 public class ExamStructureTests {
     @Test
@@ -17,6 +20,19 @@ public class ExamStructureTests {
         assertNotNull(examen2);
         assertEquals("Examen 2", examen2.getTitle());
         assertEquals(25, examenTestDataGenerator.getNumeroPreguntas());
+    }
+
+
+    @Test
+    void test_validar_child() {
+        var question = new Question("una pregunta");
+        var section = new ExamPart(ExamPart.Type.SECTION, "seccion 1", null);
+
+        assertThrows(IllegalArgumentException.class, () -> question.addChild(section));
+
+        section.addChild(question);
+        assertEquals(1, section.getChilds().size());
+        assertEquals(section, question.getParent());
     }
 
     public static void main(String[] args) throws FileNotFoundException {

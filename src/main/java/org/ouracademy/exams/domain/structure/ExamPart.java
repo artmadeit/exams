@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain.structure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,16 +31,36 @@ public class ExamPart {
 
     
     public enum Type {
-        EXAM, SECTION, TEXT, // <= question container
-        
-        QUESTION, ALTERNATIVE; // <= measurable
+        EXAM {
+            @Override
+            List<Type> allowedChilds() {
+                return List.of(SECTION, TEXT, QUESTION);
+            }
+        }, 
+        // section y text <= question container
+        SECTION {
+            @Override
+            List<Type> allowedChilds() {
+                return List.of(SECTION, TEXT, QUESTION);
+            }
+        }, 
+        TEXT {
+            @Override
+            List<Type> allowedChilds() {
+                return List.of(QUESTION);
+            }
+        },         
+        QUESTION {
+            @Override
+            List<Type> allowedChilds() {
+                return List.of(ALTERNATIVE);
+            }
+        }, 
+        ALTERNATIVE; // <= measurable
 
-        // un examen => secciones
-        // una seccion => textos | preguntas
-        // una texto => preguntas
-
-        // question tiene contenido
-        // alternativa tiene contenido
+        List<Type> allowedChilds() {
+            return Collections.emptyList();
+        }
     }
 
     @Id
@@ -86,18 +107,9 @@ public class ExamPart {
 
     
     public void addChild(ExamPart child) {
- 
-        // section
-        // if(!type.equals(Type.EXAM))
-        //     throw new IllegalArgumentException("parent has to be an exam");
-
-        // text
-        // if(!parent.type.equals(Type.SECTION) && !parent.type.equals(Type.EXAM))
-        //     throw new IllegalArgumentException("parent has to be a section or exam");
-
-        // question
-        // if(parent.type.equals(Type.QUESTION) || parent.type.equals(Type.ALTERNATIVE))
-        //     throw new IllegalArgumentException("parent can't be another question or an alternative");
+        if(!this.type.allowedChilds().contains(child.type)) {
+            throw new IllegalArgumentException("child type invalid for type:" + type + ", child.type:" + child.type);
+        }
         
         this.childs.add(child);
         child.parent = this;
