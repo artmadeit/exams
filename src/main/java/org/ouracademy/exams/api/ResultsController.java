@@ -20,6 +20,7 @@ import org.ouracademy.exams.domain.postulant.Postulant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import lombok.Value;
 
 @AllArgsConstructor
 @RestController
+@Secured("ROLE_ADMIN")
 @RequestMapping("/exam-results")
 public class ResultsController {
     
