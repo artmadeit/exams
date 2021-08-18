@@ -4,15 +4,15 @@ import { sleep } from "k6";
 
 export let options = {
   stages: [
-    { duration: "2m", target: 100 }, // below normal load
-    { duration: "5m", target: 100 },
-    { duration: "2m", target: 200 }, // normal load
-    { duration: "5m", target: 200 },
-    { duration: "2m", target: 300 }, // around the breaking point
-    { duration: "5m", target: 300 },
-    { duration: "2m", target: 400 }, // beyond the breaking point
-    { duration: "5m", target: 400 },
-    { duration: "10m", target: 0 }, // scale down. Recovery stage.
+    { duration: "1m", target: 1 }, // below normal load
+    // { duration: "5m", target: 100 },
+    // { duration: "2m", target: 200 }, // normal load
+    // { duration: "5m", target: 200 },
+    // { duration: "2m", target: 300 }, // around the breaking point
+    // { duration: "5m", target: 300 },
+    // { duration: "2m", target: 400 }, // beyond the breaking point
+    // { duration: "5m", target: 400 },
+    // { duration: "10m", target: 0 }, // scale down. Recovery stage.
   ],
 };
 
@@ -44,6 +44,7 @@ export default function () {
   };
   const { principal } = http.get(`${BASE_URL}/auth/me`, options).json();
   const { dni } = principal;
+  //CHECK EVENT IS DATE UPDATED
   const eventResponse = http.post(
     `${BASE_URL}/postulant-exam/start-or-get/${eventExamId}`,
     JSON.stringify({}),
@@ -52,29 +53,46 @@ export default function () {
   const { id: idPostulantExam } = eventResponse.json();
 
   for (var id = 1; id <= questionNumber; id++) {
+    console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
+    const responseQuestion = http.get(
+      `${BASE_URL}/postulant-question/${idPostulantExam}/${id}`,
+      options
+    );
+    let answerToMark = null;
+    check(responseQuestion, {
+      "get answer to mark": (r) => {
+        const { alternatives } = r.json();
+        answerToMark = alternatives.find((a) => a.content == "alternativa B")[
+          "id"
+        ];
+        console.log(`Answer for Question ${id} is ${answerToMark}`);
+        return answerToMark != null;
+      },
+    });
 
-    const { alternatives } = http
-      .get(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`, options)
-      .json();
-    const toMark = alternatives.find((a) => a.content == "alternativa B");
-    console.log(`Answer for Question ${id} is ${toMark["id"]}`);
+    const answer = { alternativeId: answerToMark };
+    console.log("Send answer to question: " + id);
 
-    const answer = { alternativeId: toMark["id"] };
     http.put(
       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}/answer`,
       JSON.stringify(answer),
       options
     );
-    const responseResult = http.get(`${BASE_URL}/exam-results/${eventExamId}?dni=${dni}`, options)
-      
-    check(responseResult, {
-      "is score -25": (r) => {
-        const { content } = r.json();
-        var { exam } = content.find((c) => c.postulant.dni == dni);
-        return exam.score == -25.0
-      }
-    });
   }
+
+  const responseResult = http.get(
+    `${BASE_URL}/exam-results/${eventExamId}?dni=${dni}`,
+    options
+  );
+  console.log("Get result from exam")
+
+  check(responseResult, {
+    "is score -25": (r) => {
+      const { content } = r.json();
+      var { exam } = content.find((c) => c.postulant.dni == dni);
+      return exam.score == -25.0;
+    },
+  });
 
   sleep(1);
 }
