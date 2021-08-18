@@ -14,7 +14,7 @@ df = df[df["UPG"] != 1111]
 
 df["aprobo?"] = df["Puntaje"] >= 55
 
-df["noDioExamen"] = df["Fecha inicio"].isna()
+df["noDioExamen"] = df["Fecha inicio"] == "-"
 
 print("total", len(df))
 # df.to_csv("resultados_resumido.csv")
