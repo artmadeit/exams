@@ -9,8 +9,9 @@ spring:
     # properties:
     #   hibernate:
     #     format_sql: true
-    hibernate:
-      ddl-auto: create-drop
+    # # only initially for prototype, then use flyway
+    # # hibernate:
+    # #   ddl-auto: create-drop
   # flyway:
   #   locations: classpath:/db/migration,classpath:/db/testdata
   
