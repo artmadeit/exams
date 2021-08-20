@@ -29,9 +29,6 @@ CREATE TABLE public.exam (
     id bigint NOT NULL
 );
 
-
-ALTER TABLE public.exam;
-
 --
 -- Name: exam_event; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -45,9 +42,6 @@ CREATE TABLE public.exam_event (
     date_time_start timestamp without time zone,
     title character varying(255)
 );
-
-
-ALTER TABLE public.exam_event;
 
 --
 -- Name: exam_event_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -76,9 +70,6 @@ CREATE TABLE public.exam_part (
     childs_order integer
 );
 
-
-ALTER TABLE public.exam_part;
-
 --
 -- Name: exam_part_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -102,9 +93,6 @@ CREATE TABLE public.exam_part_reference (
     number integer,
     exam_part_id bigint
 );
-
-
-ALTER TABLE public.exam_part_reference;
 
 --
 -- Name: exam_part_reference_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -131,7 +119,6 @@ CREATE TABLE public.inscription (
 );
 
 
-ALTER TABLE public.inscription;
 
 --
 -- Name: inscription_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -160,9 +147,6 @@ CREATE TABLE public.postulant (
     name character varying(255) NOT NULL
 );
 
-
-ALTER TABLE public.postulant;
-
 --
 -- Name: postulant_exam; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -174,9 +158,6 @@ CREATE TABLE public.postulant_exam (
     event_id bigint,
     inscription_id bigint
 );
-
-
-ALTER TABLE public.postulant_exam;
 
 --
 -- Name: postulant_exam_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -203,9 +184,6 @@ CREATE TABLE public.postulant_question (
     postulant_exam_id bigint
 );
 
-
-ALTER TABLE public.postulant_question;
-
 --
 -- Name: postulant_question_alternative_references; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -214,9 +192,6 @@ CREATE TABLE public.postulant_question_alternative_references (
     postulant_question_id bigint NOT NULL,
     alternative_references_id bigint NOT NULL
 );
-
-
-ALTER TABLE public.postulant_question_alternative_references;
 
 --
 -- Name: question; Type: TABLE; Schema: public; Owner: postgres
@@ -230,9 +205,6 @@ CREATE TABLE public.question (
     answer_id bigint
 );
 
-
-ALTER TABLE public.question;
-
 --
 -- Name: user_account; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -242,10 +214,6 @@ CREATE TABLE public.user_account (
     password character varying(255),
     role character varying(255)
 );
-
-
-ALTER TABLE public.user_account;
-
 
 --
 -- Name: exam_event exam_event_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
