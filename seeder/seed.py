@@ -48,23 +48,44 @@ assert all(df["codigo_postulante"].value_counts() == 1)
 postulantes = df.to_dict("records")
 
 def demos():
+    # return [
+    #     { 
+    #         'nombre': f"NOMBRE {i}", 
+    #         'apellido_paterno': f"APE {i}", 
+    #         'apellido_materno': f"AM {i}", 
+    #         'dni': f'1001000{i}', 
+    #         'codigo_postulante': f'1000{i}', 
+    #         'codigo_programa': '111111',
+    #         'codigo_upg':'1111' 
+    #     }
+    #     for i in range(1, 9 + 1)
+    # ]
+
     return [
-        { 
-            'nombre': f"NOMBRE {i}", 
-            'apellido_paterno': f"APE {i}", 
-            'apellido_materno': f"AM {i}", 
-            'dni': f'1001000{i}', 
-            'codigo_postulante': f'1000{i}', 
-            'codigo_programa': '111111',
-            'codigo_upg':'1111' 
+        {
+            "dni": "73646447",
+            "codigo_postulante": "12123123",
+            "apellido_paterno": "mauricio",
+            "apellido_materno": "delgadillo",
+            "nombre": "arthur",
+            "codigo_programa": "1",
+            "codigo_upg": "12"
+        },
+        {
+            "dni": "48484489",
+            "codigo_postulante": "12312390",
+            "apellido_paterno": "quintanilla",
+            "apellido_materno": "perez",
+            "nombre": "diana",
+            "codigo_programa": "1",
+            "codigo_upg": "12"
         }
-        for i in range(1, 9 + 1)
     ]
 
 def seed_users():
     data = [
         *postulantes,
-        # *demos(),
+        *demos(),
     ]
 
 
@@ -90,3 +111,6 @@ seed_users()
 
 
 # psql -h localhost  -U  postgres -p 5432 -d exams -f  data/insert_postulants.sql
+
+# For admin execute something like:
+# INSERT INTO user_account (name, password, role) VALUES ('unmsm-admin', 'unsuperpasword', 'ADMIN');
