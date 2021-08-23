@@ -1,5 +1,6 @@
 package org.ouracademy.exams.utils;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,14 @@ public class NotFoundException extends BadArgumentsException {
 
   public NotFoundException(String code, Map<String, Object> args) {
     super("not_found." + code, args);
+  }
+  
+  public NotFoundException(String code) {
+    this(code, Collections.emptyMap());
+  }
+
+  public NotFoundException() {
+    this("entity");
   }
 
   /**

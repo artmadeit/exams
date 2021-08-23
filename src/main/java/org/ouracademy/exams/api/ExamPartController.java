@@ -67,7 +67,7 @@ public class ExamPartController {
     }
 
     public ExamPartResponse updateQuestionContainer(Long id, CreateExamRequest request){
-        var examPart = repository.findById(id).orElseThrow();
+        var examPart = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
         examPart.setContent(request.getDescription());
         examPart.setTitle(request.getTitle());
         return new ExamPartResponse(examPart);
@@ -91,7 +91,7 @@ public class ExamPartController {
     @Transactional
     @PutMapping("/question/{id}")
     public ExamPartResponse updateQuestion(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
-        var question = repository.findById(id).orElseThrow();
+        var question = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
         question.setContent(request.getDescription());
         return new ExamPartResponse(question);
     }
@@ -110,7 +110,7 @@ public class ExamPartController {
     @Transactional
     @PutMapping("/alternative/{id}")
     public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
-        var alternative = repository.findById(id).orElseThrow();
+        var alternative = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
         alternative.setContent(request.getDescription());
         return new ExamPartResponse(alternative);
     }

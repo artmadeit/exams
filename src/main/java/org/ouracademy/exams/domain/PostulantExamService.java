@@ -4,12 +4,14 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.creat
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ public class PostulantExamService {
     InscriptionRepository inscriptionRepository;
 
     public PostulantExamResponse finish(Long id) {
-        var postulantExam = postulantExamRepository.findById(id).orElseThrow();
+        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class, id));
         postulantExam.finish();
         
         return new PostulantExamResponse(postulantExam);
@@ -79,7 +81,8 @@ public class PostulantExamService {
     public PostulantExam startOrGet(Long examEventId, Postulant postulant) {
         // TODO: put inscription id
         var examEvent = examEventRepository.getById(examEventId);
-        var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent).orElseThrow();
+        var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent)
+            .orElseThrow(NotFoundException::new);
         
         if(inscription.getPostulantExam() == null) {
             inscription.setPostulantExam(inscription.startExam(randomQuestions()));
