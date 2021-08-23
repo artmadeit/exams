@@ -39,11 +39,12 @@ public class PostulantExamService {
     public static class PostulantExamResponse {
         Long id;
         Integer numberOfQuestions;
+        DateTimeRange actualRange;
 
         public PostulantExamResponse(PostulantExam postulantExam) {
             this.id = postulantExam.getId();
             this.numberOfQuestions = postulantExam.getQuestions().size();
-                
+            this.actualRange = postulantExam.getActualRange();
         }
     }
 
