@@ -70,7 +70,7 @@ public class ExamEvent {
         private static final URI ERROR_TYPE = URI.create("https://our-academy.org/start-exam-ended");
 
         public EndedException(ExamEvent event) {
-            super("exam_event.ended", "Exam ended", ERROR_TYPE, Map.of("end", event.getRange().getEnd()));
+            super("exam_event.ended", "Exam ended", ERROR_TYPE, Map.of("end", event.getRange().getEnd(), "now", LocalDateTime.now()));
         }
     }
 
