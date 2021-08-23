@@ -69,7 +69,7 @@ public class ExamEventController {
     @PutMapping("/{id}")
     @Transactional
     public ExamEvent edit(@PathVariable Long id, @RequestBody @Valid ExamEventRequest request) {
-        var examEvent = this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class, id));
+        var examEvent = this.repository.findById(id).orElseThrow(() -> new NotFoundException(ExamEvent.class));
         examEvent.setTitle(request.title);
         examEvent.setDescription(request.description);
         examEvent.setRange(new DateTimeRange(request.start, request.end));

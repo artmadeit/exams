@@ -95,7 +95,7 @@ public class PostulantQuestionController {
         
         var postulantQuestion = postulantQuestionRepository
             .findByNumberAndPostulantExam_Id(questionNumber, examId)
-            .orElseThrow(() -> new NotFoundException("question", Map.of("questionNumber", questionNumber)));
+            .orElseThrow(() -> new NotFoundException(PostulantQuestion.class));
         
         postulantQuestion.updateAnswer(answer.alternativeId);
         

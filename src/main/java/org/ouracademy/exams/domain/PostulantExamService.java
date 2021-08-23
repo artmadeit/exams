@@ -30,7 +30,7 @@ public class PostulantExamService {
     InscriptionRepository inscriptionRepository;
 
     public PostulantExamResponse finish(Long id) {
-        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class, id));
+        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class));
         postulantExam.finish();
         
         return new PostulantExamResponse(postulantExam);
@@ -82,7 +82,7 @@ public class PostulantExamService {
         // TODO: put inscription id
         var examEvent = examEventRepository.getById(examEventId);
         var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent)
-            .orElseThrow(NotFoundException::new);
+            .orElseThrow(() -> new NotFoundException(Inscription.class));
         
         if(inscription.getPostulantExam() == null) {
             inscription.setPostulantExam(inscription.startExam(randomQuestions()));

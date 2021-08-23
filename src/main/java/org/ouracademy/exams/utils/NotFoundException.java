@@ -1,7 +1,6 @@
 package org.ouracademy.exams.utils;
 
 import java.util.Collections;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,31 +9,17 @@ import org.apache.commons.lang3.StringUtils;
  * 
  * 
  * Never use this in GET
- * Use in POST / PUT when validating request body or path variables, example:
- * 
- * class SectionRequest { Long parentId }
- * 
- * // validating parentId exist in DB
- * var parent = examPartRepository.findById(sectionRequest.getParentId()).orElseThrow(() -> new NotFoundException())
- * var section = ExamPart.section("Section I: Soft skills", parent)
+ * Use in POST / PUT when validating request body or path variables
  * 
  */
 public class NotFoundException extends BadArgumentsException {
   
-  public NotFoundException(@SuppressWarnings("rawtypes") Class entity, Long id) {
-    this("entity_by_id", Map.of("entity", toUnderscore(entity.getSimpleName()), "id", id ));
+  public NotFoundException(@SuppressWarnings("rawtypes") Class entity) {
+    this(toUnderscore(entity.getSimpleName()));
   }
 
-  public NotFoundException(String code, Map<String, Object> args) {
-    super("not_found." + code, args);
-  }
-  
   public NotFoundException(String code) {
-    this(code, Collections.emptyMap());
-  }
-
-  public NotFoundException() {
-    this("entity");
+    super("not_found." + code, Collections.emptyMap());
   }
 
   /**

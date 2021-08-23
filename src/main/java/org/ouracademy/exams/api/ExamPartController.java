@@ -67,7 +67,7 @@ public class ExamPartController {
     }
 
     public ExamPartResponse updateQuestionContainer(Long id, CreateExamRequest request){
-        var examPart = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
+        var examPart = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class));
         examPart.setContent(request.getDescription());
         examPart.setTitle(request.getTitle());
         return new ExamPartResponse(examPart);
@@ -91,13 +91,13 @@ public class ExamPartController {
     @Transactional
     @PutMapping("/question/{id}")
     public ExamPartResponse updateQuestion(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
-        var question = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
+        var question = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class));
         question.setContent(request.getDescription());
         return new ExamPartResponse(question);
     }
     
     private ExamPart getParent(Long parentId) {
-        return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent", Map.of("parentId", parentId)));
+        return repository.findById(parentId).orElseThrow(() -> new NotFoundException("exam_part_parent"));
     }
 
     @PostMapping("/{parentId}/alternative")
@@ -110,7 +110,7 @@ public class ExamPartController {
     @Transactional
     @PutMapping("/alternative/{id}")
     public ExamPartResponse updateAlternative(@PathVariable Long id, @Valid @RequestBody QuestionRequest request) {
-        var alternative = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class, id));
+        var alternative = repository.findById(id).orElseThrow(() -> new NotFoundException(ExamPart.class));
         alternative.setContent(request.getDescription());
         return new ExamPartResponse(alternative);
     }

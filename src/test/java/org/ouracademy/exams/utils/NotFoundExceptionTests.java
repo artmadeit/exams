@@ -10,10 +10,8 @@ public class NotFoundExceptionTests {
 
     @Test
     void create_exception() {
-        var exception = new NotFoundException(PostulantQuestion.class, 1500L);
-        assertEquals("not_found.entity_by_id", exception.code);
-        assertEquals("postulant_question", exception.args.get("entity"));
-        assertEquals(1500L, exception.args.get("id"));
+        var exception = new NotFoundException(PostulantQuestion.class);
+        assertEquals("not_found.postulant_question", exception.code);
     }
 
     @Test
