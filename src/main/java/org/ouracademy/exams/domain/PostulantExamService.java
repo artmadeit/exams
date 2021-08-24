@@ -44,16 +44,16 @@ public class PostulantExamService {
         var questions = postulantExam.getQuestions().stream()
         .map(PostulantQuestionResponse::new)
         .collect(Collectors.toList());
-         Long score = 0L;
-         return new PostulantExamResultResponse(score, questions);
+        Double score = postulantExam.getScore();
+        return new PostulantExamResultResponse(score, questions);
     }
 
     @Getter
     public static class PostulantExamResultResponse {
-        Long score;
+        Double score;
         List questions;
 
-        public PostulantExamResultResponse(Long score, List questions) {
+        public PostulantExamResultResponse(Double score, List questions) {
         this.score = score;
         this.questions = questions;
         }
