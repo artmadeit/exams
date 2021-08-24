@@ -14,6 +14,8 @@ import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
+import org.ouracademy.exams.domain.structure.ExamPart;
+
 import org.ouracademy.exams.utils.NotFoundException;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.springframework.stereotype.Service;
@@ -42,12 +44,31 @@ public class PostulantExamService {
     public PostulantExamResultResponse getById(Long id){
         var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
         var questions = postulantExam.getQuestions().stream()
-        .map(PostulantQuestionResponse::new)
+        .map( p -> {
+            var content = new PostulantQuestionResponse(p);
+            return new PostulantQuestionResultResponse(content, p.getAnswer());
+        }
+        )
         .collect(Collectors.toList());
         Double score = postulantExam.getScore();
         return new PostulantExamResultResponse(score, questions);
     }
 
+    @Getter
+    public static class PostulantQuestionResultResponse  {
+        ExamPart answer;
+        PostulantQuestionResponse content;
+        public PostulantQuestionResultResponse(
+            PostulantQuestionResponse content,
+            ExamPart answer
+
+        ){
+            this.content = content;
+            this.answer = answer;
+
+        }
+
+    }
     @Getter
     public static class PostulantExamResultResponse {
         Double score;

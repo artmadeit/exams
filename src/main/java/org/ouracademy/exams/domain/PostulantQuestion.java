@@ -59,6 +59,10 @@ public class PostulantQuestion extends ExamPartReference {
         return (Question) this.examPart;
     }
 
+    public ExamPart getAnswer() {
+        return getQuestion().getAnswer();
+    }
+
     public Double getScore() {
         return getQuestion().score(getPostulantAnswer());
     }
