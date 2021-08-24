@@ -1,6 +1,5 @@
 import http from "k6/http";
-import { check } from "k6";
-import { sleep } from "k6";
+import { check, sleep } from "k6";
 
 export let options = {
   stages: [
@@ -16,17 +15,34 @@ export let options = {
   ],
 };
 
-export default function () {
-  const BASE_URL = "https://spring-exams-api.herokuapp.com";
 
-  const questionNumber = 25;
+// const responseResult = http.get(
+//   `${BASE_URL}/exam-results/${eventExamId}?dni=${dni}`,
+//   options
+// );
+// console.log("Get result from exam")
+
+// check(responseResult, {
+//   "is score -25": (r) => {
+//     const { content } = r.json();
+//     var { exam } = content.find((c) => c.postulant.dni == dni);
+//     return exam.score == -25.0;
+//   },
+// });
+
+// sleep(1);
+
+export default function () {
+  const BASE_URL = "https://prod-spring-exams-api.herokuapp.com";
+
+  const numberOfQuestions = 25;
   const eventExamId = 1;
 
   const loginResponse = http.post(
     `${BASE_URL}/auth/login`,
     JSON.stringify({
-      name: "73646447",
-      password: "12123123",
+      name: "70022098", // SUÁREZ ARÉVALO, MIRYAM MILAGROS
+      password: "40960",
     }),
     {
       headers: {
@@ -36,63 +52,56 @@ export default function () {
   );
   const token = loginResponse.body;
 
-  const options = {
+  const params = {
     headers: {
       Authorization: token,
       "Content-Type": "application/json",
     },
   };
-  const { principal } = http.get(`${BASE_URL}/auth/me`, options).json();
-  const { dni } = principal;
+  
+  const { principal } = http.get(`${BASE_URL}/auth/me`, params).json();
+  
   //CHECK EVENT IS DATE UPDATED
   const eventResponse = http.post(
     `${BASE_URL}/postulant-exam/start-or-get/${eventExamId}`,
     JSON.stringify({}),
-    options
+    params
   );
   const { id: idPostulantExam } = eventResponse.json();
 
-  for (var id = 1; id <= questionNumber; id++) {
+  for (let id = 1; id <= numberOfQuestions; id++) {
     console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
     const responseQuestion = http.get(
       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}`,
-      options
-    );
-    let answerToMark = null;
+      params
+      );
+    
+    
+    const { alternatives } = responseQuestion.json();
+    
     check(responseQuestion, {
-      "get answer to mark": (r) => {
-        const { alternatives } = r.json();
-        answerToMark = alternatives.find((a) => a.content == "alternativa B")[
-          "id"
-        ];
-        console.log(`Answer for Question ${id} is ${answerToMark}`);
-        return answerToMark != null;
-      },
+      "question is 200": () => responseQuestion.status == 200,
+      "has alternatives": () => alternatives.length != 0,
     });
 
-    const answer = { alternativeId: answerToMark };
-    console.log("Send answer to question: " + id);
-
-    http.put(
+    
+    let answerToMarkId = randomElement([...alternatives, {id: null}]).id
+    
+    console.log(`Answer for Question ${id} is ${answerToMarkId}`);
+    const markAnswerResponse = http.put(
       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}/answer`,
-      JSON.stringify(answer),
-      options
+      JSON.stringify({ alternativeId: answerToMarkId }),
+      params
     );
+
+    check(markAnswerResponse, {
+      "mark answer is 200": r => r.status == 200,
+      // "has alternatives": r => r.json() != 0,
+    });
+
   }
 
-  const responseResult = http.get(
-    `${BASE_URL}/exam-results/${eventExamId}?dni=${dni}`,
-    options
-  );
-  console.log("Get result from exam")
-
-  check(responseResult, {
-    "is score -25": (r) => {
-      const { content } = r.json();
-      var { exam } = content.find((c) => c.postulant.dni == dni);
-      return exam.score == -25.0;
-    },
-  });
-
-  sleep(1);
+  sleep(1)
 }
+
+const randomElement = (array) => array[Math.floor(Math.random() * array.length)];
