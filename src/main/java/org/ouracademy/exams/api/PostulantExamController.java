@@ -5,6 +5,8 @@ import org.ouracademy.exams.domain.PostulantExam;
 
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
 import org.ouracademy.exams.domain.postulant.Postulant;
+import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResultResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class PostulantExamController {
 
     @GetMapping("/{id}")
     @Transactional
-    public PostulantExam getById(@PathVariable Long id) {
+    public PostulantExamResultResponse getById(@PathVariable Long id) {
         return postulantExamService.getById(id);
     }
 }

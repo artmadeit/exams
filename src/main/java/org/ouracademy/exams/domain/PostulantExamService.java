@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
+import org.ouracademy.exams.api.PostulantQuestionController.PostulantQuestionResponse;
+
+
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
@@ -15,6 +18,7 @@ import org.ouracademy.exams.utils.NotFoundException;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,10 +39,25 @@ public class PostulantExamService {
         
         return new PostulantExamResponse(postulantExam);
     }
-    public PostulantExam getById(Long id){
-        return postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
+    public PostulantExamResultResponse getById(Long id){
+        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
+        var questions = postulantExam.getQuestions().stream()
+        .map(PostulantQuestionResponse::new)
+        .collect(Collectors.toList());
+         Long score = 0L;
+         return new PostulantExamResultResponse(score, questions);
     }
 
+    @Getter
+    public static class PostulantExamResultResponse {
+        Long score;
+        List questions;
+
+        public PostulantExamResultResponse(Long score, List questions) {
+        this.score = score;
+        this.questions = questions;
+        }
+    }
     @Getter
     public static class PostulantExamResponse {
         Long id;
