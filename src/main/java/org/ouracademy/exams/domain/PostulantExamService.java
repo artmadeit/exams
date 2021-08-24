@@ -35,7 +35,9 @@ public class PostulantExamService {
         
         return new PostulantExamResponse(postulantExam);
     }
-
+    public PostulantExam getById(Long id){
+        return postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
+    }
 
     @Getter
     public static class PostulantExamResponse {
