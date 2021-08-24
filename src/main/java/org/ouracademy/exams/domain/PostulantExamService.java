@@ -56,7 +56,7 @@ public class PostulantExamService {
 
     @Getter
     public static class PostulantQuestionResultResponse  {
-        ExamPart answer;
+        Long answerId;
         PostulantQuestionResponse content;
         public PostulantQuestionResultResponse(
             PostulantQuestionResponse content,
@@ -64,7 +64,7 @@ public class PostulantExamService {
 
         ){
             this.content = content;
-            this.answer = answer;
+            this.answerId = answer.getId();
 
         }
 
