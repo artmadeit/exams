@@ -9,7 +9,6 @@ import java.util.Map;
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.api.PostulantQuestionController.PostulantQuestionResponse;
 
-
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
@@ -36,49 +35,50 @@ public class PostulantExamService {
     InscriptionRepository inscriptionRepository;
 
     public PostulantExamResponse finish(Long id) {
-        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class));
+        var postulantExam = postulantExamRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(PostulantExam.class));
         postulantExam.finish();
-        
+
         return new PostulantExamResponse(postulantExam);
     }
-    public PostulantExamResultResponse getById(Long id){
-        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
-        var questions = postulantExam.getQuestions().stream()
-        .map( p -> {
+
+    public PostulantExamResultResponse getById(Long id) {
+        var postulantExam = postulantExamRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(PostulantExam.class));
+        var questions = postulantExam.getQuestions().stream().map(p -> {
             var content = new PostulantQuestionResponse(p);
             return new PostulantQuestionResultResponse(content, p.getAnswer());
-        }
-        )
-        .collect(Collectors.toList());
+        }).collect(Collectors.toList());
         Double score = postulantExam.getScore();
         return new PostulantExamResultResponse(score, questions);
     }
 
     @Getter
-    public static class PostulantQuestionResultResponse  {
+    public static class PostulantQuestionResultResponse {
         Long answerId;
         PostulantQuestionResponse content;
-        public PostulantQuestionResultResponse(
-            PostulantQuestionResponse content,
-            ExamPart answer
 
-        ){
+        public PostulantQuestionResultResponse(PostulantQuestionResponse content, ExamPart answer
+
+        ) {
             this.content = content;
             this.answerId = answer.getId();
 
         }
 
     }
+
     @Getter
     public static class PostulantExamResultResponse {
         Double score;
         List questions;
 
         public PostulantExamResultResponse(Double score, List questions) {
-        this.score = score;
-        this.questions = questions;
+            this.score = score;
+            this.questions = questions;
         }
     }
+
     @Getter
     public static class PostulantExamResponse {
         Long id;
@@ -94,24 +94,17 @@ public class PostulantExamService {
 
     private List<PostulantQuestion> randomQuestions() {
         return new ExamRandomBuilder().from(
-            // TODO: get unmsm exam templates
-            examPartRepository.findByTitleIn(List.of("Examen 1", "Examen 2")), getUnmsmSpec()
-        );
+                // TODO: get unmsm exam templates
+                examPartRepository.findByTitleIn(List.of("Examen 1", "Examen 2")), getUnmsmSpec());
     }
 
-
     private BuildExamPartSpecification getUnmsmSpec() {
-        return createExamSpecification(
-            List.of(
+        return createExamSpecification(List.of(
                 with(1, Type.SECTION).title("CAPACIDADES COMUNICATIVAS")
-                    .addChild(with(2, Type.TEXT).addChild(with(5, Type.QUESTION))),
-                with(1, Type.SECTION).title("CAPACIDADES LOGICO MATEMATICAS")
-                    .addChild(with(5, Type.QUESTION)),
-                with(1, Type.SECTION).title("CAPACIDADES INVESTIGATIVAS")
-                    .addChild(with(5, Type.QUESTION)),
-                with(1, Type.SECTION).title("PENSAMIENTO CRITICO")
-                    .addChild(with(5, Type.QUESTION))
-            ));
+                        .addChild(with(2, Type.TEXT).addChild(with(5, Type.QUESTION))),
+                with(1, Type.SECTION).title("CAPACIDADES LOGICO MATEMATICAS").addChild(with(5, Type.QUESTION)),
+                with(1, Type.SECTION).title("CAPACIDADES INVESTIGATIVAS").addChild(with(5, Type.QUESTION)),
+                with(1, Type.SECTION).title("PENSAMIENTO CRITICO").addChild(with(5, Type.QUESTION))));
     }
 
     public boolean isTaker(Postulant postulant, Long postulantExamId) {
@@ -124,12 +117,12 @@ public class PostulantExamService {
         // TODO: put inscription id
         var examEvent = examEventRepository.getById(examEventId);
         var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent)
-            .orElseThrow(() -> new NotFoundException(Inscription.class));
-        
-        if(inscription.getPostulantExam() == null) {
+                .orElseThrow(() -> new NotFoundException(Inscription.class));
+
+        if (inscription.getPostulantExam() == null) {
             inscription.setPostulantExam(inscription.startExam(randomQuestions()));
         }
-        
+
         return inscription.getPostulantExam();
     }
 }
