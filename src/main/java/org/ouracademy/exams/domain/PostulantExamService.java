@@ -7,14 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
+import org.ouracademy.exams.api.PostulantQuestionController.PostulantQuestionResponse;
+
+
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.structure.ExamPart.Type;
+import org.ouracademy.exams.domain.structure.ExamPart;
+
 import org.ouracademy.exams.utils.NotFoundException;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,8 +41,44 @@ public class PostulantExamService {
         
         return new PostulantExamResponse(postulantExam);
     }
+    public PostulantExamResultResponse getById(Long id){
+        var postulantExam = postulantExamRepository.findById(id).orElseThrow(() -> new NotFoundException(PostulantExam.class)); 
+        var questions = postulantExam.getQuestions().stream()
+        .map( p -> {
+            var content = new PostulantQuestionResponse(p);
+            return new PostulantQuestionResultResponse(content, p.getAnswer());
+        }
+        )
+        .collect(Collectors.toList());
+        Double score = postulantExam.getScore();
+        return new PostulantExamResultResponse(score, questions);
+    }
 
+    @Getter
+    public static class PostulantQuestionResultResponse  {
+        Long answerId;
+        PostulantQuestionResponse content;
+        public PostulantQuestionResultResponse(
+            PostulantQuestionResponse content,
+            ExamPart answer
 
+        ){
+            this.content = content;
+            this.answerId = answer.getId();
+
+        }
+
+    }
+    @Getter
+    public static class PostulantExamResultResponse {
+        Double score;
+        List questions;
+
+        public PostulantExamResultResponse(Double score, List questions) {
+        this.score = score;
+        this.questions = questions;
+        }
+    }
     @Getter
     public static class PostulantExamResponse {
         Long id;
