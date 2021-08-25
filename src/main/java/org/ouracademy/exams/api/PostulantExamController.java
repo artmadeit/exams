@@ -1,6 +1,9 @@
 package org.ouracademy.exams.api;
 
 import org.ouracademy.exams.domain.PostulantExamService;
+
+import javax.annotation.security.RolesAllowed;
+
 import org.ouracademy.exams.domain.PostulantExam;
 
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
@@ -25,12 +28,14 @@ public class PostulantExamController {
 
     PostulantExamService postulantExamService;
 
+    @RolesAllowed("POSTULANT")
     @PostMapping("/start-or-get/{eventExamId}")
     public PostulantExamResponse startOrGet(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
         var exam = postulantExamService.startOrGet(eventExamId, postulant);
         return new PostulantExamResponse(exam);
     }
 
+    @RolesAllowed("POSTULANT")
     @PreAuthorize("@postulantExamService.isTaker(principal, #id)")
     @PostMapping("/finish/{id}")
     @Transactional

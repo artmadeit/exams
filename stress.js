@@ -2,22 +2,24 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 export let options = {
-  vus: 2,
-  duration: "10s"
-  // stages: [
-  //   // { duration: "1m", target: 1 }, // below normal load
-  //   // { duration: "5m", target: 100 },
-  //   // { duration: "2m", target: 200 }, // normal load
-  //   // { duration: "5m", target: 200 },
-  //   // { duration: "2m", target: 300 }, // around the breaking point
-  //   // { duration: "5m", target: 300 },
-  //   // { duration: "2m", target: 400 }, // beyond the breaking point
-  //   // { duration: "5m", target: 400 },
-  //   // { duration: "10m", target: 0 }, // scale down. Recovery stage.
-  // ],
+  thresholds: {
+    // p(90)=1.62s  p(95)=1.84s
+    http_req_duration: ['p(95) < 1000', 'p(99) < 1500'],
+  },
+  stages: [
+    { duration: "1m", target: 50 }, // below normal load
+    { duration: "5m", target: 100 },
+    { duration: "2m", target: 200 }, // normal load
+    // { duration: "5m", target: 200 },
+    // { duration: "2m", target: 300 }, // around the breaking point
+    // { duration: "5m", target: 300 },
+    // { duration: "2m", target: 400 }, // beyond the breaking point
+    // { duration: "5m", target: 400 },
+    // { duration: "10m", target: 0 }, // scale down. Recovery stage.
+  ],
 };
 
-const BASE_URL = "https://prod-spring-exams-api.herokuapp.com";
+const BASE_URL = "https://qa-spring-exams-api.herokuapp.com";
 const eventExamId = 1;
 
 
@@ -85,7 +87,7 @@ export default function (data) {
   const { id: idPostulantExam } = eventResponse.json();
 
   for (let id = 1; id <= numberOfQuestions; id++) {
-    console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
+    // console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
     const responseQuestion = http.get(
       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}`,
       params
@@ -102,7 +104,7 @@ export default function (data) {
     
     let answerToMarkId = randomElement([...alternatives, {id: null}]).id
     
-    console.log(`Answer for Question ${id} is ${answerToMarkId}`);
+    // console.log(`Answer for Question ${id} is ${answerToMarkId}`);
     const markAnswerResponse = http.put(
       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}/answer`,
       JSON.stringify({ alternativeId: answerToMarkId }),
