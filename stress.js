@@ -65,80 +65,73 @@ export function setup() {
 }
 
 export default function (data) {
+  const postulant = randomElement(data.postulants)
+  const numberOfQuestions = 25;
+
+  const loginResponse = http.post(
+    `${BASE_URL}/auth/login`,
+    JSON.stringify({
+      name: postulant.username,
+      password: postulant.code,
+    }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const token = loginResponse.body;
+
+  const params = {
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+  };
   
-  console.log(JSON.stringify(randomElement(data.postulants)))
-  // console.log(JSON.stringify(data.postulants[__ITER]))
-  sleep(3)
+  const { principal } = http.get(`${BASE_URL}/auth/me`, params).json();
+  
+  //CHECK EVENT IS DATE UPDATED
+  const eventResponse = http.post(
+    `${BASE_URL}/postulant-exam/start-or-get/${eventExamId}`,
+    JSON.stringify({}),
+    params
+  );
+  const { id: idPostulantExam } = eventResponse.json();
+
+  for (let id = 1; id <= numberOfQuestions; id++) {
+    console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
+    const responseQuestion = http.get(
+      `${BASE_URL}/postulant-question/${idPostulantExam}/${id}`,
+      params
+      );
+    
+    
+    const { alternatives } = responseQuestion.json();
+    
+    check(responseQuestion, {
+      "question is 200": () => responseQuestion.status == 200,
+      "has alternatives": () => alternatives.length != 0,
+    });
+
+    
+    let answerToMarkId = randomElement([...alternatives, {id: null}]).id
+    
+    console.log(`Answer for Question ${id} is ${answerToMarkId}`);
+    const markAnswerResponse = http.put(
+      `${BASE_URL}/postulant-question/${idPostulantExam}/${id}/answer`,
+      JSON.stringify({ alternativeId: answerToMarkId }),
+      params
+    );
+
+    check(markAnswerResponse, {
+      "mark answer is 200": r => r.status == 200,
+      // "has alternatives": r => r.json() != 0,
+    });
+
+  }
+
+  sleep(1)
 }
-
-// export default function (data) {
-
-//   const numberOfQuestions = 25;
-
-//   const loginResponse = http.post(
-//     `${BASE_URL}/auth/login`,
-//     JSON.stringify({
-//       name: "70022098", // SUÁREZ ARÉVALO, MIRYAM MILAGROS
-//       password: "40960",
-//     }),
-//     {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   );
-//   const token = loginResponse.body;
-
-//   const params = {
-//     headers: {
-//       Authorization: token,
-//       "Content-Type": "application/json",
-//     },
-//   };
-  
-//   const { principal } = http.get(`${BASE_URL}/auth/me`, params).json();
-  
-//   //CHECK EVENT IS DATE UPDATED
-//   const eventResponse = http.post(
-//     `${BASE_URL}/postulant-exam/start-or-get/${eventExamId}`,
-//     JSON.stringify({}),
-//     params
-//   );
-//   const { id: idPostulantExam } = eventResponse.json();
-
-//   for (let id = 1; id <= numberOfQuestions; id++) {
-//     console.log(`${BASE_URL}/postulant-question/${idPostulantExam}/${id}`);
-//     const responseQuestion = http.get(
-//       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}`,
-//       params
-//       );
-    
-    
-//     const { alternatives } = responseQuestion.json();
-    
-//     check(responseQuestion, {
-//       "question is 200": () => responseQuestion.status == 200,
-//       "has alternatives": () => alternatives.length != 0,
-//     });
-
-    
-//     let answerToMarkId = randomElement([...alternatives, {id: null}]).id
-    
-//     console.log(`Answer for Question ${id} is ${answerToMarkId}`);
-//     const markAnswerResponse = http.put(
-//       `${BASE_URL}/postulant-question/${idPostulantExam}/${id}/answer`,
-//       JSON.stringify({ alternativeId: answerToMarkId }),
-//       params
-//     );
-
-//     check(markAnswerResponse, {
-//       "mark answer is 200": r => r.status == 200,
-//       // "has alternatives": r => r.json() != 0,
-//     });
-
-//   }
-
-//   sleep(1)
-// }
 
 const randomElement = (array) => array[Math.floor(Math.random() * array.length)];
