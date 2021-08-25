@@ -50,7 +50,7 @@ public class PostulantExamService {
             return new PostulantQuestionResultResponse(content, p.getAnswer());
         }).collect(Collectors.toList());
         Double score = postulantExam.getScore();
-        return new PostulantExamResultResponse(score, questions);
+        return new PostulantExamResultResponse(score, questions, postulantExam.getPostulant());
     }
 
     @Getter
@@ -63,7 +63,6 @@ public class PostulantExamService {
         ) {
             this.content = content;
             this.answerId = answer.getId();
-
         }
 
     }
@@ -72,10 +71,13 @@ public class PostulantExamService {
     public static class PostulantExamResultResponse {
         Double score;
         List questions;
+        Postulant postulant;
 
-        public PostulantExamResultResponse(Double score, List questions) {
-            this.score = score;
-            this.questions = questions;
+
+        public PostulantExamResultResponse(Double score, List questions, Postulant postulant) {
+        this.score = score;
+        this.questions = questions;
+        this.postulant = postulant;
         }
     }
 
