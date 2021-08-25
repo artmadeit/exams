@@ -1,11 +1,8 @@
 package org.ouracademy.exams.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 
 import com.google.common.collect.Lists;
@@ -14,7 +11,6 @@ import org.ouracademy.exams.domain.DateTimeRange;
 import org.ouracademy.exams.domain.Inscription;
 import org.ouracademy.exams.domain.InscriptionRepository;
 import org.ouracademy.exams.domain.PostulantExam;
-import org.ouracademy.exams.domain.PostulantExamRepository;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.springframework.data.domain.Page;
