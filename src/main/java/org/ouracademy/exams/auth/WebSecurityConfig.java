@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()//
 				.antMatchers("/auth/**").permitAll()//
-				.antMatchers("/postulant-question/**", "/postulant/**", "/postulant-exam/**").hasRole("POSTULANT")
+				.antMatchers("/postulant-question/**", "/postulant/**").hasRole("POSTULANT")
 				.anyRequest().authenticated();//
 				
 
