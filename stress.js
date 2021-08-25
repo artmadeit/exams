@@ -17,21 +17,6 @@ export let options = {
   // ],
 };
 
-
-// const responseResult = http.get(
-//   `${BASE_URL}/exam-results/${eventExamId}?dni=${dni}`,
-//   options
-// );
-// console.log("Get result from exam")
-
-// check(responseResult, {
-  //   "is score -25": (r) => {
-    //     const { content } = r.json();
-    //     var { exam } = content.find((c) => c.postulant.dni == dni);
-    //     return exam.score == -25.0;
-    //   },
-    // });
-
 const BASE_URL = "https://prod-spring-exams-api.herokuapp.com";
 const eventExamId = 1;
 
@@ -126,7 +111,7 @@ export default function (data) {
 
     check(markAnswerResponse, {
       "mark answer is 200": r => r.status == 200,
-      // "has alternatives": r => r.json() != 0,
+      "postulant answer is what is marked": r => r.json().postulantAnswerId == answerToMarkId,
     });
 
   }
