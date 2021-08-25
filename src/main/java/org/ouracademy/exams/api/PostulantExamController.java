@@ -46,6 +46,7 @@ public class PostulantExamController {
     @GetMapping("/{id}")
     @Transactional
     public PostulantExamResultResponse getById(@PathVariable Long id) {
+        //TODO: validate that exam time is ended
         return postulantExamService.getById(id);
     }
 }
