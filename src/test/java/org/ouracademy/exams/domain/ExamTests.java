@@ -28,11 +28,7 @@ public class ExamTests {
     @Test
     void test_postulante_inicia_un_examen() {
         var postulant = arthur();
-        var examEvent = ExamEvent.builder()
-            .description("Examen de postgrado 2021 - II")
-            .range(new DateTimeRange(
-                LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2022, 03, 07, 17, 00) 
-            )).build();
+        var examEvent = anExamEvent();
         
         var inscription = new Inscription(
             postulant, examEvent
@@ -41,6 +37,15 @@ public class ExamTests {
         List<PostulantQuestion> randomQuestions = List.of();
         var postulantExam = inscription.startExam(randomQuestions);
         assertNotNull(postulantExam);
+    }
+
+    public static ExamEvent anExamEvent() {
+        var examEvent = ExamEvent.builder()
+            .description("Examen de postgrado 2021 - II")
+            .range(new DateTimeRange(
+                LocalDateTime.of(2021, 03, 07, 15, 00), LocalDateTime.of(2022, 03, 07, 17, 00) 
+            )).build();
+        return examEvent;
     }
 
     private Postulant arthur() {
