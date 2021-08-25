@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.createExamSpecification;
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 import static org.ouracademy.exams.domain.structure.ExamTestData.examen;
@@ -26,17 +27,50 @@ import org.ouracademy.exams.domain.structure.ExamPart.Type;
 public class ExamTests {
     
     @Test
-    void test_postulante_inicia_un_examen() {
+    void test_postulante_inicia_un_examen() {  
+        var postulantExam = aPostulantExam();
+        assertNotNull(postulantExam);
+        assertNotNull(postulantExam.getActualRange().start);
+    }
+
+    private PostulantExam aPostulantExam() {
         var postulant = arthur();
         var examEvent = anExamEvent();
-        
-        var inscription = new Inscription(
-            postulant, examEvent
-        );
-        
+        var inscription = new Inscription(postulant, examEvent); 
         List<PostulantQuestion> randomQuestions = List.of();
         var postulantExam = inscription.startExam(randomQuestions);
-        assertNotNull(postulantExam);
+        return postulantExam;
+    }
+
+    @Test
+    void test_try_to_start_when_exam_no_started() {  
+        var postulant = arthur();
+        var examEvent = anExamEvent();
+        examEvent.range.start = LocalDateTime.now().plusDays(1);
+
+        var inscription = new Inscription(postulant, examEvent); 
+        List<PostulantQuestion> randomQuestions = List.of();
+        
+        assertThrows(ExamEvent.NotStartedException.class, () -> inscription.startExam(randomQuestions));
+    }
+
+    @Test
+    void test_try_to_start_when_exam_ended() {  
+        var postulant = arthur();
+        var examEvent = anExamEvent();
+        examEvent.range.end = LocalDateTime.now().minusHours(1);
+
+        var inscription = new Inscription(postulant, examEvent); 
+        List<PostulantQuestion> randomQuestions = List.of();
+        
+        assertThrows(ExamEvent.EndedException.class, () -> inscription.startExam(randomQuestions));
+    }
+
+    @Test
+    void test_finish() {
+        var postulantExam = aPostulantExam();
+        postulantExam.finish();
+        assertNotNull(postulantExam.getActualRange().getEnd());
     }
 
     public static ExamEvent anExamEvent() {
