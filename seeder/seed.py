@@ -2,7 +2,7 @@ import pandas as pd
 
 
 # DNI	NOMBRES	AP_PATERNO	AP_MATERNO	COD_POSTULANTE	COD_PROGRAMA	COD_FACULTAD
-path = "data/examen_27_03_2021.xlsx"
+path = "data/LISTA EXAMEN.xlsx"
 df = pd.read_excel(path, names=[
     "dni", "nombre", "apellido_paterno", 
     "apellido_materno", "codigo_postulante",
@@ -21,30 +21,32 @@ df['codigo_postulante'] = df['codigo_postulante'].str.strip()
 df['codigo_programa'] = df['codigo_programa'].str.strip()
 df['codigo_upg'] = df['codigo_upg'].str.strip()
 
-duplicates = df[df.duplicated(['dni'], keep=False)]
+# duplicates = df[df.duplicated(['dni'], keep=False)]
 
 # duplicates.to_csv("duplicados-por-dni.csv")
+
+# assert len(duplicates) == 0
 
 # df = df.drop_duplicates(["dni"]) # TODO: delete this (when fixed)
 fullNames = df['apellido_paterno'] + ' ' + df['apellido_materno'] + ' ' + df['nombre'] 
 
-# df["full_name"] = fullNames
-# print(df[df["full_name"] == "AQUINO HANCCO GLADYS"])
+df["full_name"] = fullNames
+# # print(df[df["full_name"] == "AQUINO HANCCO GLADYS"])
 # print(fullNames.value_counts())
 
-# assert all(fullNames.value_counts() == 1)
+assert all(fullNames.value_counts() == 1)
 assert all(df["dni"].value_counts() == 1)
 
-# bad_dni = df[df["dni"].str.len() != 8]
-# bad_dni.to_csv("dni-diferente-a-8-digitos.csv")
+bad_dni = df[df["dni"].str.len() != 8]
+bad_dni.to_csv("dni-diferente-a-8-digitos.csv")
 
-# # df = df[df["dni"].str.len() == 8] # TODO: delete this (when fixed)
+# df = df[df["dni"].str.len() == 8] # TODO: delete this (when fixed)
 
 # assert all(df["dni"].str.len() == 8)
 
 assert all(df["codigo_postulante"].value_counts() == 1)
 
-# assert all(df['codigo_programa'].str.len() == 6)
+assert all(df['codigo_programa'].str.len() == 6)
 postulantes = df.to_dict("records")
 
 def demos():
@@ -85,10 +87,12 @@ def demos():
 def seed_users():
     data = [
         *postulantes,
-        *demos(),
+        # *demos(),
     ]
 
-
+    print("se debe registrar (consulte en su bd)")
+    print(len(data))
+    
     insert_account = "INSERT INTO user_account (name, password, role) \
         VALUES \n" + ",\n".join((f"('{p['dni']}', '{p['codigo_postulante']}', 'POSTULANT')" for p in data )) + ";"
 
@@ -105,8 +109,7 @@ def seed_users():
     with open("data/insert_postulants.sql", "w") as sql_script:
         sql_script.write(sql)
 
-print("se debe registrar (consulte en su bd)")
-print(len([        *postulantes, *demos() ]))
+
 seed_users()
 
 
