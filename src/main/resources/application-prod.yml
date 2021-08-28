@@ -9,4 +9,4 @@ security:
   jwt:
     token: 
       secret-key: ${JWT_SECRET_KEY}
-      expire-length: 7200000 # 2 hours
+      expire-length: 14400000 # 4 hours
