@@ -115,14 +115,14 @@ public class PostulantExamService {
     }
 
     @Transactional
-    public PostulantExam startOrGet(Long examEventId, Postulant postulant) {
+    public PostulantExam getOrStart(Long examEventId, Postulant postulant) {
         // TODO: put inscription id
         var examEvent = examEventRepository.getById(examEventId);
         var inscription = inscriptionRepository.findByPostulantAndEvent(postulant, examEvent)
                 .orElseThrow(() -> new NotFoundException(Inscription.class));
 
         if (inscription.getPostulantExam() == null) {
-            inscription.setPostulantExam(inscription.startExam(randomQuestions()));
+            inscription.setPostulantExam(inscription.startExam(this::randomQuestions));
         }
 
         return inscription.getPostulantExam();

@@ -1,6 +1,7 @@
 package org.ouracademy.exams.domain;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -46,7 +47,7 @@ public class Inscription {
     }
 
 
-    public PostulantExam startExam(List<PostulantQuestion> questions) {
+    public PostulantExam startExam(Supplier<List<PostulantQuestion>> questions) {
         if (!event.hasStarted())
             throw new ExamEvent.NotStartedException(event);
 
@@ -54,7 +55,7 @@ public class Inscription {
             throw new ExamEvent.EndedException(event);
 
         return PostulantExam.builder()
-            .questions(questions)
+            .questions(questions.get())
             .inscription(this)
             .event(event).build();
     }

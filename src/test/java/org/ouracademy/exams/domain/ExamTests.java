@@ -37,8 +37,7 @@ public class ExamTests {
         var postulant = arthur();
         var examEvent = anExamEvent();
         var inscription = new Inscription(postulant, examEvent); 
-        List<PostulantQuestion> randomQuestions = List.of();
-        var postulantExam = inscription.startExam(randomQuestions);
+        var postulantExam = inscription.startExam(() -> List.of());
         return postulantExam;
     }
 
@@ -49,9 +48,7 @@ public class ExamTests {
         examEvent.range.start = LocalDateTime.now().plusDays(1);
 
         var inscription = new Inscription(postulant, examEvent); 
-        List<PostulantQuestion> randomQuestions = List.of();
-        
-        assertThrows(ExamEvent.NotStartedException.class, () -> inscription.startExam(randomQuestions));
+        assertThrows(ExamEvent.NotStartedException.class, () -> inscription.startExam(() -> List.of()));
     }
 
     @Test
@@ -60,10 +57,8 @@ public class ExamTests {
         var examEvent = anExamEvent();
         examEvent.range.end = LocalDateTime.now().minusHours(1);
 
-        var inscription = new Inscription(postulant, examEvent); 
-        List<PostulantQuestion> randomQuestions = List.of();
-        
-        assertThrows(ExamEvent.EndedException.class, () -> inscription.startExam(randomQuestions));
+        var inscription = new Inscription(postulant, examEvent);
+        assertThrows(ExamEvent.EndedException.class, () -> inscription.startExam(() -> List.of()));
     }
 
     @Test

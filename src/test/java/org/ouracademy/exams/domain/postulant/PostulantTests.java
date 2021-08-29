@@ -32,8 +32,8 @@ public class PostulantTests {
 
     @Test
     void test_is_taker() {
-        var arthurExam = new Inscription(arthur, ExamTests.anExamEvent()).startExam(Collections.emptyList());
-        var dianaExam = new Inscription(diana, ExamTests.anExamEvent()).startExam(Collections.emptyList());
+        var arthurExam = new Inscription(arthur, ExamTests.anExamEvent()).startExam(() -> Collections.emptyList());
+        var dianaExam = new Inscription(diana, ExamTests.anExamEvent()).startExam(() -> Collections.emptyList());
 
         assertFalse(arthur.isTaker(Optional.empty()));
         assertTrue(arthur.isTaker(Optional.of(arthurExam)));

@@ -30,8 +30,8 @@ public class PostulantExamController {
 
     @RolesAllowed("POSTULANT")
     @PostMapping("/start-or-get/{eventExamId}")
-    public PostulantExamResponse startOrGet(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
-        var exam = postulantExamService.startOrGet(eventExamId, postulant);
+    public PostulantExamResponse getOrStart(@PathVariable Long eventExamId, @AuthenticationPrincipal Postulant postulant) {
+        var exam = postulantExamService.getOrStart(eventExamId, postulant);
         return new PostulantExamResponse(exam);
     }
 
