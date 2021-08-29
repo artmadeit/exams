@@ -56,7 +56,6 @@ public class Inscription {
 
         return PostulantExam.builder()
             .questions(questions.get())
-            .inscription(this)
-            .event(event).build();
+            .inscription(this).build();
     }
 }

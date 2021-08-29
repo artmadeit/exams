@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -30,8 +29,6 @@ public class PostulantExam {
     Long id;
     @OneToOne
     Inscription inscription;
-    @ManyToOne
-    ExamEvent event;
     @Embedded
     DateTimeRange actualRange;
 
@@ -45,9 +42,8 @@ public class PostulantExam {
     PostulantExam() {}
 
     @Builder
-    public PostulantExam(Inscription inscription, ExamEvent event, List<PostulantQuestion> questions) {
+    public PostulantExam(Inscription inscription, List<PostulantQuestion> questions) {
         this.inscription = inscription;
-        this.event = event;
         this.actualRange = new DateTimeRange(LocalDateTime.now(), null);
         setQuestions(questions);
     }
@@ -73,13 +69,13 @@ public class PostulantExam {
     }
 
     public void assertHasNotEnded() {
-        if(event.hasEnded())
-            throw new ExamEvent.EndedException(event);
+        if(inscription.getEvent().hasEnded())
+            throw new ExamEvent.EndedException(inscription.getEvent());
         
         if(actualRange.hasEnded())
             throw new BadArgumentsException("exam.ended");
     }
-
+    
     public Double getScore() {
         return this.questions.stream().mapToDouble(PostulantQuestion::getScore).sum();
     }
