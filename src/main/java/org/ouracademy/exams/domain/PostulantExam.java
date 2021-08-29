@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.ouracademy.exams.domain.event.ExamEvent;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.utils.BadArgumentsException;
@@ -32,9 +34,16 @@ public class PostulantExam {
     @Embedded
     DateTimeRange actualRange;
 
+    @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(mappedBy="postulantExam", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("number")
     List<PostulantQuestion> questions = new ArrayList<>();
+    
+    
+    // Used with lazycollection extra, see: https://stackoverflow.com/questions/4230355/jpa-directly-mapping-collection-size-to-attribute-using-count
+    public Integer getNumberOfQuestions() {
+    	return questions.size();
+    }
 
     /**
      * @apiNote jpa only

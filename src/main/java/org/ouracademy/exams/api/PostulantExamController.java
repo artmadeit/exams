@@ -4,8 +4,6 @@ import org.ouracademy.exams.domain.PostulantExamService;
 
 import javax.annotation.security.RolesAllowed;
 
-import org.ouracademy.exams.domain.PostulantExam;
-
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResponse;
 import org.ouracademy.exams.domain.postulant.Postulant;
 import org.ouracademy.exams.domain.PostulantExamService.PostulantExamResultResponse;
