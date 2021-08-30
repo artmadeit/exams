@@ -29,7 +29,7 @@ public class PostulantExam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @OneToOne
+    @OneToOne(mappedBy = "postulantExam", optional = false)
     Inscription inscription;
     @Embedded
     DateTimeRange actualRange;
@@ -40,7 +40,7 @@ public class PostulantExam {
     List<PostulantQuestion> questions = new ArrayList<>();
     
     
-    // Used with lazycollection extra, see: https://stackoverflow.com/questions/4230355/jpa-directly-mapping-collection-size-to-attribute-using-count
+    // Used with lazycollection extra,  see: https://stackoverflow.com/questions/4230355/jpa-directly-mapping-collection-size-to-attribute-using-count
     public Integer getNumberOfQuestions() {
     	return questions.size();
     }
