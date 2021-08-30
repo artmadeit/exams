@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.persistence.Entity;
 
+import org.ouracademy.exams.auth.UserAccountRole;
 import org.ouracademy.exams.auth.UserAccount;
 import org.ouracademy.exams.domain.PostulantExam;
 
@@ -38,7 +39,7 @@ public class Postulant extends UserAccount {
         String programCode,
         String upgCode
     ) {
-        super(dni, code, Role.POSTULANT);
+        super(dni, code, UserAccountRole.POSTULANT);
         this.firstName = firstName;
         this.lastName = lastName;
         this.motherLastName = motherLastName;
