@@ -3,16 +3,16 @@ package org.ouracademy.exams.domain;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.ouracademy.exams.domain.structure.ExamPart;
 import org.ouracademy.exams.domain.structure.Question;
 import org.ouracademy.exams.utils.NotFoundException;
@@ -22,6 +22,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@TypeDef(
+    name = "list-array",
+    typeClass = ListArrayType.class
+)
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -37,14 +42,14 @@ public class PostulantQuestion extends ExamPartReference {
      */
     @ManyToOne
     @Setter ExamPart postulantAnswer;
-    
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("number")
-    List<ExamPartReference> alternativeReferences = new ArrayList<>();
 
     @LastModifiedDate 
     @Setter private Instant lastModifiedDate;
-    
+
+    @Type(type = "list-array")
+    @Column(columnDefinition = "bigint[]")
+    List<Long> alternativeIds = new ArrayList<>();
+
     /**
      * @apiNote jpa only
      */
@@ -52,7 +57,7 @@ public class PostulantQuestion extends ExamPartReference {
 
     public PostulantQuestion(Integer number, Question question, List<ExamPart> alternatives) {
         super(question, number);
-        this.alternativeReferences = ExamPartReference.toReferences(alternatives);
+        this.alternativeIds = alternatives.stream().map(ExamPart::getId).toList();
     }
 
     public Question getQuestion() {
@@ -67,28 +72,14 @@ public class PostulantQuestion extends ExamPartReference {
         return getQuestion().score(getPostulantAnswer());
     }
 
-    public Optional<ExamPart> getAlternative(Long alternativeId) {
-        return getAlternatives()
-            .stream()
-            .filter(x -> x.getId().equals(alternativeId))
-            .findFirst();
-    }
-
-    public List<ExamPart> getAlternatives() {
-        return this.alternativeReferences.stream()
-            .map(ExamPartReference::getExamPart)
-            .collect(Collectors.toList());
-    }
-
     /**
      * @param alternativeId must be in the alternatives of this question
      */
-    public void updateAnswer(Long alternativeId) {
+    public void updateAnswer(ExamPart alternative) {
         postulantExam.assertHasNotEnded();
 
-        var alternative = alternativeId == null? 
-            null:
-            getAlternative(alternativeId).orElseThrow(() -> new NotFoundException("alternative_in_question"));
+        if (alternative != null && !this.alternativeIds.contains(alternative.getId())) 
+            throw new NotFoundException("alternative_in_question");
         
         this.postulantAnswer = alternative;
     }

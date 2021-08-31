@@ -2,14 +2,14 @@ package org.ouracademy.exams.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.ouracademy.exams.domain.PostulantQuestion;
 import org.ouracademy.exams.domain.PostulantQuestionRepository;
+import org.ouracademy.exams.domain.PostulantQuestionService;
 import org.ouracademy.exams.domain.structure.ExamPart;
+import org.ouracademy.exams.domain.structure.ExamPartRepository;
 import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +28,10 @@ import lombok.Getter;
 @RequestMapping("/postulant-question")
 @AllArgsConstructor
 public class PostulantQuestionController {
+
+    PostulantQuestionService service;
     PostulantQuestionRepository postulantQuestionRepository;
-    
+    ExamPartRepository examPartRepository;
 
    
     @Getter
@@ -58,26 +60,25 @@ public class PostulantQuestionController {
         Long postulantAnswerId;
         List<ExamPartResponse> alternatives = new ArrayList<>();
 
-        public PostulantQuestionResponse(PostulantQuestion postulantQuestion) {
+        public PostulantQuestionResponse(PostulantQuestion postulantQuestion, List<ExamPart> alternatives) {
             this.id = postulantQuestion.getId();
             this.number = postulantQuestion.getNumber();
             this.question = new ExamParthWithParent(postulantQuestion.getQuestion());
             this.postulantAnswerId = postulantQuestion.getPostulantAnswer() != null? 
                 postulantQuestion.getPostulantAnswer().getId(): null;
-            this.alternatives = postulantQuestion.getAlternatives().stream()
+            this.alternatives = alternatives.stream()
                 .map(ExamPartResponse::new)
-                .collect(Collectors.toList());
+                .toList();
         }
         
     }
-
 
     @PreAuthorize("@postulantExamService.isTaker(principal, #examId)")
     @GetMapping("{examId}/{questionNumber}")
     public ResponseEntity<PostulantQuestionResponse> get(@PathVariable Long examId, @PathVariable Integer questionNumber) {
         return ResponseEntity.of(
             postulantQuestionRepository.findByNumberAndPostulantExam_Id(questionNumber, examId)
-            .map(PostulantQuestionResponse::new)
+            .map(x -> new PostulantQuestionResponse(x, service.getAlternatives(x)))
         );
     }
 
@@ -97,6 +98,8 @@ public class PostulantQuestionController {
             .findByNumberAndPostulantExam_Id(questionNumber, examId)
             .orElseThrow(() -> new NotFoundException(PostulantQuestion.class));
         
-        postulantQuestion.updateAnswer(answer.alternativeId);
+        
+        var alternative = answer.alternativeId == null? null: examPartRepository.getById(answer.alternativeId);
+        postulantQuestion.updateAnswer(alternative);
     }
 }
