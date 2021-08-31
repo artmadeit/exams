@@ -79,6 +79,7 @@ public class ExamTests {
 
     private Postulant arthur() {
         return Postulant.builder()
+        		.password("superpass")
 				.code("12123123")
 				.dni("73646447")
 				.lastName("mauricio")
