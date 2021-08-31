@@ -23,6 +23,7 @@ public class Postulant extends UserAccount {
     String motherLastName;
     String programCode;
     String upgCode;
+    String code;
 
     /**
      * @apiNote jpa only
@@ -33,13 +34,15 @@ public class Postulant extends UserAccount {
     public Postulant(
         String code,
         String dni,
+        String password,
         String firstName,
         String lastName,
         String motherLastName,
         String programCode,
         String upgCode
     ) {
-        super(dni, code, UserAccountRole.POSTULANT);
+        super(dni, password, UserAccountRole.POSTULANT);
+        this.code = code;
         this.firstName = firstName;
         this.lastName = lastName;
         this.motherLastName = motherLastName;
@@ -49,10 +52,6 @@ public class Postulant extends UserAccount {
     
     public String getDni() {
         return this.getName();
-    }
-    
-    public String getCode() {
-        return this.getPassword();
     }
     
     public boolean isTaker(Optional<PostulantExam> postulantExam) {

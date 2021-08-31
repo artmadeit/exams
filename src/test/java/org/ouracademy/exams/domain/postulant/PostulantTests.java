@@ -13,10 +13,10 @@ import org.ouracademy.exams.domain.ExamTests;
 import org.ouracademy.exams.domain.Inscription;
 
 public class PostulantTests {
-    Postulant arthur = Postulant.builder().code("123").dni("73646447").firstName("arthur").lastName("mauricio")
+    Postulant arthur = Postulant.builder().password("superpass").code("123").dni("73646447").firstName("arthur").lastName("mauricio")
             .motherLastName("delgadillo").programCode("sw").upgCode("fisi").build();
 
-    Postulant diana = Postulant.builder().code("223").dni("48484498").firstName("diana").lastName("quintanilla")
+    Postulant diana = Postulant.builder().password("superpass").code("223").dni("48484498").firstName("diana").lastName("quintanilla")
             .motherLastName("perez").programCode("sw").upgCode("fisi").build();
 
     @Test
@@ -45,7 +45,7 @@ public class PostulantTests {
         assertEquals(arthur, arthur);
         assertNotEquals(arthur, diana);
 
-        var arthurRetrievedByDB = Postulant.builder().code("123").dni("73646447").firstName("arthur")
+        var arthurRetrievedByDB = Postulant.builder().password("superpass").code("123").dni("73646447").firstName("arthur")
                 .lastName("mauricio").motherLastName("delgadillo").programCode("sw").upgCode("fisi").build();
 
         assertEquals(arthur, arthurRetrievedByDB);

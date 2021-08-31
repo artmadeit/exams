@@ -5,20 +5,17 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.util.List;
 
-import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.api.PostulantQuestionController.PostulantQuestionResponse;
-
+import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.domain.build.ExamRandomBuilder;
 import org.ouracademy.exams.domain.event.ExamEventRepository;
 import org.ouracademy.exams.domain.postulant.Postulant;
-import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPart;
-
-import org.ouracademy.exams.utils.NotFoundException;
+import org.ouracademy.exams.domain.structure.ExamPart.Type;
 import org.ouracademy.exams.domain.structure.ExamPartRepository;
+import org.ouracademy.exams.utils.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +30,8 @@ public class PostulantExamService {
     ExamPartRepository examPartRepository;
     InscriptionRepository inscriptionRepository;
 
+    PostulantQuestionService postulantQuestionService;
+
     public PostulantExamResponse finish(Long id) {
         var postulantExam = postulantExamRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(PostulantExam.class));
@@ -45,9 +44,9 @@ public class PostulantExamService {
         var postulantExam = postulantExamRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(PostulantExam.class));
         var questions = postulantExam.getQuestions().stream().map(p -> {
-            var content = new PostulantQuestionResponse(p);
+            var content = new PostulantQuestionResponse(p, postulantQuestionService.getAlternatives(p));
             return new PostulantQuestionResultResponse(content, p.getAnswer());
-        }).collect(Collectors.toList());
+        }).toList();
         Double score = postulantExam.getScore();
         return new PostulantExamResultResponse(score, questions, postulantExam.getPostulant());
     }
@@ -69,14 +68,14 @@ public class PostulantExamService {
     @Getter
     public static class PostulantExamResultResponse {
         Double score;
-        List questions;
+        List<PostulantQuestionResultResponse> questions;
         Postulant postulant;
 
 
-        public PostulantExamResultResponse(Double score, List questions, Postulant postulant) {
-        this.score = score;
-        this.questions = questions;
-        this.postulant = postulant;
+        public PostulantExamResultResponse(Double score, List<PostulantQuestionResultResponse> questions, Postulant postulant) {
+            this.score = score;
+            this.questions = questions;
+            this.postulant = postulant;
         }
     }
 
