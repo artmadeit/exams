@@ -47,7 +47,7 @@ public class PostulantQuestion extends ExamPartReference {
     @Setter private Instant lastModifiedDate;
 
     @Type(type = "list-array")
-    @Column(columnDefinition = "bigint[]")
+    @Column(name = "alternatives", columnDefinition = "bigint[]")
     List<Long> alternativeIds = new ArrayList<>();
 
     /**
