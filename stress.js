@@ -6,11 +6,11 @@ export let options = {
     // p(90)=1.62s  p(95)=1.84s
     http_req_duration: ['p(95) < 1000', 'p(99) < 1500'],
   },
+//  vus: 1,
+//  iterations: 3
   stages: [
-    { duration: "1m", target: 50 }, // below normal load
-    { duration: "5m", target: 100 },
-    { duration: "2m", target: 200 }, // normal load
-    // { duration: "5m", target: 200 },
+    { duration: "2m", target: 100 }, // normal load
+    { duration: "2m", target: 200 },
     // { duration: "2m", target: 300 }, // around the breaking point
     // { duration: "5m", target: 300 },
     // { duration: "2m", target: 400 }, // beyond the breaking point
@@ -19,40 +19,27 @@ export let options = {
   ],
 };
 
-const BASE_URL = "https://qa-spring-exams-api.herokuapp.com";
+const BASE_URL = "http://localhost:8080" // "https://qa-spring-exams-api.herokuapp.com";
 const eventExamId = 1;
 
+function range(startAt = 0, size, ) {
+    return [...Array(size).keys()].map(i => i + startAt);
+}
 
 export function setup() {
-  const loginAdminResponse = http.post(
-    `${BASE_URL}/auth/login`,
-    JSON.stringify({ name: "unmsm-admin", password: "unsuperpasword" }),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const token = loginAdminResponse.body;
-
-  const params = {
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-    },
-  };
-
-  const responseResults = http.get(
-    `${BASE_URL}/exam-results/${eventExamId}?size=100`,
-    params
-  );
-  let postulants = responseResults.json().content.map(x => x.postulant)
+  const postulants = range(1, 1000).map(i => ({ 
+            'username': `1001000${i}`, 
+            'code': `1000${i}`
+        }))
+     
   return { postulants };
 }
 
 export default function (data) {
   const postulant = randomElement(data.postulants)
+//	const postulant = data.postulants[0]
+//	console.log(JSON.stringify(postulant))
+
   const numberOfQuestions = 25;
 
   const loginResponse = http.post(
@@ -77,6 +64,8 @@ export default function (data) {
   };
   
   const { principal } = http.get(`${BASE_URL}/auth/me`, params).json();
+  
+  sleep(3)
   
   //CHECK EVENT IS DATE UPDATED
   const eventResponse = http.post(
@@ -112,8 +101,7 @@ export default function (data) {
     );
 
     check(markAnswerResponse, {
-      "mark answer is 200": r => r.status == 200,
-      "postulant answer is what is marked": r => r.json().postulantAnswerId == answerToMarkId,
+      "mark answer is 200": r => r.status == 200
     });
 
   }
