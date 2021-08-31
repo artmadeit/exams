@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,13 +20,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.ouracademy.exams.utils.BadArgumentsException;
 import org.springframework.lang.Nullable;
 
 import lombok.Getter;
 import lombok.Setter;
 
-
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -81,6 +85,7 @@ public class ExamPart {
     @Enumerated(EnumType.STRING)
     Type type;
 
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
     ExamPart parent;
 

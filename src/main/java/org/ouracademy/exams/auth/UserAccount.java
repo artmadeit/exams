@@ -1,8 +1,8 @@
 package org.ouracademy.exams.auth;
 
 import java.util.Collection;
-import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,13 +12,17 @@ import javax.persistence.InheritanceType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -35,26 +39,18 @@ public class UserAccount implements UserDetails {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private Role role;
-
-	public enum Role {
-		ADMIN, POSTULANT;
-
-		public Collection<GrantedAuthority> authorities() {
-			return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));
-		}
-	}
+	@Setter private UserAccountRole role;
 
 	protected UserAccount() {}
 	
-	protected UserAccount(String name, String password, Role role) {
+	protected UserAccount(String name, String password, UserAccountRole role) {
 		this.name = name;
 		this.password = password;
 		this.role = role;
 	}
 	
 	public static UserAccount admin(String name, String password) {
-		return new UserAccount(name, password, Role.ADMIN);
+		return new UserAccount(name, password, UserAccountRole.ADMIN);
 	}
 
 

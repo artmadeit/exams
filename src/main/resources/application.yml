@@ -4,11 +4,23 @@ spring:
     url: jdbc:postgresql://127.0.0.1:5432/exams
     username: postgres
     password: 123456
+    
   # use only if you need debug (1)
   jpa:
-    # properties:
-    #   hibernate:
-    #     format_sql: true
+#    show-sql: true 
+    properties:
+      hibernate:
+#        format_sql: true
+        # see https://stackoverflow.com/questions/31585698/spring-boot-jpa2-hibernate-enable-second-level-cache
+        cache:
+          use_second_level_cache: true
+          #optional - turn on query cache.
+          use_query_cache: true 
+          region:
+            #required - classpath to cache region factory.
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+
+       
     # # only initially for prototype, then use flyway
     # # hibernate:
     # #   ddl-auto: create-drop
@@ -18,7 +30,8 @@ spring:
   # change max page size (in order to support excel download)
   # https://stackoverflow.com/questions/33675349/spring-data-rest-max-page-size-does-not-seem-to-be-working
   # TODO: remove this when excel download improve
-  data.web.pageable.max-page-size: 10_000
+  data:
+    web.pageable.max-page-size: 10000
 
 # use only if you need debug (1)
 # logging:

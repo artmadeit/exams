@@ -4,7 +4,6 @@ import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.creat
 import static org.ouracademy.exams.domain.build.BuildExamPartSpecification.with;
 
 import java.util.List;
-import java.util.Map;
 
 import org.ouracademy.exams.domain.build.BuildExamPartSpecification;
 import org.ouracademy.exams.api.PostulantQuestionController.PostulantQuestionResponse;
@@ -89,7 +88,7 @@ public class PostulantExamService {
 
         public PostulantExamResponse(PostulantExam postulantExam) {
             this.id = postulantExam.getId();
-            this.numberOfQuestions = postulantExam.getQuestions().size();
+            this.numberOfQuestions = postulantExam.getNumberOfQuestions();
             this.actualRange = postulantExam.getActualRange();
         }
     }
