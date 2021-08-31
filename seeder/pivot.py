@@ -15,7 +15,7 @@ import pandas as pd
 # RIGHT JOIN inscription i ON e.id = i.postulant_exam_id 
 # RIGHT JOIN postulant ON postulant.name = i.postulant_name;
 
-df = pd.read_csv("to_pivot_exam_1.csv")
+df = pd.read_csv("seeder/to_pivot_exam_1.csv")
 df["exam_id"] = df["exam_id"].map({1: "plantilla 1", 133: "plantilla 2"})
 
 print("Leyenda: answer_number 0 => blanco, 1 => A, 2 => B, 3 => C, 4 => D, NaN => no le toco dicha pregunta")
@@ -23,4 +23,4 @@ summary = df.pivot_table(index="dni", columns=["exam_id", "question_number"], va
 print(
     summary
 )
-# summary.to_csv("hello.csv", index=None)
+summary.to_excel("hello.xlsx")

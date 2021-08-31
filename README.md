@@ -21,3 +21,21 @@
 
 TODO:
 - ejecutar prueba de performance (al iniciar un examen y actualizar una pregunta y respuesta)
+
+postgres://wgqdtaoj:F1V-uNQm52jqTPdGCBwILP3n1RvRUnRp@sharp-elderberry.db.elephantsql.com/wgqdtaoj
+pg_dump -U wgqdtaoj -d wgqdtaoj  -h sharp-elderberry.db.elephantsql.com -f sourcedb.sql
+
+postgres://pidvakbc:RaRohPm06pxCmGPW6gEvD64Xo-dKkhg8@chunee.db.elephantsql.com/pidvakbc
+
+
+psql -U wgqdtaoj -d wgqdtaoj -h sharp-elderberry.db.elephantsql.com
+
+RaRohPm06pxCmGPW6gEvD64Xo-dKkhg8
+psql -U pidvakbc -d pidvakbc -h chunee.db.elephantsql.com  -f sourcedb.sql
+
+
+
+postgres://paunblbp:f7vtcvvpLY02OI_s-kkTwpKLKrTN25Sl@chunee.db.elephantsql.com/paunblbp
+
+
+postgres://paunblbp:f7vtcvvpLY02OI_s-kkTwpKLKrTN25Sl@chunee.db.elephantsql.com/paunblbp
