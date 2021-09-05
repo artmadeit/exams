@@ -25,6 +25,11 @@ public class UserController {
         return signInService.run(input);
     }
 
+    @PostMapping("/login-username")
+    public String loginWithUsername(@RequestBody @Valid SignInService.LoginExternalInput input) {
+        return signInService.runExternal(input);
+    }
+
     @GetMapping("/me")
     public Principal user(Principal principal) {
         return principal;

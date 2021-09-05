@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum UserAccountRole {
-	ADMIN, POSTULANT;
+	ADMIN, POSTULANT, EXTERNAL_POSTULANT;
 
 	public Collection<GrantedAuthority> authorities() {
 		return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));

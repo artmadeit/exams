@@ -52,6 +52,9 @@ public class UserAccount implements UserDetails {
 	public static UserAccount admin(String name, String password) {
 		return new UserAccount(name, password, UserAccountRole.ADMIN);
 	}
+	public static UserAccount external(String name) {
+		return new UserAccount(name, "contraseña", UserAccountRole.EXTERNAL_POSTULANT);
+	}
 
 
 	@Override

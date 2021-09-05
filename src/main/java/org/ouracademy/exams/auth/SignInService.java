@@ -24,11 +24,30 @@ public class SignInService {
         protected String password;
     }
 
+    @Data
+    public static class LoginExternalInput {
+        @NotBlank
+        protected String username;
+    }
+
     private JwtTokenProvider jwtTokenProvider;
     private AuthenticationManager authenticationManager;
 
     public String run(LoginInput input) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(input.name, input.password));
         return jwtTokenProvider.createToken(input.name, authentication.getAuthorities());
+    }
+    private UserRepository userRepository;
+
+    public String runExternal(LoginExternalInput input) {
+        //TODO: verify is unique
+
+        var account = UserAccount.external(input.username);
+        userRepository.save(account);
+
+        Authentication authentication = authenticationManager
+        .authenticate(
+            new UsernamePasswordAuthenticationToken(input.username, "contraseña"));
+        return jwtTokenProvider.createToken(input.username, authentication.getAuthorities());
     }
 }
